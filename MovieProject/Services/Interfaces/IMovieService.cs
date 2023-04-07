@@ -1,4 +1,4 @@
-﻿using MovieProject.Services.ViewModels;
+﻿using MovieProject.Models;
 
 namespace MovieProject.Services.Interfaces
 {

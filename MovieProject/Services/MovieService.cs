@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieProject.Data;
 using MovieProject.Data.Entities;
+using MovieProject.Models;
 using MovieProject.Services.Interfaces;
-using MovieProject.Services.ViewModels;
 
 namespace MovieProject.Services
 {

@@ -1,7 +1,7 @@
 ﻿using MovieProject.Data.Entities;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MovieProject.Services.ViewModels
+namespace MovieProject.Models
 {
     public class MovieVM
     {

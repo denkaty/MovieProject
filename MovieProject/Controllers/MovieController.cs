@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MovieProject.Models;
 using MovieProject.Services;
-using MovieProject.Services.ViewModels;
 
 namespace MovieProject.Controllers
 {
