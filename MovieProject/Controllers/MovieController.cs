@@ -16,7 +16,7 @@ namespace MovieProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            List<MovieVM> movies = await movieService.GetAllMoviesAsync();
+            List<MovieViewModel> movies = await movieService.GetAllMoviesAsync();
             return this.View(movies);
         }
     }

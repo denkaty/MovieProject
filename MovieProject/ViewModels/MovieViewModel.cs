@@ -1,9 +1,10 @@
 ﻿using MovieProject.Data.Entities;
+using MovieProject.ViewModels;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MovieProject.Models
 {
-    public class MovieVM
+    public class MovieViewModel
     {
         public string MovieId { get; set; }
         public string Title { get; set; }

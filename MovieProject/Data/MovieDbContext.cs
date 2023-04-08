@@ -35,6 +35,14 @@ namespace MovieProject.Data
 
             builder.Entity<MovieWriter>()
                 .HasKey(mw => new { mw.MovieId, mw.WriterId });
+
+            builder.Entity<Movie>()
+                .Property(movie => movie.MovieId)
+                .ValueGeneratedOnAdd();
+
+            builder.Entity<Actor>()
+                .Property(actor => actor.ActorId)
+                .ValueGeneratedOnAdd();
         }
     }
 }

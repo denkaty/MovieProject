@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MovieProject.Data;
+using MovieProject.MappingConfiguration;
 using MovieProject.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<MovieDbContext>();
 
 builder.Services.AddTransient<MovieService, MovieService>();
+builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MovieProfile>());
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

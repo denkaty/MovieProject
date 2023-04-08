@@ -1,6 +1,6 @@
 namespace MovieProject.Models
 {
-    public class ErrorVM
+    public class ErrorViewModel
     {
         public string? RequestId { get; set; }
 
