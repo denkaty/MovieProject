@@ -47,6 +47,14 @@ namespace MovieProject.Data
             builder.Entity<Director>()
                 .Property(director => director.DirectorId)
                 .ValueGeneratedOnAdd();
+
+            builder.Entity<User>()
+                .Property(user => user.UserId)
+                .ValueGeneratedOnAdd();
+
+            builder.Entity<Writer>()
+               .Property(writer => writer.WriterId)
+               .ValueGeneratedOnAdd();
         }
     }
 }
