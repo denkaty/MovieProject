@@ -15,7 +15,11 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<MovieDbContext>();
 
+builder.Services.AddTransient<ActorService, ActorService>();
+builder.Services.AddTransient<DirectorService,DirectorService>();
 builder.Services.AddTransient<MovieService, MovieService>();
+builder.Services.AddTransient<UserService, UserService>();
+builder.Services.AddTransient<WriterService,WriterService>();
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MovieProfile>());
 builder.Services.AddControllersWithViews();
 

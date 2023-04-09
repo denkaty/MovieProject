@@ -19,6 +19,14 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Университет/Първи курс/Втори семестър/Уеб .NET/MovieProject/MovieProject/Views/Actor/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWN0b3JcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Университет/Първи курс/Втори семестър/Уеб .NET/MovieProject/MovieProject/Views/Director/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGlyZWN0b3JcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Университет/Първи курс/Втори семестър/Уеб .NET/MovieProject/MovieProject/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -41,6 +49,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Университет/Първи курс/Втори семестър/Уеб .NET/MovieProject/MovieProject/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Университет/Първи курс/Втори семестър/Уеб .NET/MovieProject/MovieProject/Views/User/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Университет/Първи курс/Втори семестър/Уеб .NET/MovieProject/MovieProject/Views/Writer/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV3JpdGVyXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Университет/Първи курс/Втори семестър/Уеб .NET/MovieProject/MovieProject/Views/_ViewImports.cshtml]
