@@ -19,7 +19,7 @@ namespace MovieProject.Models
         public decimal BoxOffice { get; set; }
         public string DirectorId { get; set; }
         public Director Director { get; set; }
-        public ICollection<MovieActor> MoviesActors { get; set; }
-        public ICollection<MovieWriter> MoviesWriters { get; set; }
+        public ICollection<MovieActorViewModel> MoviesActors { get; set; }
+        public ICollection<MovieWriterViewModel> MoviesWriters { get; set; }
     }
 }

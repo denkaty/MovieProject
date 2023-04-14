@@ -6,6 +6,7 @@ namespace MovieProject.Data.Entities
     {
         public Director()
         {
+            this.DirectorId = Guid.NewGuid().ToString(); ;
             this.Movies = new HashSet<Movie>();
         }
         [Key]

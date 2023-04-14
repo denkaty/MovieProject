@@ -7,6 +7,6 @@ namespace MovieProject.ViewModels
         public string WriterId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public ICollection<MovieWriter> MoviesWriters { get; set; }
+        public ICollection<MovieWriterViewModel> MoviesWriters { get; set; }
     }
 }

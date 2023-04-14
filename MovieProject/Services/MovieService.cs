@@ -68,26 +68,16 @@ namespace MovieProject.Services
 
         public async Task<MovieViewModel> UpdateMovieByIdAsync(string id)
         {
-            MovieViewModel? movieVM = await movieDbContext
-                .Movies
-                .Where(movie => movie.MovieId == id)
-                .Select(movie => new MovieViewModel()
-                {
-                    Title = movie.Title,
-                    Year = movie.Year,
-                    Released = movie.Released,
-                    Runtime = movie.Runtime,
-                    Genre = movie.Genre,
-                    Plot = movie.Plot,
-                    Language = movie.Language,
-                    Country = movie.Country,
-                    Poster = movie.Poster,
-                    BoxOffice = movie.BoxOffice,
-                    MoviesActors = movie.MoviesActors,
-                    MoviesWriters = movie.MoviesWriters
-                }).SingleOrDefaultAsync();
+            Movie? movie = await movieDbContext.Movies.FindAsync(id);
+            if (movie == null)
+            {
+                throw new ArgumentException($"There is no movie with the id {id} in the database.", nameof(id));
+            }
 
-            return movieVM;
+            MovieViewModel movieViewModel = mapper.Map<MovieViewModel>(movie);
+
+            return movieViewModel;
+
         }
         public async Task DeleteMovieByIdAsync(string id)
         {

@@ -7,6 +7,6 @@ namespace MovieProject.ViewModels
         public string ActorId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public virtual ICollection<MovieActor> MoviesActors { get; set; }
+        public virtual ICollection<MovieActorViewModel> MoviesActors { get; set; }
     }
 }

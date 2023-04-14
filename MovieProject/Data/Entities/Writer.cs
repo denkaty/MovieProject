@@ -6,6 +6,7 @@ namespace MovieProject.Data.Entities
     {
         public Writer()
         {
+            this.WriterId = Guid.NewGuid().ToString();
             this.MoviesWriters = new List<MovieWriter>();
         }
 
