@@ -11,7 +11,6 @@ namespace MovieProject.Models
         public string Year { get; set; }
         public string Released { get; set; }
         public int Runtime { get; set; }
-        public string Genre { get; set; }
         public string Plot { get; set; }
         public string Language { get; set; }
         public string Country { get; set; }
@@ -19,6 +18,7 @@ namespace MovieProject.Models
         public decimal BoxOffice { get; set; }
         public string DirectorId { get; set; }
         public Director Director { get; set; }
+        public virtual List<string> Genres { get; set; }
         public ICollection<MovieActorViewModel> MoviesActors { get; set; }
         public ICollection<MovieWriterViewModel> MoviesWriters { get; set; }
     }

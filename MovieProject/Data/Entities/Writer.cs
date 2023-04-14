@@ -14,6 +14,6 @@ namespace MovieProject.Data.Entities
         public string WriterId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public ICollection<MovieWriter> MoviesWriters { get; set; }
+        public virtual ICollection<MovieWriter> MoviesWriters { get; set; }
     }
 }
