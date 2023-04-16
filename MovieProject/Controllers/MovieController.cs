@@ -19,5 +19,17 @@ namespace MovieProject.Controllers
             List<MovieViewModel> movies = await movieService.GetAllMoviesAsync();
             return this.View(movies);
         }
+
+        public async Task<IActionResult> Details(string id)
+        {
+            MovieViewModel movieViewModel = await movieService.GetMovieByIdAsync(id);
+
+            if(movieViewModel == null)
+            {
+                return NotFound();
+            }
+
+            return this.View(movieViewModel);
+        }
     }
 }

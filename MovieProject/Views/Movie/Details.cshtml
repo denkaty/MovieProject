@@ -1,0 +1,114 @@
+﻿@model MovieViewModel
+@{
+	ViewData["Title"] = $"{Model.Title} - Details";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie name</title>
+</head>
+<style>
+    .cont {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .headline {
+        width: 376px;
+        text-align: justify;
+    }
+
+    .headline h3,
+    .headline p {
+        display: inline;
+        vertical-align: top;
+        line-height: 28px;
+    }
+
+
+    .headline h3 {
+        font-weight: bold;
+    }
+
+    h3{
+        font-size: 18px;
+    }
+
+    .movie-img img {
+        border-radius: 10px;
+        box-shadow: 0px 0px 7px 0px;
+    }
+</style>
+
+<body>
+    <div class="cont">
+        <h1>@Model.Title (@Model.Year)</h2>
+            <div class="movie-img">
+                <img src="@Model.Poster"
+                    alt="">
+            </div>
+
+            <div class="details">
+
+
+                <div class="headline">
+                    <h3>Director:</h3>
+                    <p>Brad Peyton</p>
+                </div>
+
+                <div class="headline">
+                    <h3>Writer:</h3>
+                    <p>Carlton Cuse, Andre Fabrizio, Jeremy Passmore</p>
+                </div>
+
+                <div class="headline">
+                    <h3>Country:</h3>
+                    <p>@Model.Country</p>
+                </div>
+
+                <div class="headline">
+                    <h3>Language:</h3>
+                    <p>@Model.Language</p>
+                </div>
+
+                <div class="headline">
+                    <h3>Year:</h3>
+                    <p>@Model.Year</p>
+                </div>
+
+                <div class="headline">
+                    <h3>Released:</h3>
+                    <p>@Model.Released</p>
+                </div>
+
+                <div class="headline">
+                    <h3>Runtime:</h3>
+                    <p>@Model.Runtime</p>
+                </div>
+
+                <div class="headline">
+                    <h3>Box Office:</h3>
+                    <p>@Model.BoxOffice</p>
+                </div>
+
+                <div class="headline">
+                    <h3>Plot:</h3>
+                    <p>@Model.Plot</p>
+                </div>
+
+
+            </div>
+
+
+
+    </div>
+</body>
+
+</html>
+
