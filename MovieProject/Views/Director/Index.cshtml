@@ -6,52 +6,65 @@
 @{
 	int counter = 1;
 }
-<div class="container">
-	<div class="row pt-4 pb-3">
-		<div class="col-6">
-			<h2 class="text-primary">Director list</h2>
-		</div>
-		<div class="col-6 text-end">
-			<a asp-controller="Director" asp-action="Create" class="btn btn-success">
-				<i class="bi bi-plus-circle align-text-bottom"></i> Add Director
-			</a>
+
+<div class="card shadow border-0 mt-4">
+	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h2 class="py-2">Directors List</h2>
+			</div>
 		</div>
 	</div>
+	<div class="card-body p-4">
+		<div class="row text-end">
+			<div class="col-6"></div>
+			<div class="col-6 text-end">
+				<a asp-controller="Director" asp-action="Create" class="btn btn-success">
+					<i class="bi bi-plus-circle align-text-bottom"></i> Create New Director
+				</a>
+			</div>
+		</div>
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>
+						Director Name
+					</th>
+					<th>
+						Directed Movies
+					</th>
+					<th>
+						Action
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var director in Model.OrderByDescending(d => d.Movies.Count()))
+				{
+					<tr>
+						<td>@director.FirstName @director.LastName</td>
+						<td>@director.Movies.Count()</td>
+						<td>
+							<div class="w-75 btn-group" role="group">
+								<a asp-controller="Director" asp-action="Details" asp-route-id="@director.DirectorId" class="btn btn-primary mx-2">
+									<i class="bi bi-info-circle align-text-bottom"></i> Details
+								</a>
+								<a asp-controller="Director" asp-action="Update" asp-route-id="@director.DirectorId" class="btn btn-warning mx-2">
+									<i class="bi bi-pencil-square align-text-bottom"></i> Edit
+								</a>
+								<a asp-controller="Director" asp-action="Delete" asp-route-id="@director.DirectorId" class="btn btn-danger mx-2">
+									<i class="bi bi-trash-fill align-text-bottom"></i> Delete
+								</a>
+							</div>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
 </div>
-<table class="table table-bordered table-striped">
-	<thead>
-		<tr>
-			<th>
-				Director Name
-			</th>
-			<th>
-				Directed Movies
-			</th>
-			<th>
-				Action
-			</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var director in Model.OrderByDescending(d => d.Movies.Count()))
-		{
-			<tr>
-				<td>@director.FirstName @director.LastName</td>
-				<td>@director.Movies.Count()</td>
-				<td>
-					<div class="w-75 btn-group" role="group">
-					<a asp-controller="Director" asp-action="Details" asp-route-id="@director.DirectorId" class="btn btn-primary mx-2">
-						<i class="bi bi-info-circle align-text-bottom"></i> Details</a>
-					<a asp-controller="Director" asp-action="Edit" asp-route-id="@director.DirectorId" class="btn btn-warning mx-2">
-						<i class="bi bi-pencil-square align-text-bottom"></i> Edit</a>
-					<a asp-controller="Director" asp-action="Delete" asp-route-id="@director.DirectorId" class="btn btn-danger mx-2">
-						<i class="bi bi-trash-fill align-text-bottom"></i> Delete</a>
-					</div>
-				</td>
-			</tr>
-		}
-	</tbody>
-</table>
+
+
 @*<table class="table table-hover">
 	<thead>
 		<tr>

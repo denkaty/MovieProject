@@ -5,13 +5,14 @@
 	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
 		<div class="row">
 			<div class="col-12 text-center">
-				<h2 class="py-2">Create Director</h2>
+				<h2 class="py-2">Update Director</h2>
 			</div>
 		</div>
 	</div>
 	<div class="card-body p-4">
-		<form method="post" class="row">
-			<div class="border p-3">
+		<form method="post">
+			<input asp-for="DirectorId" />
+			<div class="border p-3 mt-4">
 				<div asp-validation-summary="All"></div>
 				<div class="mb-3 row p-1">
 					<label asp-for="FirstName"></label>
@@ -26,21 +27,15 @@
 
 				<div class="row">
 					<div class="col-6 col-md-3">
-						<button type="submit" class="btn btn-primary form-control">Create</button>
+						<button type="submit" class="btn btn-primary form-control">Update</button>
 					</div>
 					<div class="col-6 col-md-3">
 						<a asp-controller="Director" asp-action="Index" class="btn btn-outline-secondary border form-control">Back to List</a>
 					</div>
 				</div>
 			</div>
+
 		</form>
 	</div>
 </div>
 
-
-@*Client side validation
-@section Scripts{
-	@{
-		<partial name="_ValidationScriptsPartial" />
-	}
-}*@

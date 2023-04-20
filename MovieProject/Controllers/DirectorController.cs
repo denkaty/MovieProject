@@ -57,7 +57,7 @@ namespace MovieProject.Controllers
 
         }
 
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Update(string id)
         {
             DirectorViewModel director = await directorService.GetDirectoryIdAsync(id);
             if (director == null)
@@ -68,7 +68,7 @@ namespace MovieProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(DirectorViewModel directorVM)
+        public async Task<IActionResult> Update(DirectorViewModel directorVM)
         {
             await directorService.UpdateDirectorAsync(directorVM);
             TempData["success"] = "Director was updated successfully!";

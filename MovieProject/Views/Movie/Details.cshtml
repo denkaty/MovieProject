@@ -43,6 +43,7 @@
     .movie-img img {
         border-radius: 10px;
         box-shadow: 0px 0px 7px 0px;
+        margin-bottom: 15px;
     }
 </style>
 
@@ -94,19 +95,14 @@
 
                 <div class="headline">
                     <h3>Box Office:</h3>
-                    <p>@Model.BoxOffice</p>
+                    <p>$@Math.Ceiling(Model.BoxOffice)</p>
                 </div>
 
                 <div class="headline">
                     <h3>Plot:</h3>
                     <p>@Model.Plot</p>
                 </div>
-
-
             </div>
-
-
-
     </div>
 </body>
 

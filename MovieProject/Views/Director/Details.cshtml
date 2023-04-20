@@ -1,7 +1,57 @@
 ﻿@using MovieProject.ViewModels
 @model DirectorViewModel
 
-<h1 style="text-align:center">@Model.FirstName @Model.LastName</h1>
+<div class="card shadow border-0 mt-4">
+	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h2 class="py-2">Directed by: @Model.FirstName @Model.LastName</h2>
+			</div>
+		</div>
+	</div>
+	<div class="card-body p-4">
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>
+						Movie
+					</th>
+					<th>
+						Released
+					</th>
+					<th>
+						Action
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var movie in Model.Movies)
+				{
+					<tr>
+						<td>@movie.Title</td>
+						<td>@movie.Released</td>
+						<td>
+							<div class="w-75 btn-group" role="group">
+								<a asp-controller="Movie" asp-action="Details" asp-route-id="@movie.MovieId" class="btn btn-primary mx-2">
+									<i class="bi bi-info-circle align-text-bottom"></i> Details
+								</a>
+								@*<a asp-controller="Movie" asp-action="Update" asp-route-id="@movie.MovieId" class="btn btn-warning mx-2">
+									<i class="bi bi-pencil-square align-text-bottom"></i> Edit
+								</a>
+								<a asp-controller="Director" asp-action="Delete" asp-route-id="@movie.DirectorId" class="btn btn-danger mx-2">
+									<i class="bi bi-trash-fill align-text-bottom"></i> Delete
+								</a>*@
+							</div>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+
+@*<h1 style="text-align:center">@Model.FirstName @Model.LastName</h1>
 <table class="table table-hover">
 	<thead>
 		<tr>
@@ -23,4 +73,4 @@
 		</tr>
 
 	</tbody>
-</table>
+</table>*@
