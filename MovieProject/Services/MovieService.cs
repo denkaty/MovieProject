@@ -33,7 +33,7 @@ namespace MovieProject.Services
 
         public async Task<List<MovieViewModel>> GetAllMoviesAsync()
         {
-            List<Movie> movies = await this.movieDbContext.Movies.ToListAsync();
+            List<Movie> movies = await this.movieDbContext.Movies.Include(m => m.Director).ToListAsync();
             List<MovieViewModel> movieViewModels = this.mapper.Map<List<MovieViewModel>>(movies);
             return movieViewModels;
         }

@@ -33,7 +33,7 @@ namespace MovieProject.Services
 
         public async Task<List<ActorViewModel>> GetAllActorsAsync()
         {
-            List<Actor> actors = await this.movieDbContext.Actors.ToListAsync();
+            List<Actor> actors = await this.movieDbContext.Actors.Include(a => a.MoviesActors).ToListAsync();
             List<ActorViewModel> actorsViewModels = this.mapper.Map<List<ActorViewModel>>(actors);
             return actorsViewModels;
         }
@@ -44,7 +44,7 @@ namespace MovieProject.Services
                 throw new ArgumentException("The id parameter cannot be null or empty.", nameof(id));
             }
 
-            Actor? actor = await this.movieDbContext.Actors.FindAsync(id);
+            Actor? actor = await this.movieDbContext.Actors.Include(a=>a.MoviesActors).ThenInclude(a=> a.Movie).FirstOrDefaultAsync(a=>a.ActorId == id);
             if (actor == null)
             {
                 throw new ArgumentException("No Actor was found with the given id.", nameof(id));

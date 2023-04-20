@@ -27,13 +27,14 @@ namespace MovieProject.Services
             }
 
             Director director = this.mapper.Map<Director>(directorVM);
+            director.DirectorId = director.GenerateDirectorId();
             await this.movieDbContext.Directors.AddAsync(director);
             await this.movieDbContext.SaveChangesAsync();
         }
 
         public async Task<List<DirectorViewModel>> GetAllDirectorsAsync()
         {
-            List<Director> directors = await this.movieDbContext.Directors.ToListAsync();
+            List<Director> directors = await this.movieDbContext.Directors.Include(d => d.Movies).ToListAsync();
             List<DirectorViewModel> directorViewModels = this.mapper.Map<List<DirectorViewModel>>(directors);
             return directorViewModels;
         }
@@ -44,8 +45,8 @@ namespace MovieProject.Services
             {
                 throw new ArgumentException("The id parameter cannot be null or empty.", nameof(id));
             }
-
-            Director? director = await this.movieDbContext.Directors.FindAsync(id);
+           
+            Director? director = await this.movieDbContext.Directors.Include(d => d.Movies).FirstOrDefaultAsync(d => d.DirectorId ==id);
             if (director == null)
             {
                 throw new ArgumentException("No Director was found with the given id.", nameof(id));

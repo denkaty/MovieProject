@@ -1,5 +1,90 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using MovieProject.ViewModels
+@model List<DirectorViewModel>
 @{
+	ViewData["Title"] = "Directors";
 }
+@{
+	int counter = 1;
+}
+<div class="container">
+	<div class="row pt-4 pb-3">
+		<div class="col-6">
+			<h2 class="text-primary">Director list</h2>
+		</div>
+		<div class="col-6 text-end">
+			<a asp-controller="Director" asp-action="Create" class="btn btn-success">
+				<i class="bi bi-plus-circle align-text-bottom"></i> Add Director
+			</a>
+		</div>
+	</div>
+</div>
+<table class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<th>
+				Director Name
+			</th>
+			<th>
+				Directed Movies
+			</th>
+			<th>
+				Action
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var director in Model.OrderByDescending(d => d.Movies.Count()))
+		{
+			<tr>
+				<td>@director.FirstName @director.LastName</td>
+				<td>@director.Movies.Count()</td>
+				<td>
+					<div class="w-75 btn-group" role="group">
+					<a asp-controller="Director" asp-action="Details" asp-route-id="@director.DirectorId" class="btn btn-primary mx-2">
+						<i class="bi bi-info-circle align-text-bottom"></i> Details</a>
+					<a asp-controller="Director" asp-action="Edit" asp-route-id="@director.DirectorId" class="btn btn-warning mx-2">
+						<i class="bi bi-pencil-square align-text-bottom"></i> Edit</a>
+					<a asp-controller="Director" asp-action="Delete" asp-route-id="@director.DirectorId" class="btn btn-danger mx-2">
+						<i class="bi bi-trash-fill align-text-bottom"></i> Delete</a>
+					</div>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+@*<table class="table table-hover">
+	<thead>
+		<tr>
+			<div class="head-container" style="display: flex; justify-content: space-between; align-items: flex-end;">
+				<h2>Manage Directors</h2>
+				<a asp-controller="Director" asp-action="Create" asp-route-id="" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Director</span></a>
+			</div>
+		</tr>
+		<tr>
+			<th scope="col">#</th>
+			<th scope="col">Director</th>
+			<th scope="col">Movies Count</th>
+			<th scope="col">Action</th>
+
+
+
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var director in Model)
+		{
+			<tr>
+				<th scope="row">@counter</th>
+				<td>@director.FirstName @director.LastName</td>
+				<td>@director.Movies.Count()</td>
+				<td>
+					<a asp-controller="Director" asp-action="Details" asp-route-id="@director.DirectorId" class="btn btn-primary mx-1">Details</a>
+					<a asp-controller="Director" asp-action="Edit" asp-route-id="@director.DirectorId" class="btn btn-warning mx-1">Edit</a>
+					<a asp-controller="Director" asp-action="Delete" asp-route-id="@director.DirectorId" class="btn btn-danger mx-1">Delete</a>
+				</td>
+			</tr>
+			counter++;
+		}
+
+	</tbody>
+</table>*@

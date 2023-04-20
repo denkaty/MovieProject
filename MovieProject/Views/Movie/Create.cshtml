@@ -1,0 +1,62 @@
+﻿@model MovieViewModel
+
+<div class="main-container" style="display: flex; justify-content: center;">
+<form asp-controller="Movie" asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Title" class="control-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Year" class="control-label"></label>
+        <input asp-for="Year" class="form-control" />
+        <span asp-validation-for="Year" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Released" class="control-label"></label>
+        <input asp-for="Released" class="form-control" />
+        <span asp-validation-for="Released" class="text-danger"></span>
+    </div>
+        <div class="form-group">
+        <label asp-for="Runtime" class="control-label"></label>
+        <input asp-for="Runtime" class="form-control" />
+        <span asp-validation-for="Runtime" class="text-danger"></span>
+    </div>
+        <div class="form-group">
+        <label asp-for="Plot" class="control-label"></label>
+        <input asp-for="Plot" class="form-control" />
+        <span asp-validation-for="Plot" class="text-danger"></span>
+    </div>
+        <div class="form-group">
+        <label asp-for="Language" class="control-label"></label>
+        <input asp-for="Language" class="form-control" />
+        <span asp-validation-for="Language" class="text-danger"></span>
+    </div>
+        <div class="form-group">
+        <label asp-for="Country" class="control-label"></label>
+        <input asp-for="Country" class="form-control" />
+        <span asp-validation-for="Country" class="text-danger"></span>
+    </div>
+        <div class="form-group">
+        <label asp-for="Poster" class="control-label"></label>
+        <input asp-for="Poster" class="form-control" />
+        <span asp-validation-for="Poster" class="text-danger"></span>
+    </div>
+        <div class="form-group">
+        <label asp-for="BoxOffice" class="control-label"></label>
+        <input asp-for="BoxOffice" class="form-control" />
+        <span asp-validation-for="BoxOffice" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Director" class="control-label"></label>
+        <input asp-for="Director" class="form-control" />
+        <span asp-validation-for="Director" class="text-danger"></span>
+    </div>
+        <div class="form-group">
+        <label asp-for="Genres" class="control-label"></label>
+        <input asp-for="Genres" class="form-control" />
+        <span asp-validation-for="Genres" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+</div>

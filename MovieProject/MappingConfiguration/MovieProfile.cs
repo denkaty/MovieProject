@@ -13,7 +13,7 @@ namespace MovieProject.MappingConfiguration
 
             CreateMap<Actor, ActorViewModel>().ReverseMap();
 
-            CreateMap<MovieActor, MovieActorViewModel>().ReverseMap();
+            CreateMap<MovieActor, MovieActorViewModel>();
 
             CreateMap<Director, DirectorViewModel>().ReverseMap();
 

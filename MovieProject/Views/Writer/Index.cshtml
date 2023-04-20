@@ -1,5 +1,33 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using MovieProject.ViewModels
+@model List<WriterViewModel>
 @{
+    int counter = 1;
 }
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Writer</th>
+            <th scope="col">Movies Count</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var writer in Model)
+        {
+            int i = 1;
+            <tr>
+                <th scope="row">@counter</th>
+                <td>@writer.FirstName @writer.LastName</td>
+                <td>@writer.MoviesWriters.Count</td>
+                <td>
+                    <a asp-controller="Writer" asp-action="Details" asp-route-id="@writer.WriterId" class="btn btn-primary mx-1">Details</a>
+                    <a asp-controller="Writer" asp-action="Edit" asp-route-id="@writer.WriterId" class="btn btn-warning mx-1">Edit</a>
+                    <a asp-controller="Writer" asp-action="Delete" asp-route-id="@writer.WriterId" class="btn btn-danger mx-1">Delete</a>
+                </td>
+            </tr>
+            counter++;
+        }
+
+    </tbody>
+</table>
