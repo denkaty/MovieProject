@@ -24,7 +24,7 @@
 			background: #e9e9e9;
 			font-size: 14px;
 			color: #010b26;
-			background:#ffffff;
+			background: #ffffff;
 		}
 
 		* {
@@ -186,15 +186,31 @@
 			justify-content: center;
 		}
 
-		div.movie-card div.addContainer {
+		/*div.movie-card div.addContainer {
 			background: url(https://pixlok.com/wp-content/uploads/2021/12/Add-Icon-SVG-98ygj-300x300.png);
 			background-repeat: no-repeat;
 			background-position: center;
-		}
+		}*/
 	</style>
 </head>
 <body>
-	<div class="cont">
+	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h2 class="py-2">Movies List</h2>
+			</div>
+		</div>
+	</div>
+	<div class="row text-end">
+		<div class="col-6"></div>
+		<div class="col-6 text-end" style="padding-right:55px;">
+			<a asp-controller="Movie" asp-action="Create" class="btn btn-success">
+				<i class="bi bi-plus-circle align-text-bottom"></i> Create New Movie
+			</a>
+		</div>
+	</div>
+	<div class="cont px-3 justify-content-between">
+
 		@foreach (var movie in Model)
 		{
 			<div class="movie-card">
@@ -225,18 +241,31 @@
 
 			</div>
 		}
-		<div class="movie-card">
-			<div class="movie-header bladeRunner2049 addContainer">
+		@if (Model.Count % 3 == 2)
+		{
+			<div class="movie-card d-block shadow-none">
+				<div class="movie-header bladeRunner2049">
 				</div>
 				<div class="movie-content">
-					<div class="movie-content-header">
-					<a asp-controller="Movie" asp-action="Create" class="btn btn-success">
-						<i class="bi bi-plus-circle align-text-bottom"></i> Add Movie
-					</a>
-					</div>
 				</div>
 			</div>
+		}
+
+
+		@*<div class="movie-card d-block">
+		<div class="movie-header bladeRunner2049 addContainer">
+		</div>
+		<div class="movie-content">
+		<div class="movie-content-header">
+		<a asp-controller="Movie" asp-action="Create" class="btn btn-success">
+		<i class="bi bi-plus-circle align-text-bottom"></i> Add Movie
+		</a>
+		</div>
+		</div>
+		</div>*@
+
 	</div>
+
 
 </body>
 </html>

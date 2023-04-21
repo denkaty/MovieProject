@@ -6,6 +6,7 @@ namespace MovieProject.Data.Entities
     {
         public Director()
         {
+            //?
             this.DirectorId = Guid.NewGuid().ToString();
             this.Movies = new HashSet<Movie>();
         }
@@ -14,9 +15,5 @@ namespace MovieProject.Data.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public virtual ICollection<Movie> Movies { get; set; }
-        public string GenerateDirectorId()
-        {
-            return Guid.NewGuid().ToString();
-        }
     }
 }

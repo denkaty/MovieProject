@@ -27,7 +27,7 @@ namespace MovieProject.Services
             }
 
             Director director = this.mapper.Map<Director>(directorVM);
-            director.DirectorId = director.GenerateDirectorId();
+            director.DirectorId = Configuration.GenerateId();
             await this.movieDbContext.Directors.AddAsync(director);
             await this.movieDbContext.SaveChangesAsync();
         }

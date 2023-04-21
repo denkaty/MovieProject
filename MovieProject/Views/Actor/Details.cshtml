@@ -1,24 +1,44 @@
 ﻿@using MovieProject.ViewModels
 @model ActorViewModel
 
-<h1 style="text-align:center">@Model.FirstName @Model.LastName</h1>
-<table class="table table-hover">
-	<thead>
-		<tr>
-			<th scope="col">Movie</th>
-			<th scope="col">Action</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var movieActor in Model.MoviesActors)
-		{
-			<tr>
-			<td>@movieActor.Movie.Title</td>
-			<td>
-				<a asp-controller="Actor" asp-action="Edit" asp-route-id="@Model.ActorId" class="btn btn-warning mx-1">Edit</a>
-				<a asp-controller="Actor" asp-action="Delete" asp-route-id="@Model.ActorId" class="btn btn-danger mx-1">Delete</a>
-			</td>
-		</tr>
-		}
-	</tbody>
-</table>
+<div class="card shadow border-0 mt-4">
+	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h2 class="py-2">Actor: @Model.FirstName @Model.LastName</h2>
+			</div>
+		</div>
+	</div>
+	<div class="card-body p-4">
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th scope="col">Movie</th>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var movie in Model.MoviesActors)
+				{
+					<tr>
+						<td>@movie.Movie.Title</td>
+						<td>@movie.Movie.Released</td>
+						<td>
+							<div class="w-75 btn-group" role="group">
+								<a asp-controller="Movie" asp-action="Details" asp-route-id="@movie.MovieId" class="btn btn-primary mx-2">
+									<i class="bi bi-info-circle align-text-bottom"></i> Details
+								</a>
+								@*<a asp-controller="Movie" asp-action="Update" asp-route-id="@movie.MovieId" class="btn btn-warning mx-2">
+							<i class="bi bi-pencil-square align-text-bottom"></i> Edit
+							</a>
+							<a asp-controller="Director" asp-action="Delete" asp-route-id="@movie.DirectorId" class="btn btn-danger mx-2">
+							<i class="bi bi-trash-fill align-text-bottom"></i> Delete
+							</a>*@
+							</div>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</div>

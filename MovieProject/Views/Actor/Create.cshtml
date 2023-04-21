@@ -1,0 +1,39 @@
+﻿@using MovieProject.ViewModels
+@model ActorViewModel
+
+
+<div class="card shadow border-0 mt-4">
+	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h2 class="py-2">Create New Actor</h2>
+			</div>
+		</div>
+	</div>
+	<div class="card-body p-4">
+		<form method="post" class="row">
+			<div class="border p-3">
+				<div asp-validation-summary="All"></div>
+				<div class="mb-3 row p-1">
+					<label asp-for="FirstName"></label>
+					<input asp-for="FirstName" type="text" class="form-control">
+					<span asp-validation-for="FirstName" class="text-danger"></span>
+				</div>
+				<div class="mb-3 row p-1">
+					<label asp-for="LastName"></label>
+					<input asp-for="LastName" type="text" class="form-control">
+					<span asp-validation-for="LastName" class="text-danger"></span>
+				</div>
+
+				<div class="row">
+					<div class="col-6 col-md-3">
+						<button type="submit" class="btn btn-primary form-control">Create</button>
+					</div>
+					<div class="col-6 col-md-3">
+						<a asp-controller="Actor" asp-action="Index" class="btn btn-outline-secondary border form-control">Back to List</a>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

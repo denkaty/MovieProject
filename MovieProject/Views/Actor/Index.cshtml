@@ -1,33 +1,58 @@
 ﻿@using MovieProject.ViewModels
 @model List<ActorViewModel>
 @{
-    int counter = 1;
+	int counter = 1;
 }
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Actor</th>
-            <th scope="col">Roles</th>
-            <th scope="col">Action</th>
-
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var actor in Model)
-        {
-            <tr>
-                <th scope="row">@counter</th>
-                <td>@actor.FirstName @actor.LastName</td>
-                <td>@actor.MoviesActors.Count</td>
-                <td>
-                    <a asp-controller="Actor" asp-action="Details" asp-route-id="@actor.ActorId" class="btn btn-primary mx-1">Details</a>
-                    <a asp-controller="Actor" asp-action="Edit" asp-route-id="@actor.ActorId" class="btn btn-warning mx-1">Edit</a>
-                    <a asp-controller="Actor" asp-action="Delete" asp-route-id="@actor.ActorId" class="btn btn-danger mx-1">Delete</a>
-                </td>
-            </tr>
-            counter++;
-        }
-
-    </tbody>
-</table>
+<div class="card shadow border-0 mt-4">
+	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h2 class="py-2">Actors List</h2>
+			</div>
+		</div>
+	</div>
+	<div class="card-body p-4">
+		<div class="row text-end">
+			<div class="col-6"></div>
+			<div class="col-6 text-end">
+				<a asp-controller="Actor" asp-action="Create" class="btn btn-success">
+					<i class="bi bi-plus-circle align-text-bottom"></i> Create New Actor
+				</a>
+			</div>
+		</div>
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Actor</th>
+					<th scope="col">Roles</th>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var actor in Model.OrderByDescending(d => d.MoviesActors.Count()))
+				{
+					<tr>
+						<td>@counter</td>
+						<td>@actor.FirstName @actor.LastName</td>
+						<td>@actor.MoviesActors.Count()</td>
+						<td>
+							<div class="w-75 btn-group" role="group">
+								<a asp-controller="Actor" asp-action="Details" asp-route-id="@actor.ActorId" class="btn btn-primary mx-2">
+									<i class="bi bi-info-circle align-text-bottom"></i> Details
+								</a>
+								<a asp-controller="Actor" asp-action="Update" asp-route-id="@actor.ActorId" class="btn btn-warning mx-2">
+									<i class="bi bi-pencil-square align-text-bottom"></i> Edit
+								</a>
+								<a asp-controller="Actor" asp-action="Delete" asp-route-id="@actor.ActorId" class="btn btn-danger mx-2">
+									<i class="bi bi-trash-fill align-text-bottom"></i> Delete
+								</a>
+							</div>
+						</td>
+					</tr>
+					counter++;
+				}
+			</tbody>
+		</table>
+	</div>
+</div>

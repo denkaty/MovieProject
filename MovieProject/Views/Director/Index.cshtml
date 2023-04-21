@@ -27,21 +27,17 @@
 		<table class="table table-bordered table-striped">
 			<thead>
 				<tr>
-					<th>
-						Director Name
-					</th>
-					<th>
-						Directed Movies
-					</th>
-					<th>
-						Action
-					</th>
+					<th>#</th>
+					<th>Director Name</th>
+					<th>Directed Movies</th>
+					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
 				@foreach (var director in Model.OrderByDescending(d => d.Movies.Count()))
 				{
 					<tr>
+						<td>@counter</td>
 						<td>@director.FirstName @director.LastName</td>
 						<td>@director.Movies.Count()</td>
 						<td>
@@ -58,6 +54,7 @@
 							</div>
 						</td>
 					</tr>
+					counter++;
 				}
 			</tbody>
 		</table>

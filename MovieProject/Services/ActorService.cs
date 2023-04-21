@@ -27,6 +27,7 @@ namespace MovieProject.Services
             }
 
             Actor actor = this.mapper.Map<Actor>(actorVM);
+            actor.ActorId = Configuration.GenerateId();
             await this.movieDbContext.Actors.AddAsync(actor);
             await this.movieDbContext.SaveChangesAsync();
         }
