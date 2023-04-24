@@ -18,9 +18,9 @@ namespace MovieProject.Data
         public virtual DbSet<Director> Directors { get; set; }
         public virtual DbSet<Movie> Movies { get; set; }
         public virtual DbSet<MovieActor> MovieActors { get; set; }
-        public virtual DbSet<MovieWriter> MovieWriters { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Writer> Writers { get; set; }
+        public virtual DbSet<Genre> Genres { get; set; }
+        public virtual DbSet<MovieGenre> MovieGenres { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -33,8 +33,13 @@ namespace MovieProject.Data
             builder.Entity<MovieActor>()
                 .HasKey(ma => new { ma.MovieId, ma.ActorId });
 
-            builder.Entity<MovieWriter>()
-                .HasKey(mw => new { mw.MovieId, mw.WriterId });
+            builder.Entity<MovieGenre>()
+                .HasKey(mg => new { mg.MovieId, mg.GenreId });
+
+            builder.Entity<Movie>()
+                .Property(m => m.BoxOffice)
+                .HasColumnType("decimal(18,2)");
+
         }
     }
 }

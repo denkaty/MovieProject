@@ -19,9 +19,9 @@ namespace MovieProject.MappingConfiguration
 
             CreateMap<User, UserViewModel>().ReverseMap();
 
-            CreateMap<Writer, WriterViewModel>().ReverseMap();
+            CreateMap<Genre, GenreViewModel>().ReverseMap();
 
-            CreateMap<MovieWriter, MovieWriterViewModel>().ReverseMap();
+            CreateMap<MovieGenre, MovieGenreViewModel>().ReverseMap();
         }
     }
 }

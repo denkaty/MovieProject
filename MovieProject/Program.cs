@@ -19,7 +19,7 @@ builder.Services.AddTransient<ActorService, ActorService>();
 builder.Services.AddTransient<DirectorService,DirectorService>();
 builder.Services.AddTransient<MovieService, MovieService>();
 builder.Services.AddTransient<UserService, UserService>();
-builder.Services.AddTransient<WriterService,WriterService>();
+builder.Services.AddTransient<GenreService, GenreService>();
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MovieProfile>());
 builder.Services.AddControllersWithViews();
 
@@ -51,3 +51,4 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+

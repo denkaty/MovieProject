@@ -9,7 +9,6 @@ namespace MovieProject.Data.Entities
         {
             this.MovieId = Guid.NewGuid().ToString();
             this.MoviesActors = new HashSet<MovieActor>();
-            this.MoviesWriters = new HashSet<MovieWriter>();
         }
         [Key]
         public string MovieId { get; set; }
@@ -17,7 +16,6 @@ namespace MovieProject.Data.Entities
         public string Year { get; set; }
         public string Released { get; set; }
         public int Runtime { get; set; }
-        public string Genre { get; set; }
         public string Plot { get; set; }
         public string Language { get; set; }
         public string Country { get; set; }
@@ -27,7 +25,7 @@ namespace MovieProject.Data.Entities
         [ForeignKey(nameof(Director))]
         public string DirectorId { get; set; }
         public Director Director { get; set; }
-        public ICollection<MovieActor> MoviesActors{ get; set; }
-        public ICollection<MovieWriter> MoviesWriters { get; set; }
+        public virtual ICollection<MovieActor> MoviesActors{ get; set; }
+        public virtual ICollection<MovieGenre> MoviesGenres { get; set; }
     }
 }

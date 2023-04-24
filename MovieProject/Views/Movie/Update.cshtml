@@ -1,92 +1,79 @@
 ﻿@model MovieViewModel
-@*
-<div class="main-container" style="display: flex; justify-content: center;">
-    <form asp-controller="Movie" asp-action="Update" method="post">
-        <div class="form-group">
-            <label asp-for="Title" class="control-label"></label>
-            <input asp-for="Title" class="form-control" />
-            <span asp-validation-for="Title" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Year" class="control-label"></label>
-            <input asp-for="Year" class="form-control" />
-            <span asp-validation-for="Year" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Released" class="control-label"></label>
-            <input asp-for="Released" class="form-control" />
-            <span asp-validation-for="Released" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Runtime" class="control-label"></label>
-            <input asp-for="Runtime" class="form-control" />
-            <span asp-validation-for="Runtime" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Plot" class="control-label"></label>
-            <input asp-for="Plot" class="form-control" />
-            <span asp-validation-for="Plot" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Language" class="control-label"></label>
-            <input asp-for="Language" class="form-control" />
-            <span asp-validation-for="Language" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Country" class="control-label"></label>
-            <input asp-for="Country" class="form-control" />
-            <span asp-validation-for="Country" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Poster" class="control-label"></label>
-            <input asp-for="Poster" class="form-control" />
-            <span asp-validation-for="Poster" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="BoxOffice" class="control-label"></label>
-            <input asp-for="BoxOffice" class="form-control" />
-            <span asp-validation-for="BoxOffice" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Director" class="control-label"></label>
-            <input asp-for="Director" class="form-control" />
-            <span asp-validation-for="Director" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Genres" class="control-label"></label>
-            <input asp-for="Genres" class="form-control" />
-            <span asp-validation-for="Genres" class="text-danger"></span>
-        </div>
-        <button type="submit" class="btn btn-primary">Create</button>
-    </form>
-</div>*@
 
-<h1 style="text-align:center">@Model.Title</h1>
-<div class="row mt-5">
-    <div class="mx-auto" style="width: 40%">
-        <form asp-action="Update" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="MovieId" />
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Genres" class="control-label"></label>
-                <input asp-for="Genres" class="form-control" />
-                <span asp-validation-for="Genres" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Runtime" class="control-label"></label>
-                <br />
-                <input asp-for="Runtime" class="form-control" />
-                <span asp-validation-for="Runtime" class="text-danger"></span>
-            </div>
-            <div class="form-group text-center">
-                <a class="btn btn-outline-secondary" asp-action="Index" style="width: 49%;margin-top: 0.5rem;">Back to List</a>
-                <input class="btn btn-danger w-50 mt-2" type="submit" value="Save" />
-            </div>           
-        </form>
-    </div>
+<div class="card shadow border-0 mt-4">
+	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h2 class="py-2">Update Movie</h2>
+			</div>
+		</div>
+	</div>
+	<div class="card-body p-4">
+		<form method="post">
+			<input asp-for="MovieId" />
+			<div class="border p-3 mt-4">
+				<div asp-validation-summary="All"></div>
+				<div class="mb-3 row p-1">
+					<label asp-for="Title" class="control-label"></label>
+					<input asp-for="Title" class="form-control" />
+					<span asp-validation-for="Title" class="text-danger"></span>
+				</div>
+				<div class="mb-3 row p-1">
+					<label asp-for="Year" class="control-label"></label>
+					<input asp-for="Year" class="form-control" />
+					<span asp-validation-for="Year" class="text-danger"></span>
+				</div>
+				<div class="mb-3 row p-1">
+					<label asp-for="Released" class="control-label"></label>
+					<input asp-for="Released" class="form-control" />
+					<span asp-validation-for="Released" class="text-danger"></span>
+				</div>
+				<div class="mb-3 row p-1">
+					<label asp-for="Runtime" class="control-label"></label>
+					<input asp-for="Runtime" class="form-control" />
+					<span asp-validation-for="Runtime" class="text-danger"></span>
+				</div>
+				<div class="mb-3 row p-1">
+					<label asp-for="Plot" class="control-label"></label>
+					<input asp-for="Plot" class="form-control" />
+					<span asp-validation-for="Plot" class="text-danger"></span>
+				</div>
+				<div class="mb-3 row p-1">
+					<label asp-for="Language" class="control-label"></label>
+					<input asp-for="Language" class="form-control" />
+					<span asp-validation-for="Language" class="text-danger"></span>
+				</div>
+				<div class="mb-3 row p-1">
+					<label asp-for="Country" class="control-label"></label>
+					<input asp-for="Country" class="form-control" />
+					<span asp-validation-for="Country" class="text-danger"></span>
+				</div>
+				<div class="mb-3 row p-1">
+					<label asp-for="Poster" class="control-label"></label>
+					<input asp-for="Poster" class="form-control" />
+					<span asp-validation-for="Poster" class="text-danger"></span>
+				</div>
+				<div class="mb-3 row p-1">
+					<label asp-for="BoxOffice" class="control-label"></label>
+					<input asp-for="BoxOffice" class="form-control" />
+					<span asp-validation-for="BoxOffice" class="text-danger"></span>
+				</div>
+				<div class="mb-3 row p-1">
+					<label asp-for="Director" class="control-label"></label>
+					<input asp-for="Director" class="form-control" />
+					<span asp-validation-for="Director" class="text-danger"></span>
+				</div>
+
+				<div class="row">
+					<div class="col-6 col-md-3">
+						<button type="submit" class="btn btn-primary form-control">Update</button>
+					</div>
+					<div class="col-6 col-md-3">
+						<a asp-controller="Movie" asp-action="Index" class="btn btn-outline-secondary border form-control">Back to List</a>
+					</div>
+				</div>
+			</div>
+
+		</form>
+	</div>
 </div>

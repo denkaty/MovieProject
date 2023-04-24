@@ -4,6 +4,7 @@ using MovieProject.Data;
 using MovieProject.Data.Entities;
 using MovieProject.Models;
 using MovieProject.Services.Interfaces;
+using MovieProject.ViewModels;
 using System.IO;
 
 namespace MovieProject.Services
@@ -27,13 +28,14 @@ namespace MovieProject.Services
             }
 
             Movie movie = this.mapper.Map<Movie>(movieVM);
+            movie.MovieId = Configuration.GenerateId();
             await this.movieDbContext.Movies.AddAsync(movie);
             await this.movieDbContext.SaveChangesAsync();
         }
 
         public async Task<List<MovieViewModel>> GetAllMoviesAsync()
         {
-            List<Movie> movies = await this.movieDbContext.Movies.Include(m => m.Director).ToListAsync();
+            List<Movie> movies = await this.movieDbContext.Movies.ToListAsync();
             List<MovieViewModel> movieViewModels = this.mapper.Map<List<MovieViewModel>>(movies);
             return movieViewModels;
         }
@@ -45,7 +47,7 @@ namespace MovieProject.Services
                 throw new ArgumentException("The id parameter cannot be null or empty.", nameof(id));
             }
 
-            Movie? movie = await this.movieDbContext.Movies.FindAsync(id);
+            Movie? movie = await this.movieDbContext.Movies.Include(m=> m.Director).Include(m => m.MoviesGenres).ThenInclude(mg => mg.Genre).FirstOrDefaultAsync(m=> m.MovieId == id);
             if (movie == null)
             {
                 throw new ArgumentException("No Movie was found with the given id.", nameof(id));
@@ -95,5 +97,6 @@ namespace MovieProject.Services
             this.movieDbContext.Movies.Remove(movie);
             await movieDbContext.SaveChangesAsync();
         }
+
     }
 }

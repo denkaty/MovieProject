@@ -1,0 +1,68 @@
+﻿@model MovieViewModel
+
+<div class="card shadow border-0 mt-4">
+	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h2 class="py-2">Delete Movie</h2>
+			</div>
+		</div>
+	</div>
+	<div class="card-body p-4">
+		<form method="post">
+			<input asp-for="MovieId" />
+			<div class="border p-3 mt-4">
+				<div class="mb-3 row p-1">
+					<label asp-for="Title" class="control-label"></label>
+					<input asp-for="Title" disabled class="form-control" style=" cursor:not-allowed"/>
+				</div>
+				<div class="mb-3 row p-1">
+					<label asp-for="Year" class="control-label"></label>
+					<input asp-for="Year" disabled class="form-control" style=" cursor:not-allowed" />
+				</div>
+				<div class="mb-3 row p-1">
+					<label asp-for="Released" class="control-label"></label>
+					<input asp-for="Released" disabled class="form-control" style=" cursor:not-allowed" />
+				</div>
+				<div class="mb-3 row p-1">
+					<label asp-for="Runtime" class="control-label"></label>
+					<input asp-for="Runtime" disabled class="form-control" style=" cursor:not-allowed" />
+				</div>
+				<div class="mb-3 row p-1">
+					<label asp-for="Plot" class="control-label"></label>
+					<input asp-for="Plot" disabled class="form-control" style=" cursor:not-allowed" />
+				</div>
+				<div class="mb-3 row p-1">
+					<label asp-for="Language" class="control-label"></label>
+					<input asp-for="Language" disabled class="form-control" style=" cursor:not-allowed" />
+				</div>
+				<div class="mb-3 row p-1">
+					<label asp-for="Country" class="control-label"></label>
+					<input asp-for="Country" disabled class="form-control" style=" cursor:not-allowed"/>
+				</div>
+				<div class="mb-3 row p-1">
+					<label asp-for="Poster" class="control-label"></label>
+					<input asp-for="Poster" disabled class="form-control" style=" cursor:not-allowed" />
+				</div>
+				<div class="mb-3 row p-1">
+					<label asp-for="BoxOffice" class="control-label"></label>
+					<input asp-for="BoxOffice" disabled class="form-control" style=" cursor:not-allowed" />
+				</div>
+				<div class="mb-3 row p-1">
+					<label asp-for="Director" class="control-label"></label>
+					<input asp-for="Director" disabled class="form-control" style=" cursor:not-allowed" />
+				</div>
+
+				<div class="row">
+					<div class="col-6 col-md-3">
+						<button type="submit" class="btn btn-primary form-control">Delete</button>
+					</div>
+					<div class="col-6 col-md-3">
+						<a asp-controller="Movie" asp-action="Index" class="btn btn-outline-secondary border form-control">Back to List</a>
+					</div>
+				</div>
+			</div>
+
+		</form>
+	</div>
+</div>

@@ -1,6 +1,25 @@
-﻿@model MovieViewModel
+﻿@using System.Text
+@model MovieViewModel
 @{
 	ViewData["Title"] = $"{Model.Title} - Details";
+}
+@{
+    StringBuilder currentMovieGenresSB = new StringBuilder();
+
+    var currentMovieGenres = Model.MoviesGenres.ToList();
+
+    for (int i = 0; i < currentMovieGenres.Count; i++)
+    {
+        if (i < currentMovieGenres.Count - 1)
+        {
+            currentMovieGenresSB.Append(currentMovieGenres[i].Genre.Name).Append(", ");
+        }else{
+            currentMovieGenresSB.Append(currentMovieGenres[i].Genre.Name);
+        }
+
+    }
+    string movieGenres = currentMovieGenresSB.ToString().TrimEnd();
+
 }
 
 <!DOCTYPE html>
@@ -60,12 +79,12 @@
 
                 <div class="headline">
                     <h3>Director:</h3>
-                    <p>Brad Peyton</p>
+                    <p>@Model.Director.FirstName @Model.Director.LastName</p>
                 </div>
 
                 <div class="headline">
-                    <h3>Writer:</h3>
-                    <p>Carlton Cuse, Andre Fabrizio, Jeremy Passmore</p>
+                    <h3>Genre:</h3>
+                    <p>@movieGenres</p>
                 </div>
 
                 <div class="headline">

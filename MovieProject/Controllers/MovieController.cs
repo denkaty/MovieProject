@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieProject.Models;
 using MovieProject.Services;
+using MovieProject.ViewModels;
 
 namespace MovieProject.Controllers
 {
@@ -34,7 +35,7 @@ namespace MovieProject.Controllers
         }
 
         [HttpGet]
-        public  IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             return this.View();
         }
@@ -45,11 +46,6 @@ namespace MovieProject.Controllers
         {
             await movieService.CreateMovieAsync(movieVM);
             return RedirectToAction(nameof(Index));
-        }
-        public async Task<IActionResult> Delete(string id)
-        {
-            await movieService.DeleteMovieByIdAsync(id);
-            return this.RedirectToAction("index");
         }
 
         [HttpGet]
@@ -70,8 +66,23 @@ namespace MovieProject.Controllers
             //}
 
             await this.movieService.UpdateMovieAsync(movieViewModel);
-
+            TempData["success"] = "Movie was updated successfully!";
             return this.Redirect("index");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(string id)
+        {
+            MovieViewModel movieViewModel = await this.movieService.GetMovieByIdAsync(id);
+            return this.View(movieViewModel);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeletePOST(string id)
+        {
+            await this.movieService.DeleteMovieByIdAsync(id);
+            TempData["success"] = "Movie was deleted successfully!";
+            return RedirectToAction("index");
         }
     }
 }
