@@ -25,6 +25,9 @@ namespace MovieProject.Data.Entities
         [ForeignKey(nameof(Director))]
         public string DirectorId { get; set; }
         public Director Director { get; set; }
+
+        [NotMapped]
+        public string DirectorFullName { get; set; }
         public virtual ICollection<MovieActor> MoviesActors{ get; set; }
         public virtual ICollection<MovieGenre> MoviesGenres { get; set; }
     }

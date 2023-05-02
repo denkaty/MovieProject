@@ -1,6 +1,8 @@
 ﻿using MovieProject.Data.Entities;
 using MovieProject.ViewModels;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Linq;
 
 namespace MovieProject.Models
 {
@@ -18,6 +20,9 @@ namespace MovieProject.Models
         public decimal BoxOffice { get; set; }
         public string DirectorId { get; set; }
         public Director Director { get; set; }
+
+        [Display(Name = "Director")]
+        public string DirectorFullName { get; set; }
         public ICollection<MovieActorViewModel> MoviesActors { get; set; }
         public ICollection<MovieGenreViewModel> MoviesGenres { get; set; }
     }

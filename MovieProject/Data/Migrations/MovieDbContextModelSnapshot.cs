@@ -239,7 +239,7 @@ namespace MovieProject.Migrations
 
                     b.HasKey("ActorId");
 
-                    b.ToTable("Actors", (string)null);
+                    b.ToTable("Actors");
                 });
 
             modelBuilder.Entity("MovieProject.Data.Entities.Director", b =>
@@ -257,7 +257,7 @@ namespace MovieProject.Migrations
 
                     b.HasKey("DirectorId");
 
-                    b.ToTable("Directors", (string)null);
+                    b.ToTable("Directors");
                 });
 
             modelBuilder.Entity("MovieProject.Data.Entities.Genre", b =>
@@ -271,7 +271,7 @@ namespace MovieProject.Migrations
 
                     b.HasKey("GenreId");
 
-                    b.ToTable("Genres", (string)null);
+                    b.ToTable("Genres");
                 });
 
             modelBuilder.Entity("MovieProject.Data.Entities.Movie", b =>
@@ -321,7 +321,7 @@ namespace MovieProject.Migrations
 
                     b.HasIndex("DirectorId");
 
-                    b.ToTable("Movies", (string)null);
+                    b.ToTable("Movies");
                 });
 
             modelBuilder.Entity("MovieProject.Data.Entities.MovieActor", b =>
@@ -336,7 +336,7 @@ namespace MovieProject.Migrations
 
                     b.HasIndex("ActorId");
 
-                    b.ToTable("MovieActors", (string)null);
+                    b.ToTable("MovieActors");
                 });
 
             modelBuilder.Entity("MovieProject.Data.Entities.MovieGenre", b =>
@@ -351,7 +351,7 @@ namespace MovieProject.Migrations
 
                     b.HasIndex("GenreId");
 
-                    b.ToTable("MovieGenres", (string)null);
+                    b.ToTable("MovieGenres");
                 });
 
             modelBuilder.Entity("MovieProject.Data.Entities.User", b =>
@@ -377,7 +377,7 @@ namespace MovieProject.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -29,6 +29,7 @@ namespace MovieProject.Services
 
             Movie movie = this.mapper.Map<Movie>(movieVM);
             movie.MovieId = Configuration.GenerateId();
+            await SetDirector(movieVM, movie);
             await this.movieDbContext.Movies.AddAsync(movie);
             await this.movieDbContext.SaveChangesAsync();
         }
@@ -64,6 +65,7 @@ namespace MovieProject.Services
             }
 
             Movie movie = this.mapper.Map<Movie>(movieVM);
+            await SetDirector(movieVM, movie);
             this.movieDbContext.Movies.Update(movie);
             await this.movieDbContext.SaveChangesAsync();
         }
@@ -96,6 +98,21 @@ namespace MovieProject.Services
 
             this.movieDbContext.Movies.Remove(movie);
             await movieDbContext.SaveChangesAsync();
+        }
+        private async Task SetDirector(MovieViewModel movieVM, Movie movie)
+        {
+            string[] directorNames = movieVM.DirectorFullName.Split(" ").ToArray();
+            Director? director = await this.movieDbContext.Directors.Include(d => d.Movies).FirstOrDefaultAsync(d => d.FirstName == directorNames[0] && d.LastName == directorNames[1]);
+            if (director == null)
+            {
+                throw new Exception($"There is no director with this name {movieVM.Director.FirstName} in the database.");
+            }
+
+            if (director != movieVM.Director)
+            {
+                movie.Director = director;
+                movie.DirectorId = director.DirectorId;
+            }
         }
 
     }

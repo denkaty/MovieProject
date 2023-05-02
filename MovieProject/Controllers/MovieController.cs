@@ -51,7 +51,7 @@ namespace MovieProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(string id)
         {
-            MovieViewModel movie = await this.movieService.UpdateMovieByIdAsync(id);
+            MovieViewModel movie = await this.movieService.GetMovieByIdAsync(id);
 
             return this.View(movie);
         }
@@ -67,7 +67,7 @@ namespace MovieProject.Controllers
 
             await this.movieService.UpdateMovieAsync(movieViewModel);
             TempData["success"] = "Movie was updated successfully!";
-            return this.Redirect("index");
+            return RedirectToAction("index");
         }
 
         [HttpGet]

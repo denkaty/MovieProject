@@ -58,19 +58,11 @@
 					<input asp-for="BoxOffice" class="form-control" />
 					<span asp-validation-for="BoxOffice" class="text-danger"></span>
 				</div>
-				@*<div class="mb-3 row p-1">
-					<label asp-for="DirectorId">Director:</label>
-					<select asp-for="DirectorId" asp-items="@(new SelectList(Model., "DirectorId", "Name"))" class="form-control"></select>
-					<span asp-validation-for="BoxOffice" class="text-danger"></span>
-				</div>*@
-
 				<div class="mb-3 row p-1">
-					<label asp-for="Director" class="control-label"></label>
-					<input asp-for="Director" class="form-control" />
-					<span asp-validation-for="Director" class="text-danger"></span>
+					<label asp-for="DirectorFullName" class="control-label"></label>
+					<input asp-for="DirectorFullName" class="form-control" />
+					<span asp-validation-for="DirectorFullName" class="text-danger"></span>
 				</div>
-
-
 
 				<div class="row">
 					<div class="col-6 col-md-3">
@@ -84,3 +76,9 @@
 		</form>
 	</div>
 </div>
+
+@section Scripts{
+	@{
+		<partial name="_ValidationScriptsPartial" />
+	}
+}

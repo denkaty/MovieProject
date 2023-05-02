@@ -9,7 +9,9 @@ namespace MovieProject.MappingConfiguration
     {
         public MovieProfile()
         {
-            CreateMap<Movie, MovieViewModel>().ReverseMap();
+            CreateMap<Movie, MovieViewModel>()
+                .ForMember(dest => dest.DirectorFullName, opt => opt.MapFrom(src => src.Director.FirstName + " " + src.Director.LastName))
+                .ReverseMap();
 
             CreateMap<Actor, ActorViewModel>().ReverseMap();
 
