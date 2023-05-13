@@ -62,30 +62,6 @@ namespace MovieProject.Services
             this.movieDbContext.Genres.Update(genre);
             await this.movieDbContext.SaveChangesAsync();
         }
-
-
-
-        public async Task<GenreViewModel> UpdateGenreByIdAsync(string id, GenreViewModel genreVM)
-        {
-            if (string.IsNullOrEmpty(id))
-            {
-                throw new ArgumentException("The id parameter cannot be null or empty.", nameof(id));
-            }
-
-            if (genreVM == null)
-            {
-                throw new ArgumentNullException("The GenreViewModel parameter cannot be null.", nameof(genreVM));
-            }
-            Genre? genreEntity = await this.movieDbContext.Genres.FindAsync(id);
-            Genre? genreUpdated = this.mapper.Map(genreVM, genreEntity);
-
-            this.movieDbContext.Genres.Update(genreUpdated);
-            await this.movieDbContext.SaveChangesAsync();
-
-            GenreViewModel genreViewModel = this.mapper.Map<GenreViewModel>(genreUpdated);
-            return genreViewModel;
-        }
-
         public async Task DeleteGenreByIdAsync(string id)
         {
             if (string.IsNullOrEmpty(id))

@@ -64,30 +64,6 @@ namespace MovieProject.Services
             this.movieDbContext.Actors.Update(actor);
             await this.movieDbContext.SaveChangesAsync();
         }
-       
-        
-
-        public async Task<ActorViewModel> UpdateActorByIdAsync(string id, ActorViewModel actorVM)
-        {
-            if (string.IsNullOrEmpty(id))
-            {
-                throw new ArgumentException("The id parameter cannot be null or empty.", nameof(id));
-            }
-
-            if (actorVM == null)
-            {
-                throw new ArgumentNullException("The ActorViewModel parameter cannot be null.", nameof(actorVM));
-            }
-            Actor? actorEntity = await this.movieDbContext.Actors.FindAsync(id);
-            Actor? actorUpdated = this.mapper.Map(actorVM, actorEntity);
-
-            this.movieDbContext.Actors.Update(actorUpdated);
-            await this.movieDbContext.SaveChangesAsync();
-
-            ActorViewModel actorViewModel = this.mapper.Map<ActorViewModel>(actorUpdated);
-            return actorViewModel;
-        }
-
         public async Task DeleteActorByIdAsync(string id)
         {
             if (string.IsNullOrEmpty(id))

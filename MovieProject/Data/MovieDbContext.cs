@@ -18,13 +18,13 @@ namespace MovieProject.Data
         public virtual DbSet<Director> Directors { get; set; }
         public virtual DbSet<Movie> Movies { get; set; }
         public virtual DbSet<MovieActor> MovieActors { get; set; }
-        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Genre> Genres { get; set; }
         public virtual DbSet<MovieGenre> MovieGenres { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(Configuration.CONNECTION_STRING);
+            optionsBuilder.EnableSensitiveDataLogging();
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {

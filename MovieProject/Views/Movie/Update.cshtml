@@ -63,6 +63,11 @@
 					<input asp-for="DirectorFullName" class="form-control" />
 					<span asp-validation-for="DirectorFullName" class="text-danger"></span>
 				</div>
+				<div class="mb-3 row p-1">
+					<label asp-for="Genres" class="control-label"></label>
+					<input asp-for="Genres" class="form-control" pattern="^([a-zA-Z]+,\s)*[a-zA-Z]+$" placeholder="Enter genres separated by commas (e.g. Comedy, Action)" />
+					<span asp-validation-for="Genres" class="text-danger"></span>
+				</div>
 
 				<div class="row">
 					<div class="col-6 col-md-3">

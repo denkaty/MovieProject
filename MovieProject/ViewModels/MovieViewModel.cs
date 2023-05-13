@@ -23,6 +23,7 @@ namespace MovieProject.Models
 
         [Display(Name = "Director")]
         public string DirectorFullName { get; set; }
+        public string Genres { get; set; }
         public ICollection<MovieActorViewModel> MoviesActors { get; set; }
         public ICollection<MovieGenreViewModel> MoviesGenres { get; set; }
     }

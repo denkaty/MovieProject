@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MovieProject.Services;
 using MovieProject.ViewModels;
+using System.Data;
 
 namespace MovieProject.Controllers
 {
@@ -35,6 +37,7 @@ namespace MovieProject.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             return this.View();
@@ -42,19 +45,14 @@ namespace MovieProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create(GenreViewModel genreVM)
         {
-            //if (ModelState.IsValid)
-            //{
             await genreService.CreateGenreAsync(genreVM);
             TempData["success"] = "Genre was created successfully!";
             return RedirectToAction(nameof(Index));
-            //}
-            //return this.View();
-
-
         }
-
+        [HttpGet]
         public async Task<IActionResult> Update(string id)
         {
             GenreViewModel genre = await genreService.GetGenreByIdAsync(id);
@@ -66,6 +64,7 @@ namespace MovieProject.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Update(GenreViewModel genreVM)
         {
             await genreService.UpdateGenreAsync(genreVM);
@@ -74,6 +73,7 @@ namespace MovieProject.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(string id)
         {
             GenreViewModel genre = await genreService.GetGenreByIdAsync(id);
@@ -85,6 +85,7 @@ namespace MovieProject.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeletePOST(string id)
         {
             await genreService.DeleteGenreByIdAsync(id);

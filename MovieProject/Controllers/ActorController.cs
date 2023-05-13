@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MovieProject.Services;
 using MovieProject.ViewModels;
+using System.Data;
 
 namespace MovieProject.Controllers
 {
@@ -26,6 +28,7 @@ namespace MovieProject.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             return this.View();
@@ -33,20 +36,16 @@ namespace MovieProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create(ActorViewModel actorViewModel)
         {
-            //if (ModelState.IsValid)
-            //{
             await actorService.CreateActorAsync(actorViewModel);
             TempData["success"] = "Actor was created successfully!";
             return RedirectToAction(nameof(Index));
-            //}
-            //return this.View();
-
-
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Update(string id)
         {
             ActorViewModel actorViewModel = await this.actorService.GetActorByIdAsync(id);
@@ -57,6 +56,7 @@ namespace MovieProject.Controllers
             return this.View(actorViewModel);
         }
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Update(ActorViewModel actorViewModel)
         {
             await this.actorService.UpdateActorAsync(actorViewModel);
@@ -65,6 +65,7 @@ namespace MovieProject.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(string id)
         {
             ActorViewModel actorViewModel = await this.actorService.GetActorByIdAsync(id);
@@ -75,6 +76,7 @@ namespace MovieProject.Controllers
             return this.View(actorViewModel);
         }
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeletePOST(string id)
         {
             await this.actorService.DeleteActorByIdAsync(id);

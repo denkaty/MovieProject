@@ -8,7 +8,6 @@ namespace MovieProject.Services.Interfaces
         public Task<List<MovieViewModel>> GetAllMoviesAsync();
         public Task<MovieViewModel> GetMovieByIdAsync(string id);
         public Task UpdateMovieAsync(MovieViewModel movieVM);
-        public Task<MovieViewModel> UpdateMovieByIdAsync(string id);
         public Task DeleteMovieByIdAsync(string id);
     }
 }

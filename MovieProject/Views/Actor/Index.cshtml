@@ -1,4 +1,9 @@
 ﻿@using MovieProject.ViewModels
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
 @model List<ActorViewModel>
 @{
 	int counter = 1;
@@ -12,14 +17,17 @@
 		</div>
 	</div>
 	<div class="card-body p-4">
-		<div class="row text-end">
-			<div class="col-6"></div>
-			<div class="col-6 text-end">
-				<a asp-controller="Actor" asp-action="Create" class="btn btn-success">
-					<i class="bi bi-plus-circle align-text-bottom"></i> Create New Actor
-				</a>
+		@if (User.IsInRole("Administrator"))
+		{
+			<div class="row text-end">
+				<div class="col-6"></div>
+				<div class="col-6 text-end">
+					<a asp-controller="Actor" asp-action="Create" class="btn btn-success">
+						<i class="bi bi-plus-circle align-text-bottom"></i> Create New Actor
+					</a>
+				</div>
 			</div>
-		</div>
+		}
 		<table class="table table-bordered table-striped">
 			<thead>
 				<tr>
@@ -41,12 +49,15 @@
 								<a asp-controller="Actor" asp-action="Details" asp-route-id="@actor.ActorId" class="btn btn-primary mx-2">
 									<i class="bi bi-info-circle align-text-bottom"></i> Details
 								</a>
-								<a asp-controller="Actor" asp-action="Update" asp-route-id="@actor.ActorId" class="btn btn-warning mx-2">
-									<i class="bi bi-pencil-square align-text-bottom"></i> Edit
-								</a>
-								<a asp-controller="Actor" asp-action="Delete" asp-route-id="@actor.ActorId" class="btn btn-danger mx-2">
-									<i class="bi bi-trash-fill align-text-bottom"></i> Delete
-								</a>
+								@if (User.IsInRole("Administrator"))
+								{
+									<a asp-controller="Actor" asp-action="Update" asp-route-id="@actor.ActorId" class="btn btn-warning mx-2">
+										<i class="bi bi-pencil-square align-text-bottom"></i> Edit
+									</a>
+									<a asp-controller="Actor" asp-action="Delete" asp-route-id="@actor.ActorId" class="btn btn-danger mx-2">
+										<i class="bi bi-trash-fill align-text-bottom"></i> Delete
+									</a>
+								}
 							</div>
 						</td>
 					</tr>

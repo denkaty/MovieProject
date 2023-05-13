@@ -28,6 +28,9 @@ namespace MovieProject.Data.Entities
 
         [NotMapped]
         public string DirectorFullName { get; set; }
+
+        [NotMapped]
+        public string Genres { get; set; }
         public virtual ICollection<MovieActor> MoviesActors{ get; set; }
         public virtual ICollection<MovieGenre> MoviesGenres { get; set; }
     }

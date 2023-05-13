@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MovieProject.Models;
 using MovieProject.Services;
 using MovieProject.Services.Interfaces;
 using MovieProject.ViewModels;
+using System.Data;
 
 namespace MovieProject.Controllers
 {
@@ -37,6 +39,7 @@ namespace MovieProject.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             return this.View();
@@ -44,19 +47,15 @@ namespace MovieProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create(DirectorViewModel directorVM)
         {
-            //if (ModelState.IsValid)
-            //{
             await directorService.CreateDirectorAsync(directorVM);
             TempData["success"] = "Director was created successfully!";
             return RedirectToAction(nameof(Index));
-            //}
-            //return this.View();
-
-
         }
-
+        [HttpGet]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Update(string id)
         {
             DirectorViewModel director = await directorService.GetDirectoryIdAsync(id);
@@ -76,6 +75,7 @@ namespace MovieProject.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(string id)
         {
             DirectorViewModel director = await directorService.GetDirectoryIdAsync(id);
@@ -87,6 +87,7 @@ namespace MovieProject.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeletePOST(string id)
         {
             await directorService.DeleteDirectorByIdAsync(id);

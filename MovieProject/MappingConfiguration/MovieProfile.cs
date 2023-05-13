@@ -11,6 +11,7 @@ namespace MovieProject.MappingConfiguration
         {
             CreateMap<Movie, MovieViewModel>()
                 .ForMember(dest => dest.DirectorFullName, opt => opt.MapFrom(src => src.Director.FirstName + " " + src.Director.LastName))
+                .ForMember(dest => dest.Genres, opt => opt.MapFrom(src => string.Join(", ", src.MoviesGenres.Select(mg => mg.Genre.Name))))
                 .ReverseMap();
 
             CreateMap<Actor, ActorViewModel>().ReverseMap();
@@ -18,8 +19,6 @@ namespace MovieProject.MappingConfiguration
             CreateMap<MovieActor, MovieActorViewModel>();
 
             CreateMap<Director, DirectorViewModel>().ReverseMap();
-
-            CreateMap<User, UserViewModel>().ReverseMap();
 
             CreateMap<Genre, GenreViewModel>().ReverseMap();
 

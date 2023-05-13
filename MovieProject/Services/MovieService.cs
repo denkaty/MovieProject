@@ -30,9 +30,12 @@ namespace MovieProject.Services
             Movie movie = this.mapper.Map<Movie>(movieVM);
             movie.MovieId = Configuration.GenerateId();
             await SetDirector(movieVM, movie);
+            await SetGenres(movieVM, movie);
             await this.movieDbContext.Movies.AddAsync(movie);
             await this.movieDbContext.SaveChangesAsync();
         }
+
+
 
         public async Task<List<MovieViewModel>> GetAllMoviesAsync()
         {
@@ -48,7 +51,7 @@ namespace MovieProject.Services
                 throw new ArgumentException("The id parameter cannot be null or empty.", nameof(id));
             }
 
-            Movie? movie = await this.movieDbContext.Movies.Include(m=> m.Director).Include(m => m.MoviesGenres).ThenInclude(mg => mg.Genre).FirstOrDefaultAsync(m=> m.MovieId == id);
+            Movie? movie = await this.movieDbContext.Movies.Include(m => m.Director).Include(m => m.MoviesGenres).ThenInclude(mg => mg.Genre).FirstOrDefaultAsync(m => m.MovieId == id);
             if (movie == null)
             {
                 throw new ArgumentException("No Movie was found with the given id.", nameof(id));
@@ -59,30 +62,24 @@ namespace MovieProject.Services
 
         public async Task UpdateMovieAsync(MovieViewModel movieVM)
         {
-            if (movieVM == null)
-            {
-                throw new ArgumentNullException("The MovieViewModel parameter cannot be null.", nameof(movieVM));
-            }
 
             Movie movie = this.mapper.Map<Movie>(movieVM);
+
+            this.movieDbContext.Entry(movie).State = EntityState.Detached;
+
             await SetDirector(movieVM, movie);
-            this.movieDbContext.Movies.Update(movie);
-            await this.movieDbContext.SaveChangesAsync();
-        }
+            await SetGenres(movieVM, movie);
 
-        public async Task<MovieViewModel> UpdateMovieByIdAsync(string id)
-        {
-            Movie? movie = await movieDbContext.Movies.FindAsync(id);
-            if (movie == null)
+            Movie? existingMovie = await this.movieDbContext.Movies.FindAsync(movie.MovieId);
+            if (existingMovie != null)
             {
-                throw new ArgumentException($"There is no movie with the id {id} in the database.", nameof(id));
+                //Avoiding InvalidOperationException: The instance of entity type 'Movie' cannot be tracked because another instance with the key value '{MovieId: b3f2fa67-7fa9-493c-9085-f190131f1772}' is already being tracked. When attaching existing entities, ensure that only one entity instance with a given key value is attached.
+                this.mapper.Map(movie, existingMovie);
+                this.movieDbContext.Movies.Update(existingMovie);
+                await this.movieDbContext.SaveChangesAsync();
             }
-
-            MovieViewModel movieViewModel = mapper.Map<MovieViewModel>(movie);
-
-            return movieViewModel;
-
         }
+
         public async Task DeleteMovieByIdAsync(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -108,12 +105,60 @@ namespace MovieProject.Services
                 throw new Exception($"There is no director with this name {movieVM.Director.FirstName} in the database.");
             }
 
-            if (director != movieVM.Director)
+            movie.Director = director;
+            movie.DirectorId = director.DirectorId;
+
+        }
+
+        private async Task SetGenres(MovieViewModel movieVM, Movie movie)
+        {
+            this.movieDbContext.Entry(movie).State = EntityState.Detached;
+
+            await ClearMovieGenres(movie);
+
+            string[] genreNamesFromInput = movieVM.Genres.Split(", ", StringSplitOptions.RemoveEmptyEntries).ToArray();
+            
+            foreach (var currentGenreName in genreNamesFromInput)
             {
-                movie.Director = director;
-                movie.DirectorId = director.DirectorId;
+                Genre? genreFromDb = await this.movieDbContext.Genres.SingleOrDefaultAsync(g => g.Name == currentGenreName);
+                if (genreFromDb == null)
+                {
+                    genreFromDb = new Genre
+                    {
+                        GenreId = Configuration.GenerateId(),
+                        Name = currentGenreName
+                    };
+                    this.movieDbContext.Genres.Add(genreFromDb);
+                    await this.movieDbContext.SaveChangesAsync();
+                }
+
+                MovieGenre movieGenre = new MovieGenre
+                {
+                    MovieId = movie.MovieId,
+                    GenreId = genreFromDb.GenreId,
+                };
+                this.movieDbContext.MovieGenres.Add(movieGenre);
+
             }
         }
 
+        private async Task ClearMovieGenres(Movie movie)
+        {
+            List<MovieGenre>? movieGenres = this.movieDbContext
+                                .MovieGenres
+                                .Include(mg => mg.Movie)
+                                .Include(mg => mg.Genre)
+                                .Where(mg => mg.Movie.MovieId == movie.MovieId)
+                                .ToList();
+
+            if (movieGenres != null && movieGenres.Count() > 0)
+            {
+                foreach (var currentMovieGenre in movieGenres)
+                {
+                    this.movieDbContext.MovieGenres.Remove(currentMovieGenre);
+                }
+                await this.movieDbContext.SaveChangesAsync();
+            }
+        }
     }
 }

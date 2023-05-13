@@ -67,28 +67,6 @@ namespace MovieProject.Services
             this.movieDbContext.Directors.Update(director);
             await this.movieDbContext.SaveChangesAsync();
         }
-
-        public async Task<DirectorViewModel> UpdateDirectorByIdAsync(string id, DirectorViewModel directorVM)
-        {
-            if (string.IsNullOrEmpty(id))
-            {
-                throw new ArgumentException("The id parameter cannot be null or empty.", nameof(id));
-            }
-
-            if (directorVM == null)
-            {
-                throw new ArgumentNullException("The DirectorViewModel parameter cannot be null.", nameof(directorVM));
-            }
-
-            Director? directorEntity = await this.movieDbContext.Directors.FindAsync(id);
-            Director? directorUpdated = this.mapper.Map(directorVM, directorEntity);
-
-            this.movieDbContext.Directors.Update(directorUpdated);
-            await this.movieDbContext.SaveChangesAsync();
-
-            DirectorViewModel directorViewModel = this.mapper.Map<DirectorViewModel>(directorUpdated);
-            return directorViewModel;
-        }
         public async Task DeleteDirectorByIdAsync(string id)
         {
             if (string.IsNullOrEmpty(id))

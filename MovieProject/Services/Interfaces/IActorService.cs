@@ -9,7 +9,6 @@ namespace MovieProject.Services.Interfaces
         public Task<List<ActorViewModel>> GetAllActorsAsync();
         public Task<ActorViewModel> GetActorByIdAsync(string id);
         public Task UpdateActorAsync(ActorViewModel actorVM);
-        public Task<ActorViewModel> UpdateActorByIdAsync(string id, ActorViewModel actorVM);
         public Task DeleteActorByIdAsync(string id);
     }
 }

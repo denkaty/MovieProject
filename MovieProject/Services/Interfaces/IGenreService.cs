@@ -8,7 +8,6 @@ namespace MovieProject.Services.Interfaces
         public Task<List<GenreViewModel>> GetAllGenresAsync();
         public Task<GenreViewModel> GetGenreByIdAsync(string id);
         public Task UpdateGenreAsync(GenreViewModel genreVM);
-        public Task<GenreViewModel> UpdateGenreByIdAsync(string id, GenreViewModel genreVM);
         public Task DeleteGenreByIdAsync(string id);
     }
 }

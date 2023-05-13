@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MovieProject.Models;
 using MovieProject.Services;
 using MovieProject.ViewModels;
+using System.Data;
 
 namespace MovieProject.Controllers
 {
@@ -35,6 +37,7 @@ namespace MovieProject.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create()
         {
             return this.View();
@@ -42,6 +45,7 @@ namespace MovieProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create(MovieViewModel movieVM)
         {
             await movieService.CreateMovieAsync(movieVM);
@@ -49,28 +53,26 @@ namespace MovieProject.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Update(string id)
         {
-            MovieViewModel movie = await this.movieService.GetMovieByIdAsync(id);
+            MovieViewModel movieVM = await this.movieService.GetMovieByIdAsync(id);
 
-            return this.View(movie);
+            return this.View(movieVM);
         }
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Update(MovieViewModel movieViewModel)
         {
-            //if (this.ModelState.IsValid == false)
-            //{
-            //    return this.View(movieViewModel);
-            //}
-
             await this.movieService.UpdateMovieAsync(movieViewModel);
             TempData["success"] = "Movie was updated successfully!";
             return RedirectToAction("index");
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(string id)
         {
             MovieViewModel movieViewModel = await this.movieService.GetMovieByIdAsync(id);
@@ -78,6 +80,7 @@ namespace MovieProject.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeletePOST(string id)
         {
             await this.movieService.DeleteMovieByIdAsync(id);
