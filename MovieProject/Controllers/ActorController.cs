@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using MovieProject.Data.Entities;
+using MovieProject.Models;
 using MovieProject.Services;
 using MovieProject.ViewModels;
 using System.Data;
@@ -83,5 +86,43 @@ namespace MovieProject.Controllers
             TempData["success"] = "Actor was deleted successfully!";
             return RedirectToAction("index");
         }
+
+        public async Task<IActionResult> RemoveActorFromMovie(string movieId, string actorId)
+        {
+            await this.actorService.RemoveActorFromMovie(movieId, actorId);
+            TempData["success"] = "Role was removed successfully!";
+            return RedirectToAction("Details", "Actor", new { id = actorId });
+        }
+        [HttpGet]
+        public async Task<IActionResult> CreateNewRole(string actorId)
+        {
+            ActorViewModel actorViewModel = await this.actorService.GetActorByIdAsync(actorId);
+            MovieViewModel movieViewModel = new MovieViewModel();
+            MovieActorViewModel movieActorViewModel = new MovieActorViewModel
+            {
+                ActorId = actorId,
+                Actor = actorViewModel,
+                Movie = movieViewModel
+            };
+            ViewBag.ExistingMovies = await this.actorService.GetMoviesAsync();
+            return this.View(movieActorViewModel);
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateNewRole(MovieActorViewModel movieActorViewModel)
+        {
+            await actorService.CreateNewRole(movieActorViewModel);
+            TempData["success"] = "Role was created successfully!";
+            return RedirectToAction("Details", "Actor", new { id = movieActorViewModel.ActorId });
+        }
+
+        //[HttpPost]
+        //public async Task<IActionResult> CreateNewRolePost(string actorId)
+        //{
+        //    await this.actorService.CreateNewRole(actorId);
+        //    TempData["success"] = "Role was created successfully!";
+        //    return RedirectToAction("details");
+        //}
+
+
     }
 }

@@ -96,6 +96,11 @@ namespace MovieProject.Services
             this.movieDbContext.Movies.Remove(movie);
             await movieDbContext.SaveChangesAsync();
         }
+        public async Task<IEnumerable<Director>> GetExistingDirectors()
+        {
+            IEnumerable<Director> directors =  await movieDbContext.Directors.ToListAsync();
+            return directors;
+        }
         private async Task SetDirector(MovieViewModel movieVM, Movie movie)
         {
             string[] directorNames = movieVM.DirectorFullName.Split(" ").ToArray();
@@ -160,5 +165,6 @@ namespace MovieProject.Services
                 await this.movieDbContext.SaveChangesAsync();
             }
         }
+
     }
 }

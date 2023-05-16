@@ -80,5 +80,46 @@ namespace MovieProject.Services
             this.movieDbContext.Actors.Remove(actor);
             await this.movieDbContext.SaveChangesAsync();
         }
+        public async Task RemoveActorFromMovie(string movieId, string actorId)
+        {
+            Movie? movie = await this.movieDbContext.Movies.FindAsync(movieId);
+            Actor? actor = await this.movieDbContext.Actors.FindAsync(actorId);
+
+            MovieActor movieActor = new MovieActor
+            {
+                MovieId = movie.MovieId,
+                Movie = movie,
+                ActorId = actor.ActorId,
+                Actor = actor
+            };
+            this.movieDbContext.MovieActors.Remove(movieActor);
+            await this.movieDbContext.SaveChangesAsync();
+        }
+        public async Task<IEnumerable<Movie>> GetMoviesAsync()
+        {
+            IEnumerable<Movie> movies = await this.movieDbContext.Movies.ToListAsync();
+            return movies;
+        }
+        public async Task CreateNewRole(MovieActorViewModel movieActorViewModel)
+        {
+            string movieTitle = movieActorViewModel.Movie.Title;
+            string actorId = movieActorViewModel.ActorId;
+
+            Movie? movie = await this.movieDbContext.Movies.SingleOrDefaultAsync(m => m.Title == movieActorViewModel.Movie.Title);
+            Actor? actor = await this.movieDbContext.Actors.SingleOrDefaultAsync(a => a.ActorId == actorId);
+
+            MovieViewModel movieViewModel = this.mapper.Map<MovieViewModel>(movie);
+            ActorViewModel actorViewModel = this.mapper.Map<ActorViewModel>(actor);
+
+            MovieActor movieActor = new MovieActor
+            {
+                MovieId = movie.MovieId,
+                Movie = movie,
+                ActorId = actor.ActorId,
+                Actor = actor
+            };
+            this.movieDbContext.MovieActors.Add(movieActor);
+            await this.movieDbContext.SaveChangesAsync();
+        }
     }
 }

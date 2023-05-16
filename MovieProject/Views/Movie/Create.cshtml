@@ -1,7 +1,7 @@
 ﻿@model MovieViewModel
 
 
-<div class="card shadow border-0 mt-4">
+<div class="card shadow border-0 mt-4 w-75 p-3 mx-auto">
 	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
 		<div class="row">
 			<div class="col-12 text-center">
@@ -15,61 +15,59 @@
 				<div asp-validation-summary="All"></div>
 				<div class="mb-3 row p-1">
 					<label asp-for="Title" class="control-label"></label>
-					<input asp-for="Title" class="form-control" />
+					<input asp-for="Title" class="form-control" placeholder="Title" />
 					<span asp-validation-for="Title" class="text-danger"></span>
 				</div>
 				<div class="mb-3 row p-1">
 					<label asp-for="Year" class="control-label"></label>
-					<input asp-for="Year" class="form-control" />
+					<input asp-for="Year" class="form-control" placeholder="Year" />
 					<span asp-validation-for="Year" class="text-danger"></span>
 				</div>
 				<div class="mb-3 row p-1">
 					<label asp-for="Released" class="control-label"></label>
-					<input asp-for="Released" class="form-control" />
+					<input asp-for="Released" class="form-control" placeholder="Released date" />
 					<span asp-validation-for="Released" class="text-danger"></span>
 				</div>
 				<div class="mb-3 row p-1">
 					<label asp-for="Runtime" class="control-label"></label>
-					<input asp-for="Runtime" class="form-control" />
+					<input asp-for="Runtime" class="form-control" placeholder="Runtime" />
 					<span asp-validation-for="Runtime" class="text-danger"></span>
 				</div>
 				<div class="mb-3 row p-1">
 					<label asp-for="Plot" class="control-label"></label>
-					<input asp-for="Plot" class="form-control" />
+					<input asp-for="Plot" class="form-control" placeholder="Plot" />
 					<span asp-validation-for="Plot" class="text-danger"></span>
 				</div>
 				<div class="mb-3 row p-1">
 					<label asp-for="Language" class="control-label"></label>
-					<input asp-for="Language" class="form-control" />
+					<input asp-for="Language" class="form-control" placeholder="Language" />
 					<span asp-validation-for="Language" class="text-danger"></span>
 				</div>
 				<div class="mb-3 row p-1">
 					<label asp-for="Country" class="control-label"></label>
-					<input asp-for="Country" class="form-control" />
+					<input asp-for="Country" class="form-control" placeholder="Country" />
 					<span asp-validation-for="Country" class="text-danger"></span>
 				</div>
 				<div class="mb-3 row p-1">
 					<label asp-for="Poster" class="control-label"></label>
-					<input asp-for="Poster" class="form-control" />
+					<input asp-for="Poster" class="form-control" placeholder="Poster" />
 					<span asp-validation-for="Poster" class="text-danger"></span>
 				</div>
 				<div class="mb-3 row p-1">
 					<label asp-for="BoxOffice" class="control-label"></label>
-					<input asp-for="BoxOffice" class="form-control" />
+					<input asp-for="BoxOffice" class="form-control" placeholder="Box office" />
 					<span asp-validation-for="BoxOffice" class="text-danger"></span>
 				</div>
 				<div class="mb-3 row p-1">
 					<label asp-for="DirectorFullName" class="control-label"></label>
-					<input asp-for="DirectorFullName" class="form-control" />
+					<input asp-for="DirectorFullName" class="form-control" placeholder="Enter director`s full name (e.g. Brad Peyton)" />
 					<span asp-validation-for="DirectorFullName" class="text-danger"></span>
 				</div>
 				<div class="mb-3 row p-1">
 					<label asp-for="Genres" class="control-label"></label>
-					<input asp-for="Genres" class="form-control" pattern="^([a-zA-Z]+,\s)*[a-zA-Z]+$" placeholder="Enter genres separated by commas (e.g. Comedy, Action)" />
+					<input asp-for="Genres" class="form-control" pattern="^([a-zA-Z]+,\s)*[a-zA-Z]+$" placeholder="Enter genres separated by comma and whitespace (e.g. Comedy, Action)" />
 					<span asp-validation-for="Genres" class="text-danger"></span>
 				</div>
-
-
 
 				<div class="row">
 					<div class="col-6 col-md-3">
@@ -88,4 +86,4 @@
 	@{
 		<partial name="_ValidationScriptsPartial" />
 	}
-}
+	}

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MovieProject.Data.Entities;
 using MovieProject.Models;
 using MovieProject.Services;
 using MovieProject.ViewModels;
@@ -40,6 +41,8 @@ namespace MovieProject.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create()
         {
+            IEnumerable<Director> existingDirectors = await movieService.GetExistingDirectors();
+            ViewBag.Directors = existingDirectors;
             return this.View();
         }
 
@@ -87,5 +90,7 @@ namespace MovieProject.Controllers
             TempData["success"] = "Movie was deleted successfully!";
             return RedirectToAction("index");
         }
+
+
     }
 }
