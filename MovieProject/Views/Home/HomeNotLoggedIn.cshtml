@@ -1,0 +1,79 @@
+﻿@{
+	ViewData["Title"] = "Home Page";
+}
+<style>
+    body {
+        background-image: url('https://static.vecteezy.com/system/resources/previews/005/502/524/original/cinema-background-concept-movie-theater-object-on-red-curtain-background-and-movie-time-with-electric-bulbs-frame-illustration-free-vector.jpg');
+        background-repeat: no-repeat;
+        background-size: 100%;
+        text-align: center;
+    }
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+        }
+
+    .alert {
+        background-color: rgba(0, 0, 0, 0.5);
+        }
+
+    h1, p, a, li{
+        color:white;
+    }
+
+    h1 {
+        font-size: 36px;
+        margin-bottom: 20px;
+    }
+
+    p {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+    
+    li{
+        list-style:none;
+    }
+
+    a{
+        font-size: 20px;
+    }
+
+    a.account-list:hover{
+        color:red;
+    }
+    
+</style>
+
+<div class="container">
+    <div class="alert">
+    <h1>Welcome to My Movie Library!</h1>
+    <p>Explore a world of movies, directors, and more.</p>
+    <p>Start by browsing our collection of movies or search for your favorite director.</p>
+
+    <p>To access all the features, please:</p>
+
+    <ul>
+            <li>
+                <a asp-area="Identity" asp-page="/Account/Register" class="account-list">Register</a> if you don't have an account yet.
+                
+            </li>
+            <li>
+                <a asp-area="Identity" asp-page="/Account/Login" class="account-list">Login</a> if you're already a member.
+            </li>
+    </ul>
+
+   
+    </div>
+ </div>
+
+
+
+
+

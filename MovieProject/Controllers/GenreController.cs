@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MovieProject.Models;
 using MovieProject.Services;
+using MovieProject.Services.Interfaces;
 using MovieProject.ViewModels;
 using System.Data;
 
 namespace MovieProject.Controllers
 {
+    [Authorize]
     public class GenreController : Controller
     {
         public GenreService genreService { get; set; }
@@ -53,6 +56,7 @@ namespace MovieProject.Controllers
             return RedirectToAction(nameof(Index));
         }
         [HttpGet]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Update(string id)
         {
             GenreViewModel genre = await genreService.GetGenreByIdAsync(id);
@@ -91,6 +95,43 @@ namespace MovieProject.Controllers
             await genreService.DeleteGenreByIdAsync(id);
             TempData["success"] = "Genre was deleted successfully!";
             return RedirectToAction("index");
+        }
+
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> RemoveGenreFromMovie(string movieId, string genreId)
+        {
+            await this.genreService.RemoveGenreFromMovie(movieId, genreId);
+            TempData["success"] = "Genre was removed successfully!";
+            return RedirectToAction("Details", "Genre", new { id = genreId });
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> ManageNewMovieGenre(string genreId)
+        {
+            GenreViewModel genreViewModel = await this.genreService.GetGenreByIdAsync(genreId);
+            MovieViewModel movieViewModel = new MovieViewModel();
+            MovieGenreViewModel movieGenreViewModel = new MovieGenreViewModel
+            {
+                GenreId = genreId,
+                Genre = genreViewModel,
+                Movie = movieViewModel
+            };
+            ViewBag.ExistingMovies = await this.genreService.GetMoviesAsync();
+            return this.View(movieGenreViewModel);
+        }
+        [HttpPost]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> ManageNewMovieGenre(MovieGenreViewModel movieGenreViewModel)
+        {
+            if (!await genreService.ManageNewMovieGenre(movieGenreViewModel))
+            {
+                TempData["error"] = "Genre was not set successfully!";
+                return RedirectToAction("ManageNewMovieGenre", new { genreId = movieGenreViewModel.GenreId });
+            }
+            TempData["success"] = "Genre was set successfully!";
+            return RedirectToAction("Details", "Genre", new { id = movieGenreViewModel.GenreId });
+
         }
     }
 }

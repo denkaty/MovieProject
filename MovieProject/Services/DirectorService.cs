@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MovieProject.Data;
 using MovieProject.Data.Entities;
+using MovieProject.Models;
 using MovieProject.Services.Interfaces;
 using MovieProject.ViewModels;
 using System.IO;
@@ -82,5 +83,17 @@ namespace MovieProject.Services
             this.movieDbContext.Directors.Remove(director);
             await this.movieDbContext.SaveChangesAsync();
         }
+
+        public async Task RemoveDirectorFromMovie(string movieId)
+        {
+            Movie? movie = await this.movieDbContext.Movies.FindAsync(movieId);
+
+            movie.Director = null;
+            movie.DirectorId = null;
+            this.movieDbContext.Movies.Update(movie);
+            await this.movieDbContext.SaveChangesAsync();
+        }
+
+
     }
 }

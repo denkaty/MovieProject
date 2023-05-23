@@ -287,7 +287,6 @@ namespace MovieProject.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DirectorId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Language")
@@ -409,9 +408,7 @@ namespace MovieProject.Migrations
                 {
                     b.HasOne("MovieProject.Data.Entities.Director", "Director")
                         .WithMany("Movies")
-                        .HasForeignKey("DirectorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DirectorId");
 
                     b.Navigation("Director");
                 });

@@ -79,12 +79,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2VucmVcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Университет/Първи курс/Втори семестър/Уеб .NET/MovieProject/MovieProject/Views/Genre/ManageNewMovieGenre.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2VucmVcTWFuYWdlTmV3TW92aWVHZW5yZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Университет/Първи курс/Втори семестър/Уеб .NET/MovieProject/MovieProject/Views/Genre/Update.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2VucmVcVXBkYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Университет/Първи курс/Втори семестър/Уеб .NET/MovieProject/MovieProject/Views/Home/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+[D:/Университет/Първи курс/Втори семестър/Уеб .NET/MovieProject/MovieProject/Views/Home/HomeLoggedIn.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxIb21lTG9nZ2VkSW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Университет/Първи курс/Втори семестър/Уеб .NET/MovieProject/MovieProject/Views/Home/HomeNotLoggedIn.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxIb21lTm90TG9nZ2VkSW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Университет/Първи курс/Втори семестър/Уеб .NET/MovieProject/MovieProject/Views/Home/Privacy.cshtml]

@@ -8,6 +8,7 @@ using System.Data;
 
 namespace MovieProject.Controllers
 {
+    [Authorize]
     public class DirectorController : Controller
     {
         public DirectorService directorService { get; set; }
@@ -67,6 +68,7 @@ namespace MovieProject.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Update(DirectorViewModel directorVM)
         {
             await directorService.UpdateDirectorAsync(directorVM);
@@ -94,5 +96,15 @@ namespace MovieProject.Controllers
             TempData["success"] = "Director was deleted successfully!";
             return RedirectToAction("index");
         }
+
+        
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> RemoveDirectorFromMovie(string movieId, string directorId)
+        {
+            await this.directorService.RemoveDirectorFromMovie(movieId);
+            TempData["success"] = "Director was removed successfully!";
+            return RedirectToAction("Details", "Director", new { id = directorId });
+        }
+
     }
 }

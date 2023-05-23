@@ -1,4 +1,11 @@
-﻿@using MovieProject.ViewModels
+﻿@{
+	ViewData["Title"] = "Genre Details";
+}
+@{
+	int counter = 1;
+}
+
+@using MovieProject.ViewModels
 @model GenreViewModel
 
 <div class="card shadow border-0 mt-4">
@@ -10,9 +17,23 @@
 		</div>
 	</div>
 	<div class="card-body p-4">
+		@if (User.IsInRole("Administrator"))
+		{
+			<div class="row text-end">
+				<div class="col-6"></div>
+				<div class="col-6 text-end">
+					<a asp-controller="Genre" asp-action="ManageNewMovieGenre" asp-route-genreId="@Model.GenreId" class="btn btn-success">
+						<i class="bi bi-plus-circle align-text-bottom"></i> Manage New Movie
+					</a>
+				</div>
+			</div>
+		}
 		<table class="table table-bordered table-striped">
 			<thead>
 				<tr>
+					<th>
+						#
+					</th>
 					<th>
 						Movie
 					</th>
@@ -25,25 +46,31 @@
 				</tr>
 			</thead>
 			<tbody>
-				@foreach (var genre in Model.MoviesGenres)
+				@foreach (var mg in Model.MoviesGenres)
 				{
 					<tr>
-						<td>@genre.Movie.Title</td>
-						<td>@genre.Movie.Released</td>
+						<td>@counter</td>
+						<td>
+							<div>
+								<p>@mg.Movie.Title</p>
+								<img src="@mg.Movie.Poster" style="width:100px" />
+							</div>
+						</td>
+						<td>@mg.Movie.Released</td>
 						<td>
 							<div class="w-75 btn-group" role="group">
-								<a asp-controller="Movie" asp-action="Details" asp-route-id="@genre.MovieId" class="btn btn-primary mx-2">
+								<a asp-controller="Movie" asp-action="Details" asp-route-id="@mg.MovieId" class="btn btn-primary mx-2">
 									<i class="bi bi-info-circle align-text-bottom"></i> Details
 								</a>
-								@*<a asp-controller="Movie" asp-action="Update" asp-route-id="@movie.MovieId" class="btn btn-warning mx-2">
-							<i class="bi bi-pencil-square align-text-bottom"></i> Edit
-							</a>
-							<a asp-controller="Director" asp-action="Delete" asp-route-id="@movie.DirectorId" class="btn btn-danger mx-2">
-							<i class="bi bi-trash-fill align-text-bottom"></i> Delete
-							</a>*@
+								@if(User.IsInRole("Administrator")){
+									<a asp-controller="Genre" asp-action="RemoveGenreFromMovie" asp-route-movieId="@mg.MovieId" asp-route-genreId="@Model.GenreId" class="btn btn-danger mx-2">
+										<i class="bi bi-trash-fill align-text-bottom"></i> Remove
+									</a>
+								}
 							</div>
 						</td>
 					</tr>
+					counter++;
 				}
 			</tbody>
 		</table>

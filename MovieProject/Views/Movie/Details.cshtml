@@ -1,4 +1,7 @@
-﻿@using System.Text
+﻿@{
+	ViewData["Title"] = "Movie Details";
+}
+@using System.Text
 @model MovieViewModel
 @{
 	ViewData["Title"] = $"{Model.Title} - Details";
@@ -79,7 +82,7 @@
 
                 <div class="headline">
                     <h3>Director:</h3>
-                    <p>@Model.Director.FirstName @Model.Director.LastName</p>
+                    <p>@Model.DirectorFullName</p>
                 </div>
 
                 <div class="headline">

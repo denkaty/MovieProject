@@ -100,7 +100,7 @@ namespace MovieProject.Services
             IEnumerable<Movie> movies = await this.movieDbContext.Movies.ToListAsync();
             return movies;
         }
-        public async Task CreateNewRole(MovieActorViewModel movieActorViewModel)
+        public async Task<bool> CreateNewRole(MovieActorViewModel movieActorViewModel)
         {
             string movieTitle = movieActorViewModel.Movie.Title;
             string actorId = movieActorViewModel.ActorId;
@@ -108,6 +108,10 @@ namespace MovieProject.Services
             Movie? movie = await this.movieDbContext.Movies.SingleOrDefaultAsync(m => m.Title == movieActorViewModel.Movie.Title);
             Actor? actor = await this.movieDbContext.Actors.SingleOrDefaultAsync(a => a.ActorId == actorId);
 
+            if(movie == null || actor == null)
+            {
+                return false;
+            }
             MovieViewModel movieViewModel = this.mapper.Map<MovieViewModel>(movie);
             ActorViewModel actorViewModel = this.mapper.Map<ActorViewModel>(actor);
 
@@ -118,8 +122,14 @@ namespace MovieProject.Services
                 ActorId = actor.ActorId,
                 Actor = actor
             };
+
+            if (this.movieDbContext.MovieActors.Contains(movieActor))
+            {
+                return false;
+            }
             this.movieDbContext.MovieActors.Add(movieActor);
             await this.movieDbContext.SaveChangesAsync();
+            return true;
         }
     }
 }

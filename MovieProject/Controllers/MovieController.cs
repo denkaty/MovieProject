@@ -8,6 +8,7 @@ using System.Data;
 
 namespace MovieProject.Controllers
 {
+    [Authorize]
     public class MovieController : Controller
     {
         public MovieService movieService { get; set; }

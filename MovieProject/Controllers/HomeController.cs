@@ -16,7 +16,14 @@ namespace MovieProject.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                return View("HomeLoggedIn");
+            }
+            else
+            {
+                return View("HomeNotLoggedIn");
+            }
         }
 
         public IActionResult Privacy()

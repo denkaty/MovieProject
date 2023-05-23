@@ -9,6 +9,7 @@ using System.Data;
 
 namespace MovieProject.Controllers
 {
+    [Authorize]
     public class ActorController : Controller
     {
         public ActorService actorService { get; set; }
@@ -87,6 +88,7 @@ namespace MovieProject.Controllers
             return RedirectToAction("index");
         }
 
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> RemoveActorFromMovie(string movieId, string actorId)
         {
             await this.actorService.RemoveActorFromMovie(movieId, actorId);
@@ -94,6 +96,7 @@ namespace MovieProject.Controllers
             return RedirectToAction("Details", "Actor", new { id = actorId });
         }
         [HttpGet]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> CreateNewRole(string actorId)
         {
             ActorViewModel actorViewModel = await this.actorService.GetActorByIdAsync(actorId);
@@ -108,20 +111,18 @@ namespace MovieProject.Controllers
             return this.View(movieActorViewModel);
         }
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> CreateNewRole(MovieActorViewModel movieActorViewModel)
         {
-            await actorService.CreateNewRole(movieActorViewModel);
+            if (!await actorService.CreateNewRole(movieActorViewModel))
+            {
+                TempData["error"] = "Role was not created successfully!";
+                return RedirectToAction("CreateNewRole", new { actorId = movieActorViewModel.ActorId });
+            }
             TempData["success"] = "Role was created successfully!";
             return RedirectToAction("Details", "Actor", new { id = movieActorViewModel.ActorId });
-        }
 
-        //[HttpPost]
-        //public async Task<IActionResult> CreateNewRolePost(string actorId)
-        //{
-        //    await this.actorService.CreateNewRole(actorId);
-        //    TempData["success"] = "Role was created successfully!";
-        //    return RedirectToAction("details");
-        //}
+        }
 
 
     }

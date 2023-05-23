@@ -23,8 +23,8 @@ namespace MovieProject.Data.Entities
         public decimal BoxOffice { get; set; }
 
         [ForeignKey(nameof(Director))]
-        public string DirectorId { get; set; }
-        public Director Director { get; set; }
+        public string? DirectorId { get; set; }
+        public Director? Director { get; set; }
 
         [NotMapped]
         public string DirectorFullName { get; set; }

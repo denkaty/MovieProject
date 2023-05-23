@@ -4,6 +4,7 @@ using MovieProject.Data;
 using MovieProject.Services.Interfaces;
 using MovieProject.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using MovieProject.Models;
 
 namespace MovieProject.Services
 {
@@ -77,6 +78,60 @@ namespace MovieProject.Services
 
             this.movieDbContext.Genres.Remove(genre);
             await this.movieDbContext.SaveChangesAsync();
+        }
+
+        public async Task RemoveGenreFromMovie(string movieId, string genreId)
+        {
+            Movie? movie = await this.movieDbContext.Movies.FindAsync(movieId);
+            Genre? genre = await this.movieDbContext.Genres.FindAsync(genreId);
+
+            MovieGenre movieGenre = new MovieGenre
+            {
+                MovieId = movie.MovieId,
+                Movie = movie,
+                GenreId = genre.GenreId,
+                Genre = genre
+            };
+            this.movieDbContext.MovieGenres.Remove(movieGenre);
+            await this.movieDbContext.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Movie>> GetMoviesAsync()
+        {
+            IEnumerable<Movie> movies = await this.movieDbContext.Movies.ToListAsync();
+            return movies;
+        }
+
+        public async Task<bool> ManageNewMovieGenre(MovieGenreViewModel movieGenreViewModel)
+        {
+            string movieTitle = movieGenreViewModel.Movie.Title;
+            string genreId = movieGenreViewModel.GenreId;
+
+            Movie? movie = await this.movieDbContext.Movies.SingleOrDefaultAsync(m => m.Title == movieGenreViewModel.Movie.Title);
+            Genre? genre = await this.movieDbContext.Genres.SingleOrDefaultAsync(a => a.GenreId == genreId);
+
+            if (movie == null || genre == null)
+            {
+                return false;
+            }
+            MovieViewModel movieViewModel = this.mapper.Map<MovieViewModel>(movie);
+            GenreViewModel genreViewModel = this.mapper.Map<GenreViewModel>(genre);
+
+            MovieGenre movieGenre = new MovieGenre
+            {
+                MovieId = movie.MovieId,
+                Movie = movie,
+                GenreId = genre.GenreId,
+                Genre = genre
+            };
+
+            if (this.movieDbContext.MovieGenres.Contains(movieGenre))
+            {
+                return false;
+            }
+            this.movieDbContext.MovieGenres.Add(movieGenre);
+            await this.movieDbContext.SaveChangesAsync();
+            return true;
         }
     }
 }
