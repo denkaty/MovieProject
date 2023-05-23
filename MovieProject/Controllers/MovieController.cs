@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MovieProject.Data;
 using MovieProject.Data.Entities;
 using MovieProject.Models;
 using MovieProject.Services;
@@ -90,6 +91,18 @@ namespace MovieProject.Controllers
             await this.movieService.DeleteMovieByIdAsync(id);
             TempData["success"] = "Movie was deleted successfully!";
             return RedirectToAction("index");
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Search(string title)
+        {
+            if(title == null)
+            {
+                return RedirectToAction("Index");
+            }
+            List<MovieViewModel> searchResults = await movieService.SearchByTitle(title);
+            return this.View(searchResults);
         }
 
 

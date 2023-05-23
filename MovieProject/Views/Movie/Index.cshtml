@@ -204,18 +204,25 @@
 			</div>
 		</div>
 	</div>
-
+	
 	@if(User.IsInRole("Administrator")){
 		<div class="row text-end">
 			<div class="col-6"></div>
 			<div class="col-6 text-end" style="padding-right:55px;">
-				<a asp-controller="Movie" asp-action="Create" class="btn btn-success">
+				<a asp-controller="Movie" asp-action="Create" class="btn btn-success mb-3">
 					<i class="bi bi-plus-circle align-text-bottom"></i> Create New Movie
 				</a>
 			</div>
 		</div>
 	}
 
+
+	<form method="get" action="/Movie/Search">
+		<div class="input-group border border-dark rounded mb-3" style="max-width:1251px;">
+			<input type="search" class="form-control rounded" name="title" placeholder="Search" />	
+			<button type="submit" class="btn btn-outline-primary">Search</button>
+		</div>
+	</form>
 	<div class="cont px-3 justify-content-between">
 		@foreach (var movie in Model)
 		{

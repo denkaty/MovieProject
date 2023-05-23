@@ -25,12 +25,18 @@
 			<div class="row text-end">
 				<div class="col-6"></div>
 				<div class="col-6 text-end">
-					<a asp-controller="Actor" asp-action="Create" class="btn btn-success">
+					<a asp-controller="Actor" asp-action="Create" class="btn btn-success mb-3">
 						<i class="bi bi-plus-circle align-text-bottom"></i> Create New Actor
 					</a>
 				</div>
 			</div>
 		}
+		<form method="get" action="/Actor/Search">
+			<div class="input-group border border-dark rounded mb-3">
+				<input type="search" class="form-control rounded" name="name" placeholder="Search" />
+				<button type="submit" class="btn btn-outline-primary">Search</button>
+			</div>
+		</form>
 		<table class="table table-bordered table-striped">
 			<thead>
 				<tr>

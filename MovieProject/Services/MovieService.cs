@@ -44,6 +44,15 @@ namespace MovieProject.Services
             return movieViewModels;
         }
 
+        public async Task<List<MovieViewModel>> SearchByTitle(string title)
+        {
+            List<Movie> movies = await this.movieDbContext.Movies.Where(x => x.Title.ToLower().Trim().Contains(title.ToLower().Trim())).ToListAsync();
+
+            List<MovieViewModel> movieViewModels = this.mapper.Map<List<MovieViewModel>>(movies);
+            return movieViewModels;
+        }
+
+
         public async Task<MovieViewModel> GetMovieByIdAsync(string id)
         {
             if (string.IsNullOrEmpty(id))

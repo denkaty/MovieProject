@@ -131,5 +131,13 @@ namespace MovieProject.Services
             await this.movieDbContext.SaveChangesAsync();
             return true;
         }
+
+        public async Task<List<ActorViewModel>> SearchByName(string name)
+        {
+            List<Actor> actors = await this.movieDbContext.Actors.Where(x => (x.FirstName.ToLower().TrimStart() + " " + x.LastName.ToLower().TrimEnd()).Contains(name.ToLower().Trim())).ToListAsync();
+
+            List<ActorViewModel> actorViewModels = this.mapper.Map<List<ActorViewModel>>(actors);
+            return actorViewModels;
+        }
     }
 }

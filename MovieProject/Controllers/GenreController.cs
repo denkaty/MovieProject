@@ -133,5 +133,17 @@ namespace MovieProject.Controllers
             return RedirectToAction("Details", "Genre", new { id = movieGenreViewModel.GenreId });
 
         }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Search(string genre)
+        {
+            if (genre == null)
+            {
+                return RedirectToAction("Index");
+            }
+            List<GenreViewModel> searchResults = await genreService.SearchByName(genre);
+            return this.View(searchResults);
+        }
     }
 }

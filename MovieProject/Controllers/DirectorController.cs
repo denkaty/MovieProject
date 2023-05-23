@@ -106,5 +106,16 @@ namespace MovieProject.Controllers
             return RedirectToAction("Details", "Director", new { id = directorId });
         }
 
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Search(string name)
+        {
+            if (name == null)
+            {
+                return RedirectToAction("Index");
+            }
+            List<DirectorViewModel> searchResults = await directorService.SearchByName(name);
+            return this.View(searchResults);
+        }
     }
 }

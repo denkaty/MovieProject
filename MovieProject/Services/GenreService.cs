@@ -133,5 +133,13 @@ namespace MovieProject.Services
             await this.movieDbContext.SaveChangesAsync();
             return true;
         }
+
+        public async Task<List<GenreViewModel>> SearchByName(string genre)
+        {
+            List<Genre> genres = await this.movieDbContext.Genres.Where(x => x.Name.ToLower().Trim().Contains(genre.ToLower().Trim())).ToListAsync();
+
+            List<GenreViewModel> genreViewModels = this.mapper.Map<List<GenreViewModel>>(genres);
+            return genreViewModels;
+        }
     }
 }

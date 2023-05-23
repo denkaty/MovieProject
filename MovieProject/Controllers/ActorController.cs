@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using MovieProject.Data.Entities;
 using MovieProject.Models;
 using MovieProject.Services;
+using MovieProject.Services.Interfaces;
 using MovieProject.ViewModels;
 using System.Data;
 
@@ -123,6 +124,19 @@ namespace MovieProject.Controllers
             return RedirectToAction("Details", "Actor", new { id = movieActorViewModel.ActorId });
 
         }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Search(string name)
+        {
+            if (name == null)
+            {
+                return RedirectToAction("Index");
+            }
+            List<ActorViewModel> searchResults = await actorService.SearchByName(name);
+            return this.View(searchResults);
+        }
+
 
 
     }
