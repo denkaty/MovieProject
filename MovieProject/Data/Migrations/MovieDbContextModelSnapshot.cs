@@ -279,13 +279,6 @@ namespace MovieProject.Migrations
                     b.Property<string>("MovieId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<decimal>("BoxOffice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("DirectorId")
                         .HasColumnType("nvarchar(450)");
 
@@ -304,9 +297,6 @@ namespace MovieProject.Migrations
                     b.Property<string>("Released")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Runtime")
-                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()

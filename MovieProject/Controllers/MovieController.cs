@@ -4,6 +4,8 @@ using MovieProject.Data;
 using MovieProject.Data.Entities;
 using MovieProject.Models;
 using MovieProject.Services;
+using MovieProject.Services.ApiClient;
+using MovieProject.Services.ApiClient.ViewModels.ImportViewModel;
 using MovieProject.ViewModels;
 using System.Data;
 
@@ -24,6 +26,13 @@ namespace MovieProject.Controllers
         {
             List<MovieViewModel> movies = await movieService.GetAllMoviesAsync();
             return this.View(movies);
+        }
+        [HttpGet]
+        public async Task<IActionResult> FetchMovie()
+        {
+            await this.movieService.FetchMovies();
+            return RedirectToAction("Index");
+
         }
 
         [HttpGet]

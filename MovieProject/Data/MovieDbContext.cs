@@ -36,10 +36,6 @@ namespace MovieProject.Data
             builder.Entity<MovieGenre>()
                 .HasKey(mg => new { mg.MovieId, mg.GenreId });
 
-            builder.Entity<Movie>()
-                .Property(m => m.BoxOffice)
-                .HasColumnType("decimal(18,2)");
-
         }
     }
 }

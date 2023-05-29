@@ -3,9 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using MovieProject.Data;
 using MovieProject.Data.Entities;
 using MovieProject.Models;
+using MovieProject.Services.ApiClient;
+using MovieProject.Services.ApiClient.ViewModels.ImportViewModel;
 using MovieProject.Services.Interfaces;
 using MovieProject.ViewModels;
 using System.IO;
+using static System.Net.WebRequestMethods;
 
 namespace MovieProject.Services
 {
@@ -13,11 +16,13 @@ namespace MovieProject.Services
     {
         private readonly MovieDbContext movieDbContext;
         private readonly IMapper mapper;
+        private readonly MovieApiClient movieApiClient;
 
         public MovieService(MovieDbContext movieDbContext, IMapper mapper)
         {
             this.movieDbContext = movieDbContext;
             this.mapper = mapper;
+            this.movieApiClient = new MovieApiClient();
         }
 
         public async Task CreateMovieAsync(MovieViewModel movieVM)
@@ -110,6 +115,127 @@ namespace MovieProject.Services
             IEnumerable<Director> directors =  await movieDbContext.Directors.ToListAsync();
             return directors;
         }
+        
+        
+        public async Task FetchMovies()
+        {
+            List<GenreImportDto> fetchedGenres = await this.movieApiClient.FetchGenresAsync();
+            await AddGenresToDb(fetchedGenres);
+
+            List<MovieImportDto> fetchedMovies = await this.movieApiClient.FetchMoviesAsync(1);
+            await AddMoviesToDb(fetchedMovies);
+
+            Dictionary<string, List<MovieStaffImportDto>> fetchedMovieStaffs = await this.movieApiClient.FetchMoviesStaffs(fetchedMovies);
+            await AddMovieStaffsToDb(fetchedMovieStaffs);
+            
+
+            
+        }
+        private async Task AddGenresToDb(List<GenreImportDto> fetchedGenres)
+        {
+            List<Genre> genres = this.mapper.Map<List<Genre>>(fetchedGenres);
+            await this.movieDbContext.Genres.AddRangeAsync(genres);
+            await this.movieDbContext.SaveChangesAsync();
+        }
+        private async Task AddMoviesToDb(List<MovieImportDto> fetchedMovies)
+        {
+            List<Movie> movies = this.mapper.Map<List<Movie>>(fetchedMovies);
+            foreach (var movie in movies)
+            {
+                bool isMovieExisting = await this.movieDbContext.Movies.AnyAsync(m => m.MovieId == movie.MovieId);
+                if (!isMovieExisting)
+                {
+                    movie.Poster = "https://image.tmdb.org/t/p/original" + movie.Poster;
+                    this.movieDbContext.Movies.Add(movie);
+                }
+            }
+            await this.movieDbContext.SaveChangesAsync();
+
+
+            foreach (Movie movie in movies)
+            {
+                foreach (var genreId in movie.Genres.Split(", ", StringSplitOptions.RemoveEmptyEntries).ToArray())
+                {
+                    Genre? genre = await this.movieDbContext.Genres.FindAsync(genreId);
+
+                    MovieGenre movieGenre = new MovieGenre
+                    {
+                        MovieId = movie.MovieId,
+                        Movie = movie,
+                        GenreId = genreId,
+                        Genre = genre
+                    };
+
+                    await this.movieDbContext.MovieGenres.AddAsync(movieGenre);
+                    await this.movieDbContext.SaveChangesAsync();
+                }
+            }
+            
+        }
+        private async Task AddMovieStaffsToDb(Dictionary<string, List<MovieStaffImportDto>> fetchedMovieStaffs)
+        {
+            foreach (var entry in fetchedMovieStaffs)
+            {
+                bool isDirectorSet = false;
+                string movieId = entry.Key;
+                List<MovieStaffImportDto> staffList = entry.Value;
+                Movie? movie = await this.movieDbContext.Movies.FindAsync(movieId);
+                foreach (var staff in staffList)
+                {
+                    if (string.IsNullOrEmpty(staff.FirstName) || string.IsNullOrEmpty(staff.LastName))
+                    {
+                        continue;
+                    }
+                    if (staff.Department == "Directing")
+                    {
+                        if (!isDirectorSet)
+                        {
+                            Director director = mapper.Map<Director>(staff);
+                            bool isDirectorExisting = await this.movieDbContext.Directors.AnyAsync(d => d.DirectorId == director.DirectorId);
+
+                            if (!isDirectorExisting)
+                            {
+                                this.movieDbContext.Directors.Add(director);
+                                await this.movieDbContext.SaveChangesAsync();
+                            }
+
+                            movie.Director = director;
+                            this.movieDbContext.Movies.Update(movie);
+                            await this.movieDbContext.SaveChangesAsync();
+                            isDirectorSet = true;
+                        }
+                    }
+                    else
+                    {
+                        Actor actor = mapper.Map<Actor>(staff);
+                        bool isActorExisting = await this.movieDbContext.Actors.AnyAsync(a => a.ActorId == actor.ActorId);
+                        if (!isActorExisting)
+                        {
+                            this.movieDbContext.Actors.Add(actor);
+                            await this.movieDbContext.SaveChangesAsync();
+                        } 
+                        else
+                        {
+                            this.movieDbContext.Entry(actor).State = EntityState.Detached;
+                            actor = await this.movieDbContext.Actors.FindAsync(actor.ActorId);
+                        }
+
+                        MovieActor movieActor = new MovieActor
+                        {
+                            MovieId = movieId,
+                            Movie = movie,
+                            ActorId = actor.ActorId,
+                            Actor = actor
+                        };
+
+                        await this.movieDbContext.MovieActors.AddAsync(movieActor);
+                        await this.movieDbContext.SaveChangesAsync();
+
+                    }
+                }
+            }
+        }
+
         private async Task SetDirector(MovieViewModel movieVM, Movie movie)
         {
             string[] directorNames = movieVM.DirectorFullName.Split(" ").ToArray();

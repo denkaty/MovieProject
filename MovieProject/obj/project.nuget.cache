@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "7gOKRmSGxCaXFv8C1daUmzmrlKRnqIxgFT8r6QLDAoykN+wngEVyff0sPxcwaS9Oc7rQUgznd2TSaJBcb798DQ==",
+  "dgSpecHash": "lEXibUrfNDbnJK1oDZTXMgODuI8NWDZDSBySS8AKzyb7a1h5xJRnvV8MiU1rozD8uYdh3jcTGQIkP0ppv+QWqg==",
   "success": true,
   "projectFilePath": "D:\\Университет\\Първи курс\\Втори семестър\\Уеб .NET\\MovieProject\\MovieProject\\MovieProject.csproj",
   "expectedPackageFiles": [
@@ -44,6 +44,7 @@
     "C:\\Users\\denkaty\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\denkaty\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\denkaty\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
+    "C:\\Users\\denkaty\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\denkaty\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
     "C:\\Users\\denkaty\\.nuget\\packages\\system.configuration.configurationmanager\\4.7.0\\system.configuration.configurationmanager.4.7.0.nupkg.sha512",
     "C:\\Users\\denkaty\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.0\\system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",

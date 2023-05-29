@@ -235,7 +235,7 @@
 			foreach (var movie in Model)
 			{
 			<div class="movie-card">
-				<div class="movie-header bladeRunner2049" style="background: url(@movie.Poster)">
+					<div class="movie-header bladeRunner2049" style="background: url(@movie.Poster); background-size: cover;">
 				</div>
 				<div class="movie-content">
 					<div class="movie-content-header">
@@ -249,8 +249,8 @@
 							<span>@movie.Released</span>
 						</div>
 						<div class="info-section">
-							<label>Duration</label>
-							<span>@movie.Runtime</span>
+							<label>Language</label>
+							<span>@movie.Language</span>
 						</div>
 					</div>
 				</div>

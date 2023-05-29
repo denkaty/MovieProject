@@ -210,3 +210,4 @@ D:\Университет\Първи курс\Втори семестър\Уеб
 D:\Университет\Първи курс\Втори семестър\Уеб .NET\MovieProject\MovieProject\obj\Debug\net6.0\ref\MovieProject.dll
 D:\Университет\Първи курс\Втори семестър\Уеб .NET\MovieProject\MovieProject\bin\Debug\net6.0\AutoMapper.dll
 D:\Университет\Първи курс\Втори семестър\Уеб .NET\MovieProject\MovieProject\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+D:\Университет\Първи курс\Втори семестър\Уеб .NET\MovieProject\MovieProject\bin\Debug\net6.0\Newtonsoft.Json.dll
