@@ -44,7 +44,7 @@ namespace MovieProject.Services
 
         public async Task<List<MovieViewModel>> GetAllMoviesAsync()
         {
-            List<Movie> movies = await this.movieDbContext.Movies.ToListAsync();
+            List<Movie> movies = await this.movieDbContext.Movies.OrderByDescending(m => m.Released).ToListAsync();
             List<MovieViewModel> movieViewModels = this.mapper.Map<List<MovieViewModel>>(movies);
             return movieViewModels;
         }
@@ -122,15 +122,42 @@ namespace MovieProject.Services
             List<GenreImportDto> fetchedGenres = await this.movieApiClient.FetchGenresAsync();
             await AddGenresToDb(fetchedGenres);
 
-            List<MovieImportDto> fetchedMovies = await this.movieApiClient.FetchMoviesAsync(1);
+            List<MovieImportDto> fetchedMovies = await this.movieApiClient.FetchMoviesAsync(20);
             await AddMoviesToDb(fetchedMovies);
 
             Dictionary<string, List<MovieStaffImportDto>> fetchedMovieStaffs = await this.movieApiClient.FetchMoviesStaffs(fetchedMovies);
             await AddMovieStaffsToDb(fetchedMovieStaffs);
-            
 
-            
+            APIStatus status = await this.movieDbContext.APIStatus.FindAsync("1");
+            status.Fetched = true;
+            this.movieDbContext.APIStatus.Update(status);
+            await this.movieDbContext.SaveChangesAsync();
+
         }
+
+        public async Task<bool> GetAPIFetchedStatus()
+        {
+            APIStatus? apiStatus = await this.movieDbContext.APIStatus.FirstOrDefaultAsync(a => a.Id == "1");
+            bool fetchedStatus = apiStatus.Fetched;
+
+            return fetchedStatus;
+        }
+        public async Task ClearData()
+        {
+            this.movieDbContext.MovieActors.RemoveRange(await this.movieDbContext.MovieActors.ToListAsync());
+            this.movieDbContext.MovieGenres.RemoveRange(await this.movieDbContext.MovieGenres.ToListAsync());
+            this.movieDbContext.Movies.RemoveRange(await this.movieDbContext.Movies.ToListAsync());
+            this.movieDbContext.Actors.RemoveRange(await this.movieDbContext.Actors.ToListAsync());
+            this.movieDbContext.Genres.RemoveRange(await this.movieDbContext.Genres.ToListAsync());
+            this.movieDbContext.Directors.RemoveRange(await this.movieDbContext.Directors.ToListAsync());
+
+            APIStatus status = await this.movieDbContext.APIStatus.FindAsync("1");
+            status.Fetched = false;
+            this.movieDbContext.APIStatus.Update(status);
+
+            await this.movieDbContext.SaveChangesAsync();
+        }
+        
         private async Task AddGenresToDb(List<GenreImportDto> fetchedGenres)
         {
             List<Genre> genres = this.mapper.Map<List<Genre>>(fetchedGenres);
@@ -192,13 +219,19 @@ namespace MovieProject.Services
                         {
                             Director director = mapper.Map<Director>(staff);
                             bool isDirectorExisting = await this.movieDbContext.Directors.AnyAsync(d => d.DirectorId == director.DirectorId);
+                            
 
                             if (!isDirectorExisting)
                             {
                                 this.movieDbContext.Directors.Add(director);
                                 await this.movieDbContext.SaveChangesAsync();
                             }
-
+                            else
+                            {
+                                this.movieDbContext.Entry(director).State = EntityState.Detached;
+                                director = await this.movieDbContext.Directors.FindAsync(director.DirectorId);
+                            }
+                           
                             movie.Director = director;
                             this.movieDbContext.Movies.Update(movie);
                             await this.movieDbContext.SaveChangesAsync();

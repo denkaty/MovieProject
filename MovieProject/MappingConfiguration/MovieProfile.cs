@@ -25,6 +25,8 @@ namespace MovieProject.MappingConfiguration
 
             CreateMap<MovieGenre, MovieGenreViewModel>().ReverseMap();
 
+            CreateMap<Movie, Movie>();
+
 
             CreateMap<MovieImportDto, Movie>()
                 .ForMember(dest => dest.MovieId, opt => opt.MapFrom(src => src.MovieId))

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MovieProject.Data.Entities;
+using System.Reflection.Emit;
 
 namespace MovieProject.Data
 {
@@ -20,6 +21,7 @@ namespace MovieProject.Data
         public virtual DbSet<MovieActor> MovieActors { get; set; }
         public virtual DbSet<Genre> Genres { get; set; }
         public virtual DbSet<MovieGenre> MovieGenres { get; set; }
+        public virtual DbSet<APIStatus> APIStatus { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -30,11 +32,15 @@ namespace MovieProject.Data
         {
             base.OnModelCreating(builder);
 
+
             builder.Entity<MovieActor>()
                 .HasKey(ma => new { ma.MovieId, ma.ActorId });
 
             builder.Entity<MovieGenre>()
                 .HasKey(mg => new { mg.MovieId, mg.GenreId });
+
+            builder.Entity<APIStatus>()
+                .HasData(new APIStatus { Id = "1", Fetched = false});
 
         }
     }

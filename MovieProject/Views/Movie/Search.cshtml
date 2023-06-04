@@ -78,6 +78,7 @@
 			margin: 2em;
 			border-radius: 10px;
 			display: inline-block;
+			padding-bottom: 20px;
 		}
 
 		.movie-header {
@@ -137,10 +138,23 @@
 			text-align: center;
 		}
 
+		.movie-content-header{
+			width: 279px;
+			height: 100px;
+			overflow: hidden;
+			position: relative;
+		}
+
 		.movie-title {
-			font-size: 24px;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
 			margin: 0;
-			display: table-cell;
+			padding: 10px;
+			text-overflow: ellipsis;
+			overflow: hidden;
 		}
 
 		.imax-logo {
@@ -200,7 +214,7 @@
 	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
 		<div class="row">
 			<div class="col-12 text-center">
-				<h2 class="py-2">Movies List</h2>
+				<h2 class="py-2">Search results for: @ViewBag.SearchTitle</h2>
 			</div>
 		</div>
 	</div>
@@ -210,7 +224,7 @@
 		<div class="row text-end">
 			<div class="col-6"></div>
 			<div class="col-6 text-end" style="padding-right:55px;">
-				<a asp-controller="Movie" asp-action="Create" class="btn btn-success mb-3">
+				<a asp-controller="Movie" asp-action="Create" class="btn btn-success mb-3" style="border-radius: 5px">
 					<i class="bi bi-plus-circle align-text-bottom"></i> Create New Movie
 				</a>
 			</div>
@@ -221,7 +235,7 @@
 	<form method="get" action="/Movie/Search">
 		<div class="input-group border border-dark rounded mb-3" style="max-width:1251px;">
 			<input type="search" class="form-control rounded" name="title" placeholder="Search" />
-			<button type="submit" class="btn btn-outline-primary">Search</button>
+			<button type="submit" class="btn btn-outline-primary" style="border-radius: 5px">Search</button>
 		</div>
 	</form>
 	
@@ -255,11 +269,11 @@
 					</div>
 				</div>
 				<div class="actions">
-					<a asp-controller="Movie" asp-action="Details" asp-route-id="@movie.MovieId" class="btn btn-primary mx-1">Details</a>
+						<a asp-controller="Movie" asp-action="Details" asp-route-id="@movie.MovieId" class="btn btn-primary mx-1" style="border-radius: 5px">Details</a>
 					@if (User.IsInRole("Administrator"))
 					{
-						<a asp-controller="Movie" asp-action="Update" asp-route-id="@movie.MovieId" class="btn btn-warning mx-1">Edit</a>
-						<a asp-controller="Movie" asp-action="Delete" asp-route-id="@movie.MovieId" class="btn btn-danger mx-1">Delete</a>
+							<a asp-controller="Movie" asp-action="Update" asp-route-id="@movie.MovieId" class="btn btn-warning mx-1style=" border-radius: 5px"">Edit</a>
+							<a asp-controller="Movie" asp-action="Delete" asp-route-id="@movie.MovieId" class="btn btn-danger mx-1" style="border-radius: 5px">Delete</a>
 					}
 				</div>
 

@@ -20,16 +20,22 @@ namespace MovieProject.Services.ApiClient
             this.apiKey = "8a274eb881367b096e37ea215599ff7b";
         }
 
-        public async Task<List<MovieImportDto>> FetchMoviesAsync(int page)
+        public async Task<List<MovieImportDto>> FetchMoviesAsync(int pages)
         {
+            List<MovieImportDto> movieImportDtos = new List<MovieImportDto>();
+            for (int i = 1; i <= pages; i++)
+            {
+                string apiUrl = $"https://api.themoviedb.org/3/discover/movie?api_key={apiKey}&page={i}";
+                HttpResponseMessage httpResponseMessage = await httpClient.GetAsync(apiUrl);
+                httpResponseMessage.EnsureSuccessStatusCode();
 
-            string apiUrl = $"https://api.themoviedb.org/3/discover/movie?api_key={apiKey}&page={page}";
-            HttpResponseMessage httpResponseMessage = await httpClient.GetAsync(apiUrl);
-            httpResponseMessage.EnsureSuccessStatusCode();
+                string json = await httpResponseMessage.Content.ReadAsStringAsync();
 
-            string json = await httpResponseMessage.Content.ReadAsStringAsync();
+                List<MovieImportDto> movieImportPageDtos = JsonConvert.DeserializeObject<dynamic>(json).results.ToObject<List<MovieImportDto>>();
+                movieImportPageDtos = movieImportPageDtos.Where(m => m.Released != null).ToList();
+                movieImportDtos.AddRange(movieImportPageDtos);
+            }
 
-            List<MovieImportDto> movieImportDtos = JsonConvert.DeserializeObject<dynamic>(json).results.ToObject<List<MovieImportDto>>();
 
             return movieImportDtos;
         }
@@ -63,7 +69,6 @@ namespace MovieProject.Services.ApiClient
                 dynamic castData = data.cast;
                 dynamic crewData = data.crew;
 
-                //Fetching actors
                 foreach (var staff in castData)
                 {
                     string firstName, lastName, department, staffId;
@@ -95,9 +100,10 @@ namespace MovieProject.Services.ApiClient
 
                 foreach (var staff in crewData)
                 {
-                    string firstName, lastName, department, staffId;
-                    department = staff.known_for_department;
-                    if (department != "Directing")
+                    string firstName, lastName, department, staffId, job;
+                    department = "Directing";
+                    job = staff.job;
+                    if (job != "Director")
                     {
                         continue;
                     }

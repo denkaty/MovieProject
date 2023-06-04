@@ -242,6 +242,26 @@ namespace MovieProject.Migrations
                     b.ToTable("Actors");
                 });
 
+            modelBuilder.Entity("MovieProject.Data.Entities.APIStatus", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("Fetched")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("APIStatus");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            Fetched = false
+                        });
+                });
+
             modelBuilder.Entity("MovieProject.Data.Entities.Director", b =>
                 {
                     b.Property<string>("DirectorId")

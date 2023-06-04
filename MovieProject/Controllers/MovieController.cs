@@ -25,15 +25,26 @@ namespace MovieProject.Controllers
         public async Task<IActionResult> Index()
         {
             List<MovieViewModel> movies = await movieService.GetAllMoviesAsync();
+            ViewBag.FetchedStatus = await movieService.GetAPIFetchedStatus();
             return this.View(movies);
         }
         [HttpGet]
+
         public async Task<IActionResult> FetchMovie()
         {
             await this.movieService.FetchMovies();
             return RedirectToAction("Index");
 
         }
+        public async Task<IActionResult> ClearData()
+        {
+            await this.movieService.ClearData();
+            return RedirectToAction("Index");
+
+        }
+        
+
+
 
         [HttpGet]
         public async Task<IActionResult> Details(string id)
@@ -111,6 +122,7 @@ namespace MovieProject.Controllers
                 return RedirectToAction("Index");
             }
             List<MovieViewModel> searchResults = await movieService.SearchByTitle(title);
+            ViewBag.SearchTitle = title;
             return this.View(searchResults);
         }
 
