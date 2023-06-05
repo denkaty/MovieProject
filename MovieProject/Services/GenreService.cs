@@ -136,7 +136,7 @@ namespace MovieProject.Services
 
         public async Task<List<GenreViewModel>> SearchByName(string genre)
         {
-            List<Genre> genres = await this.movieDbContext.Genres.Where(x => x.Name.ToLower().Trim().Contains(genre.ToLower().Trim())).ToListAsync();
+            List<Genre> genres = await this.movieDbContext.Genres.Where(x => x.Name.ToLower().Trim().Contains(genre.ToLower().Trim())).Include(g => g.MoviesGenres).ToListAsync();
 
             List<GenreViewModel> genreViewModels = this.mapper.Map<List<GenreViewModel>>(genres);
             return genreViewModels;

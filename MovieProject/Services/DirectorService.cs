@@ -96,7 +96,7 @@ namespace MovieProject.Services
 
         public async Task<List<DirectorViewModel>> SearchByName(string name)
         {
-            List<Director> directors = await this.movieDbContext.Directors.Where(x => (x.FirstName.ToLower().TrimStart() + " " + x.LastName.ToLower().TrimEnd()).Contains(name.ToLower().Trim())).ToListAsync();
+            List<Director> directors = await this.movieDbContext.Directors.Where(x => (x.FirstName.ToLower().TrimStart() + " " + x.LastName.ToLower().TrimEnd()).Contains(name.ToLower().Trim())).Include(d=>d.Movies).ToListAsync();
 
             List<DirectorViewModel> directorViewModels = this.mapper.Map<List<DirectorViewModel>>(directors);
             return directorViewModels;

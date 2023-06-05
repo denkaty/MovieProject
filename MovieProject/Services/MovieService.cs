@@ -122,7 +122,7 @@ namespace MovieProject.Services
             List<GenreImportDto> fetchedGenres = await this.movieApiClient.FetchGenresAsync();
             await AddGenresToDb(fetchedGenres);
 
-            List<MovieImportDto> fetchedMovies = await this.movieApiClient.FetchMoviesAsync(20);
+            List<MovieImportDto> fetchedMovies = await this.movieApiClient.FetchMoviesAsync(5);
             await AddMoviesToDb(fetchedMovies);
 
             Dictionary<string, List<MovieStaffImportDto>> fetchedMovieStaffs = await this.movieApiClient.FetchMoviesStaffs(fetchedMovies);
