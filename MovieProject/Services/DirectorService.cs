@@ -96,10 +96,25 @@ namespace MovieProject.Services
 
         public async Task<List<DirectorViewModel>> SearchByName(string name)
         {
-            List<Director> directors = await this.movieDbContext.Directors.Where(x => (x.FirstName.ToLower().TrimStart() + " " + x.LastName.ToLower().TrimEnd()).Contains(name.ToLower().Trim())).Include(d=>d.Movies).ToListAsync();
+            List<Director> directors = await this.movieDbContext.Directors.OrderByDescending(d => d.Movies.Count()).Where(x => (x.FirstName.ToLower().TrimStart() + " " + x.LastName.ToLower().TrimEnd()).Contains(name.ToLower().Trim())).Include(d=>d.Movies).ToListAsync();
 
             List<DirectorViewModel> directorViewModels = this.mapper.Map<List<DirectorViewModel>>(directors);
             return directorViewModels;
+        }
+        public async Task<List<DirectorViewModel>> GetDirectorsToShowAsync(int? page)
+        {
+
+            int directorsPerPage = 21;
+            int startIndex = (int)((page - 1) * directorsPerPage);
+
+            List<Director> directors = await this.movieDbContext.Directors.OrderByDescending(d => d.Movies.Count()).Skip(startIndex).Include(d => d.Movies).Take(directorsPerPage).ToListAsync();
+            List<DirectorViewModel> directorViewModels = this.mapper.Map<List<DirectorViewModel>>(directors);
+            return directorViewModels;
+        }
+        public int DirectorsCount()
+        {
+            int count = this.movieDbContext.Directors.Count();
+            return count;
         }
 
     }

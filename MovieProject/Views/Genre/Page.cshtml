@@ -1,0 +1,189 @@
+﻿@{
+	ViewData["Title"] = "Genres";
+}
+@using MovieProject.ViewModels
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@model List<GenreViewModel>
+@{
+	int counter = 1;
+}
+
+@{
+	int previousPage = ViewBag.CurrentPage - 1;
+	if (previousPage <= 0)
+	{
+		previousPage = 1;
+	}
+
+	int nextPage = ViewBag.CurrentPage + 1;
+	if (nextPage > ViewBag.TotalPages)
+	{
+		nextPage = ViewBag.TotalPages;
+	}
+
+	int numberOfPagesDividedBy10 = ViewBag.TotalPages / 10;
+	if (numberOfPagesDividedBy10 < 1)
+	{
+		numberOfPagesDividedBy10 = 1;
+	}
+	int totalPagesCounter = 1;
+	int n = 10;
+	if (ViewBag.TotalPages < 10)
+	{
+		n = ViewBag.TotalPages;
+	}
+}
+<div class="card shadow border-0 mt-4">
+	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h2 class="py-2">Genres List</h2>
+			</div>
+		</div>
+	</div>
+	<div class="card-body p-4">
+
+		@if(User.IsInRole("Administrator")){
+		<div class="row text-end ">
+			<div class="col-6"></div>
+			<div class="col-6 text-end">
+				<a asp-controller="Genre" asp-action="Create" class="btn btn-success mb-3">
+					<i class="bi bi-plus-circle align-text-bottom"></i> Create New Genre
+				</a>
+			</div>
+		</div>
+		}
+		<form method="get" action="/Genre/Search">
+			<div class="input-group border border-dark rounded mb-3">	
+				<input type="search" class="form-control rounded" name="genre" placeholder="Search" />
+				<button type="submit" class="btn btn-outline-primary">Search</button>
+			</div>
+		</form>
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Genre</th>
+					<th>Movies</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var genre in Model.OrderByDescending(g=>g.MoviesGenres.Count()))
+				{
+					<tr>
+						<td>@counter</td>
+						<td>@genre.Name</td>
+						<td>@genre.MoviesGenres.Count()</td>
+						<td>
+							<div class="w-75 btn-group" role="group">
+								<a asp-controller="Genre" asp-action="Details" asp-route-id="@genre.GenreId" class="btn btn-primary mx-2">
+									<i class="bi bi-info-circle align-text-bottom"></i> Movies
+								</a>
+
+								@if (User.IsInRole("Administrator"))
+								{
+									<a asp-controller="Genre" asp-action="Update" asp-route-id="@genre.GenreId" class="btn btn-warning mx-2">
+										<i class="bi bi-pencil-square align-text-bottom"></i> Edit
+									</a>
+									<a asp-controller="Genre" asp-action="Delete" asp-route-id="@genre.GenreId" class="btn btn-danger mx-2">
+										<i class="bi bi-trash-fill align-text-bottom"></i> Delete
+									</a>
+								}
+
+							</div>
+						</td>
+					</tr>
+					counter++;
+				}
+			</tbody>
+		</table>
+	</div>
+	<nav class="m-auto">
+		<ul class="pagination">
+			@if(ViewBag.TotalPages == 1)
+			{
+
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">Previous</span>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">1</span>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">...</span>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">@ViewBag.TotalPages</span>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">Next</span>
+				</li>
+			}
+			else if (ViewBag.CurrentPage == 1)
+			{
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">Previous</span>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">1</span>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">...</span>
+				</li>
+				<li class="page-item">
+					<a asp-controller="Genre" asp-action="Page" asp-route-page="@ViewBag.TotalPages" class="page-link">@ViewBag.TotalPages</a>
+				</li>
+				<li class="page-item">
+					<a asp-controller="Genre" asp-action="Page" asp-route-page="@nextPage" class="page-link">Next</a>
+				</li>
+			}
+			else if (ViewBag.CurrentPage == ViewBag.TotalPages)
+			{
+				<li class="page-item">
+					<a asp-controller="Genre" asp-action="Page" asp-route-page="@previousPage" class="page-link">Previous</a>
+				</li>
+				<li class="page-item">
+					<a asp-controller="Genre" asp-action="Page" asp-route-page="1" class="page-link">1</a>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">...</span>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">@ViewBag.TotalPages</span>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">Next</span>
+				</li>
+			}
+			else
+			{
+				<li class="page-item">
+					<a asp-controller="Genre" asp-action="Page" asp-route-page="@previousPage" class="page-link">Previous</a>
+				</li>
+				<li class="page-item">
+					<a asp-controller="Genre" asp-action="Page" asp-route-page="1" class="page-link">1</a>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">...</span>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">@ViewBag.CurrentPage</span>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">...</span>
+				</li>
+				<li class="page-item">
+					<a asp-controller="Genre" asp-action="Page" asp-route-page="@ViewBag.TotalPages" class="page-link">@ViewBag.TotalPages</a>
+				</li>
+				<li class="page-item">
+					<a asp-controller="Genre" asp-action="Page" asp-route-page="@nextPage" class="page-link">Next</a>
+				</li>
+			}
+		</ul>
+	</nav>
+</div>

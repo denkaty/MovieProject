@@ -79,7 +79,21 @@ namespace MovieProject.Services
             this.movieDbContext.Genres.Remove(genre);
             await this.movieDbContext.SaveChangesAsync();
         }
+        public async Task<List<GenreViewModel>> GetGenresToShowAsync(int? page)
+        {
 
+            int genresPerPage = 21;
+            int startIndex = (int)((page - 1) * genresPerPage);
+
+            List<Genre> genres = await this.movieDbContext.Genres.OrderByDescending(m => m.MoviesGenres.Count()).Skip(startIndex).Take(genresPerPage).Include(g => g.MoviesGenres).ToListAsync();
+            List<GenreViewModel> genreViewModels = this.mapper.Map<List<GenreViewModel>>(genres);
+            return genreViewModels;
+        }
+        public int GenresCount()
+        {
+            int count = this.movieDbContext.Genres.Count();
+            return count;
+        }
         public async Task RemoveGenreFromMovie(string movieId, string genreId)
         {
             Movie? movie = await this.movieDbContext.Movies.FindAsync(movieId);

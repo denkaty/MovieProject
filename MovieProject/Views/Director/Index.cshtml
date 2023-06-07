@@ -15,7 +15,31 @@
 @{
 	int counter = 1;
 }
+@{
+	int previousPage = ViewBag.CurrentPage - 1;
+	if (previousPage <= 0)
+	{
+		previousPage = 1;
+	}
 
+	int nextPage = ViewBag.CurrentPage + 1;
+	if (nextPage > ViewBag.TotalPages)
+	{
+		nextPage = ViewBag.TotalPages;
+	}
+
+	int numberOfPagesDividedBy10 = ViewBag.TotalPages / 10;
+	if (numberOfPagesDividedBy10 < 1)
+	{
+		numberOfPagesDividedBy10 = 1;
+	}
+	int totalPagesCounter = 1;
+	int n = 10;
+	if (ViewBag.TotalPages < 10)
+	{
+		n = ViewBag.TotalPages;
+	}
+}
 <div class="card shadow border-0 mt-4">
 	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
 		<div class="row">
@@ -79,4 +103,87 @@
 			</tbody>
 		</table>
 	</div>
+	<nav class="m-auto">
+		<ul class="pagination">
+			@if (ViewBag.TotalPages == 1)
+			{
+
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">Previous</span>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">1</span>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">...</span>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">@ViewBag.TotalPages</span>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">Next</span>
+				</li>
+			}
+			else if (ViewBag.CurrentPage == 1)
+			{
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">Previous</span>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">1</span>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">...</span>
+				</li>
+				<li class="page-item">
+					<a asp-controller="Director" asp-action="Page" asp-route-page="@ViewBag.TotalPages" class="page-link">@ViewBag.TotalPages</a>
+				</li>
+				<li class="page-item">
+					<a asp-controller="Director" asp-action="Page" asp-route-page="@nextPage" class="page-link">Next</a>
+				</li>
+			}
+			else if (ViewBag.CurrentPage == ViewBag.TotalPages)
+			{
+				<li class="page-item">
+					<a asp-controller="Director" asp-action="Page" asp-route-page="@previousPage" class="page-link">Previous</a>
+				</li>
+				<li class="page-item">
+					<a asp-controller="Director" asp-action="Page" asp-route-page="1" class="page-link">1</a>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">...</span>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">@ViewBag.TotalPages</span>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">Next</span>
+				</li>
+			}
+			else
+			{
+				<li class="page-item">
+					<a asp-controller="Director" asp-action="Page" asp-route-page="@previousPage" class="page-link">Previous</a>
+				</li>
+				<li class="page-item">
+					<a asp-controller="Director" asp-action="Page" asp-route-page="1" class="page-link">1</a>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">...</span>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">@ViewBag.CurrentPage</span>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">...</span>
+				</li>
+				<li class="page-item">
+					<a asp-controller="Director" asp-action="Page" asp-route-page="@ViewBag.TotalPages" class="page-link">@ViewBag.TotalPages</a>
+				</li>
+				<li class="page-item">
+					<a asp-controller="Director" asp-action="Page" asp-route-page="@nextPage" class="page-link">Next</a>
+				</li>
+			}
+		</ul>
+	</nav>
 </div>

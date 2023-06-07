@@ -22,10 +22,23 @@ namespace MovieProject.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<ActorViewModel> actors = await actorService.GetAllActorsAsync();
+            List<ActorViewModel> actors = await actorService.GetActorsToShowAsync(1);
+            ViewBag.CurrentPage = 1;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)actorService.ActorsCount() / 21);
             return this.View(actors);
         }
-
+        [HttpGet]
+        public async Task<IActionResult> Page(int? page)
+        {
+            if (page == null)
+            {
+                page = 1;
+            }
+            List<ActorViewModel> movies = await actorService.GetActorsToShowAsync(page);
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)actorService.ActorsCount() / 21);
+            return this.View(movies);
+        }
         public async Task<IActionResult> Details(string id)
         {
             ActorViewModel actor = await actorService.GetActorByIdAsync(id);

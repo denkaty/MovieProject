@@ -11,6 +11,7 @@
 @{
 	ViewData["Title"] = "Movies";
 }
+
 <!DOCTYPE html>
 <html class=''>
 <head>
@@ -279,17 +280,16 @@
 
 			</div>
 			}
-		@if (Model.Count % 3 == 2)
-		{
-			<div class="movie-card d-block shadow-none">
-				<div class="movie-header bladeRunner2049">
+			@if (Model.Count % 3 == 2)
+			{
+				<div class="movie-card d-block shadow-none">
+					<div class="movie-header bladeRunner2049">
 				</div>
 				<div class="movie-content">
 				</div>
 			</div>
+			}
 		}
-		}
-		
 
 	</div>
 

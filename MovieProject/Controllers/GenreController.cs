@@ -21,22 +21,22 @@ namespace MovieProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            List<GenreViewModel> genres = await genreService.GetAllGenresAsync();
-
+            List<GenreViewModel> genres = await genreService.GetGenresToShowAsync(1);
+            ViewBag.CurrentPage = 1;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)genreService.GenresCount() / 21);
             return this.View(genres);
         }
-
         [HttpGet]
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Page(int? page)
         {
-            GenreViewModel genreViewModel = await genreService.GetGenreByIdAsync(id);
-
-            if (genreViewModel == null)
+            if (page == null)
             {
-                return NotFound();
+                page = 1;
             }
-
-            return this.View(genreViewModel);
+            List<GenreViewModel> genres = await genreService.GetGenresToShowAsync(page);
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)genreService.GenresCount() / 21);
+            return this.View(genres);
         }
 
         [HttpGet]

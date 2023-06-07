@@ -134,10 +134,26 @@ namespace MovieProject.Services
 
         public async Task<List<ActorViewModel>> SearchByName(string name)
         {
-            List<Actor> actors = await this.movieDbContext.Actors.Where(x => (x.FirstName.ToLower().TrimStart() + " " + x.LastName.ToLower().TrimEnd()).Contains(name.ToLower().Trim())).Include(a => a.MoviesActors).ToListAsync();
+            List<Actor> actors = await this.movieDbContext.Actors.OrderByDescending(a => a.MoviesActors.Count()).Where(x => (x.FirstName.ToLower().TrimStart() + " " + x.LastName.ToLower().TrimEnd()).Contains(name.ToLower().Trim())).Include(a => a.MoviesActors).ToListAsync();
 
             List<ActorViewModel> actorViewModels = this.mapper.Map<List<ActorViewModel>>(actors);
             return actorViewModels;
+        }
+
+        public async Task<List<ActorViewModel>> GetActorsToShowAsync(int? page)
+        {
+
+            int actorsPerPage = 21;
+            int startIndex = (int)((page - 1) * actorsPerPage);
+
+            List<Actor> actors = await this.movieDbContext.Actors.OrderByDescending(a => a.MoviesActors.Count()).Skip(startIndex).Take(actorsPerPage).Include(a => a.MoviesActors).ToListAsync();
+            List<ActorViewModel> actorViewModels = this.mapper.Map<List<ActorViewModel>>(actors);
+            return actorViewModels;
+        }
+        public int ActorsCount()
+        {
+            int count = this.movieDbContext.Actors.Count();
+            return count;
         }
     }
 }

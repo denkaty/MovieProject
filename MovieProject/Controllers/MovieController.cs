@@ -24,7 +24,22 @@ namespace MovieProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            List<MovieViewModel> movies = await movieService.GetAllMoviesAsync();
+                List<MovieViewModel> movies = await movieService.GetMoviesToShowAsync(1);
+                ViewBag.CurrentPage = 1;
+                ViewBag.TotalPages = (int)Math.Ceiling((double)movieService.MoviesCount() / 21);
+                ViewBag.FetchedStatus = await movieService.GetAPIFetchedStatus();
+                return this.View(movies);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Page(int? page)
+        {
+            if (page == null)
+            {
+                page = 1;
+            }
+            List<MovieViewModel> movies = await movieService.GetMoviesToShowAsync(page);
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)movieService.MoviesCount() / 21);
             ViewBag.FetchedStatus = await movieService.GetAPIFetchedStatus();
             return this.View(movies);
         }
@@ -123,6 +138,7 @@ namespace MovieProject.Controllers
             }
             List<MovieViewModel> searchResults = await movieService.SearchByTitle(title);
             ViewBag.SearchTitle = title;
+            ViewBag.FetchedStatus = await movieService.GetAPIFetchedStatus();
             return this.View(searchResults);
         }
 

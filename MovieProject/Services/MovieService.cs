@@ -51,7 +51,7 @@ namespace MovieProject.Services
 
         public async Task<List<MovieViewModel>> SearchByTitle(string title)
         {
-            List<Movie> movies = await this.movieDbContext.Movies.Where(x => x.Title.ToLower().Trim().Contains(title.ToLower().Trim())).ToListAsync();
+            List<Movie> movies = await this.movieDbContext.Movies.OrderByDescending(m => m.Released).Where(x => x.Title.ToLower().Trim().Contains(title.ToLower().Trim())).ToListAsync();
 
             List<MovieViewModel> movieViewModels = this.mapper.Map<List<MovieViewModel>>(movies);
             return movieViewModels;
@@ -157,7 +157,25 @@ namespace MovieProject.Services
 
             await this.movieDbContext.SaveChangesAsync();
         }
-        
+
+        public async Task<List<MovieViewModel>> GetMoviesToShowAsync(int? page)
+        {
+
+            int moviesPerPage = 21;
+            int startIndex = (int)((page - 1) * moviesPerPage);
+
+            List<Movie> movies = await this.movieDbContext.Movies.OrderByDescending(m=>m.Released).Skip(startIndex).Take(moviesPerPage).ToListAsync();
+            List<MovieViewModel> movieViewModels = this.mapper.Map<List<MovieViewModel>>(movies);
+            return movieViewModels;
+        }
+        public int MoviesCount()
+        {
+            int count = this.movieDbContext.Movies.Count();
+            return count;
+        }
+
+       
+
         private async Task AddGenresToDb(List<GenreImportDto> fetchedGenres)
         {
             List<Genre> genres = this.mapper.Map<List<Genre>>(fetchedGenres);

@@ -39,6 +39,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWN0b3JcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Университет/Първи курс/Втори семестър/Уеб .NET/MovieProject/MovieProject/Views/Actor/Page.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWN0b3JcUGFnZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Университет/Първи курс/Втори семестър/Уеб .NET/MovieProject/MovieProject/Views/Actor/Search.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWN0b3JcU2VhcmNoLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -61,6 +65,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Университет/Първи курс/Втори семестър/Уеб .NET/MovieProject/MovieProject/Views/Director/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGlyZWN0b3JcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Университет/Първи курс/Втори семестър/Уеб .NET/MovieProject/MovieProject/Views/Director/Page.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGlyZWN0b3JcUGFnZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Университет/Първи курс/Втори семестър/Уеб .NET/MovieProject/MovieProject/Views/Director/Search.cshtml]
@@ -89,6 +97,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Университет/Първи курс/Втори семестър/Уеб .NET/MovieProject/MovieProject/Views/Genre/ManageNewMovieGenre.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2VucmVcTWFuYWdlTmV3TW92aWVHZW5yZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Университет/Първи курс/Втори семестър/Уеб .NET/MovieProject/MovieProject/Views/Genre/Page.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2VucmVcUGFnZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Университет/Първи курс/Втори семестър/Уеб .NET/MovieProject/MovieProject/Views/Genre/Search.cshtml]
@@ -125,6 +137,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Университет/Първи курс/Втори семестър/Уеб .NET/MovieProject/MovieProject/Views/Movie/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW92aWVcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Университет/Първи курс/Втори семестър/Уеб .NET/MovieProject/MovieProject/Views/Movie/Page.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW92aWVcUGFnZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Университет/Първи курс/Втори семестър/Уеб .NET/MovieProject/MovieProject/Views/Movie/Search.cshtml]

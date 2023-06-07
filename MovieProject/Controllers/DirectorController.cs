@@ -21,8 +21,22 @@ namespace MovieProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            List<DirectorViewModel> directors = await directorService.GetAllDirectorsAsync();
+            List<DirectorViewModel> directors = await directorService.GetDirectorsToShowAsync(1);
+            ViewBag.CurrentPage = 1;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)directorService.DirectorsCount() / 21);
 
+            return this.View(directors);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Page(int? page)
+        {
+            if (page == null)
+            {
+                page = 1;
+            }
+            List<DirectorViewModel> directors = await directorService.GetDirectorsToShowAsync(page);
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)directorService.DirectorsCount() / 21);
             return this.View(directors);
         }
 
