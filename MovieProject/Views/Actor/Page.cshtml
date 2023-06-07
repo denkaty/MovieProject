@@ -120,6 +120,42 @@
 					<span class="page-link" style="font-weight: 900">Next</span>
 				</li>
 			}
+			else if (ViewBag.CurrentPage == 1 && ViewBag.CurrentPage == ViewBag.TotalPages)
+			{
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">Previous</span>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">1</span>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">...</span>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">1</span>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">Next</span>
+				</li>
+			}
+			else if (ViewBag.CurrentPage > 1 && ViewBag.CurrentPage == ViewBag.TotalPages)
+			{
+				<li class="page-item">
+					<a asp-controller="Actor" asp-action="Page" asp-route-page="@previousPage" class="page-link">Previous</a>
+				</li>
+				<li class="page-item">
+					<a asp-controller="Actor" asp-action="Page" asp-route-page="1" class="page-link">1</a>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">...</span>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">@ViewBag.TotalPages</span>
+				</li>
+				<li class="page-item">
+					<span class="page-link" style="font-weight: 900">Next</span>
+				</li>
+			}
 			else if (ViewBag.CurrentPage == 1)
 			{
 				<li class="page-item">
@@ -136,24 +172,6 @@
 				</li>
 				<li class="page-item">
 					<a asp-controller="Actor" asp-action="Page" asp-route-page="@nextPage" class="page-link">Next</a>
-				</li>
-			}
-			else if (ViewBag.CurrentPage == ViewBag.TotalPages)
-			{
-				<li class="page-item">
-					<a asp-controller="Actor" asp-action="Page" asp-route-page="@previousPage" class="page-link">Previous</a>
-				</li>
-				<li class="page-item">
-					<a asp-controller="Actor" asp-action="Page" asp-route-page="1" class="page-link">1</a>
-				</li>
-				<li class="page-item">
-					<span class="page-link" style="font-weight: 900">...</span>
-				</li>
-				<li class="page-item">
-					<span class="page-link" style="font-weight: 900">@ViewBag.TotalPages</span>
-				</li>
-				<li class="page-item">
-					<span class="page-link" style="font-weight: 900">Next</span>
 				</li>
 			}
 			else

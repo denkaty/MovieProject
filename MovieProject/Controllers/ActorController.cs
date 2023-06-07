@@ -121,7 +121,7 @@ namespace MovieProject.Controllers
                 Actor = actorViewModel,
                 Movie = movieViewModel
             };
-            ViewBag.ExistingMovies = await this.actorService.GetMoviesAsync();
+            ViewBag.ExistingMovies = await this.actorService.GetMoviesAsync(actorId);
             return this.View(movieActorViewModel);
         }
         [HttpPost]

@@ -6,6 +6,7 @@ using MovieProject.Models;
 using MovieProject.Services.Interfaces;
 using MovieProject.ViewModels;
 using System.IO;
+using System.Linq;
 
 namespace MovieProject.Services
 {
@@ -95,9 +96,9 @@ namespace MovieProject.Services
             this.movieDbContext.MovieActors.Remove(movieActor);
             await this.movieDbContext.SaveChangesAsync();
         }
-        public async Task<IEnumerable<Movie>> GetMoviesAsync()
+        public async Task<IEnumerable<Movie>> GetMoviesAsync(string actorId)
         {
-            IEnumerable<Movie> movies = await this.movieDbContext.Movies.ToListAsync();
+            IEnumerable<Movie> movies = await this.movieDbContext.Movies.Where(m => !m.MoviesActors.Any(ma => ma.ActorId == actorId)).ToListAsync();
             return movies;
         }
         public async Task<bool> CreateNewRole(MovieActorViewModel movieActorViewModel)
