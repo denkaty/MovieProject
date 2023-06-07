@@ -102,9 +102,8 @@
 	</div>
 	<nav class="m-auto">
 		<ul class="pagination">
-			@if (ViewBag.TotalPages == 1)
+			@if (ViewBag.TotalPages == 0)
 			{
-
 				<li class="page-item">
 					<span class="page-link" style="font-weight: 900">Previous</span>
 				</li>
@@ -115,7 +114,7 @@
 					<span class="page-link" style="font-weight: 900">...</span>
 				</li>
 				<li class="page-item">
-					<span class="page-link" style="font-weight: 900">@ViewBag.TotalPages</span>
+					<span class="page-link" style="font-weight: 900">1</span>
 				</li>
 				<li class="page-item">
 					<span class="page-link" style="font-weight: 900">Next</span>

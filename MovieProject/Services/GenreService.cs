@@ -5,6 +5,7 @@ using MovieProject.Services.Interfaces;
 using MovieProject.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using MovieProject.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MovieProject.Services
 {
@@ -37,6 +38,7 @@ namespace MovieProject.Services
             List<GenreViewModel> genresViewModels = this.mapper.Map<List<GenreViewModel>>(genres);
             return genresViewModels;
         }
+        
         public async Task<GenreViewModel> GetGenreByIdAsync(string id)
         {
             if (string.IsNullOrEmpty(id))

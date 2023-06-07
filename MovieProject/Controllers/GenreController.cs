@@ -38,6 +38,18 @@ namespace MovieProject.Controllers
             ViewBag.TotalPages = (int)Math.Ceiling((double)genreService.GenresCount() / 21);
             return this.View(genres);
         }
+        [HttpGet]
+        public async Task<IActionResult> Details(string id)
+        {
+            GenreViewModel genreViewModel = await genreService.GetGenreByIdAsync(id);
+
+            if (genreViewModel == null)
+            {
+                return NotFound();
+            }
+
+            return this.View(genreViewModel);
+        }
 
         [HttpGet]
         [Authorize(Roles = "Administrator")]
