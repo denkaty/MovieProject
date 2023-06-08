@@ -26,7 +26,6 @@ namespace MovieProject.Services
             await this.movieDbContext.Genres.AddAsync(genre);
             await this.movieDbContext.SaveChangesAsync();
         }
-
         public async Task<List<GenreViewModel>> GetAllGenresAsync()
         {
             List<Genre> genres = await this.movieDbContext
@@ -38,24 +37,13 @@ namespace MovieProject.Services
             List<GenreViewModel> genresViewModels = this.mapper.Map<List<GenreViewModel>>(genres);
             return genresViewModels;
         }
-        
         public async Task<GenreViewModel> GetGenreByIdAsync(string id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                throw new ArgumentException("The id parameter cannot be null or empty.", nameof(id));
-            }
-
             Genre? genre = await this.movieDbContext
                 .Genres
                 .Include(a => a.MoviesGenres)
                 .ThenInclude(a => a.Movie)
                 .FirstOrDefaultAsync(a => a.GenreId == id);
-
-            if (genre == null)
-            {
-                throw new ArgumentException("No Genre was found with the given id.", nameof(id));
-            }
 
             GenreViewModel genreViewModel = this.mapper.Map<GenreViewModel>(genre);
             return genreViewModel;
@@ -68,17 +56,7 @@ namespace MovieProject.Services
         }
         public async Task DeleteGenreByIdAsync(string id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                throw new ArgumentException("The id parameter cannot be null or empty.", nameof(id));
-            }
-
             Genre? genre = await this.movieDbContext.Genres.FindAsync(id);
-            if (genre == null)
-            {
-                throw new ArgumentException($"There is no genre with the id {id} in the database.", nameof(id));
-            }
-
             this.movieDbContext.Genres.Remove(genre);
             await this.movieDbContext.SaveChangesAsync();
         }
@@ -99,11 +77,6 @@ namespace MovieProject.Services
             List<GenreViewModel> genreViewModels = this.mapper.Map<List<GenreViewModel>>(genres);
             return genreViewModels;
         }
-        public int GetGenresCount()
-        {
-            int count = this.movieDbContext.Genres.Count();
-            return count;
-        }
         public async Task RemoveGenreFromMovieAsync(string movieId, string genreId)
         {
             Movie? movie = await this.movieDbContext.Movies.FindAsync(movieId);
@@ -119,13 +92,11 @@ namespace MovieProject.Services
             this.movieDbContext.MovieGenres.Remove(movieGenre);
             await this.movieDbContext.SaveChangesAsync();
         }
-
         public async Task<IEnumerable<Movie>> GetAllMoviesAsync()
         {
             IEnumerable<Movie> movies = await this.movieDbContext.Movies.ToListAsync();
             return movies;
         }
-
         public async Task<bool> ManageNewMovieGenreAsync(MovieGenreViewModel movieGenreViewModel)
         {
             string movieTitle = movieGenreViewModel.Movie.Title;
@@ -157,7 +128,6 @@ namespace MovieProject.Services
             await this.movieDbContext.SaveChangesAsync();
             return true;
         }
-
         public async Task<List<GenreViewModel>> SearchByNameAsync(string genre)
         {
             List<Genre> genres = await this.movieDbContext
@@ -173,5 +143,11 @@ namespace MovieProject.Services
             List<GenreViewModel> genreViewModels = this.mapper.Map<List<GenreViewModel>>(genres);
             return genreViewModels;
         }
+        public int GetGenresCount()
+        {
+            int count = this.movieDbContext.Genres.Count();
+            return count;
+        }
+
     }
 }

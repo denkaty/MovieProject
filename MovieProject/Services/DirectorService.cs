@@ -19,7 +19,6 @@ namespace MovieProject.Services
             this.movieDbContext = movieDbContext;
             this.mapper = mapper;
         }
-
         public async Task CreateDirectorAsync(DirectorViewModel directorVM)
         {
             Director director = this.mapper.Map<Director>(directorVM);
@@ -27,7 +26,6 @@ namespace MovieProject.Services
             await this.movieDbContext.Directors.AddAsync(director);
             await this.movieDbContext.SaveChangesAsync();
         }
-
         public async Task<List<DirectorViewModel>> GetAllDirectorsAsync()
         {
             List<Director> directors = await this.movieDbContext
@@ -38,28 +36,16 @@ namespace MovieProject.Services
             List<DirectorViewModel> directorViewModels = this.mapper.Map<List<DirectorViewModel>>(directors);
             return directorViewModels;
         }
-
         public async Task<DirectorViewModel> GetDirectoryIdAsync(string id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                throw new ArgumentException("The id parameter cannot be null or empty.", nameof(id));
-            }
-           
             Director? director = await this.movieDbContext
                 .Directors
                 .Include(d => d.Movies)
                 .FirstOrDefaultAsync(d => d.DirectorId ==id);
 
-            if (director == null)
-            {
-                throw new ArgumentException("No Director was found with the given id.", nameof(id));
-            }
-
             DirectorViewModel directorViewModel = this.mapper.Map<DirectorViewModel>(director);
             return directorViewModel;
         }
-
         public async Task UpdateDirectorAsync(DirectorViewModel directorVM)
         {
             Director director = this.mapper.Map<Director>(directorVM);
@@ -68,30 +54,18 @@ namespace MovieProject.Services
         }
         public async Task DeleteDirectorByIdAsync(string id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                throw new ArgumentException("The id parameter cannot be null or empty.", nameof(id));
-            }
-
             Director? director = await this.movieDbContext.Directors.FindAsync(id);
-            if (director == null)
-            {
-                throw new ArgumentException($"There is no director with the id {id} in the database.", nameof(id));
-            }
             this.movieDbContext.Directors.Remove(director);
             await this.movieDbContext.SaveChangesAsync();
         }
-
         public async Task RemoveDirectorFromMovieAsync(string movieId)
         {
             Movie? movie = await this.movieDbContext.Movies.FindAsync(movieId);
-
             movie.Director = null;
             movie.DirectorId = null;
             this.movieDbContext.Movies.Update(movie);
             await this.movieDbContext.SaveChangesAsync();
         }
-
         public async Task<List<DirectorViewModel>> SearchByNameAsync(string name)
         {
             List<Director> directors = await this.movieDbContext
@@ -107,7 +81,6 @@ namespace MovieProject.Services
         }
         public async Task<List<DirectorViewModel>> GetDirectorsToShowAsync(int? page)
         {
-
             int directorsPerPage = 21;
             int startIndex = (int)((page - 1) * directorsPerPage);
 

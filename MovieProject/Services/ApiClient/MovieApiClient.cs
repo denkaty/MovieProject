@@ -19,7 +19,6 @@ namespace MovieProject.Services.ApiClient
             this.httpClient = new HttpClient();
             this.apiKey = "8a274eb881367b096e37ea215599ff7b";
         }
-
         public async Task<List<MovieImportDto>> FetchMoviesAsync(int pages)
         {
             List<MovieImportDto> movieImportDtos = new List<MovieImportDto>();
@@ -36,10 +35,8 @@ namespace MovieProject.Services.ApiClient
                 movieImportDtos.AddRange(movieImportPageDtos);
             }
 
-
             return movieImportDtos;
         }
-
         public async Task<List<GenreImportDto>> FetchGenresAsync()
         {
             string apiUrl = $"https://api.themoviedb.org/3/genre/movie/list?api_key={apiKey}";
@@ -52,7 +49,6 @@ namespace MovieProject.Services.ApiClient
 
             return genreImportDtos;
         }
-
         public async Task<Dictionary<string, List<MovieStaffImportDto>>> FetchMoviesStaffs(List<MovieImportDto> fetchedMovies)
         {
             Dictionary<string, List<MovieStaffImportDto>> moviesStaffs = new Dictionary<string, List<MovieStaffImportDto>>();
@@ -137,16 +133,10 @@ namespace MovieProject.Services.ApiClient
                     moviesStaffs.Add(movie.MovieId, new List<MovieStaffImportDto>());
                 }
                 moviesStaffs[movie.MovieId] = movieStaffImportDtos;
-
             }
 
             return moviesStaffs;
         }
-        public void Dispose()
-        {
-            httpClient.Dispose();
-        }
-
 
     }
 }
