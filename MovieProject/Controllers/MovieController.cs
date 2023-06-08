@@ -26,8 +26,8 @@ namespace MovieProject.Controllers
         {
                 List<MovieViewModel> movies = await movieService.GetMoviesToShowAsync(1);
                 ViewBag.CurrentPage = 1;
-                ViewBag.TotalPages = (int)Math.Ceiling((double)movieService.MoviesCount() / 21);
-                ViewBag.FetchedStatus = await movieService.GetAPIFetchedStatus();
+                ViewBag.TotalPages = (int)Math.Ceiling((double)movieService.GetMoviesCount() / 21);
+                ViewBag.FetchedStatus = await movieService.GetAPIFetchedStatusAsync();
                 return this.View(movies);
         }
         [HttpGet]
@@ -39,21 +39,21 @@ namespace MovieProject.Controllers
             }
             List<MovieViewModel> movies = await movieService.GetMoviesToShowAsync(page);
             ViewBag.CurrentPage = page;
-            ViewBag.TotalPages = (int)Math.Ceiling((double)movieService.MoviesCount() / 21);
-            ViewBag.FetchedStatus = await movieService.GetAPIFetchedStatus();
+            ViewBag.TotalPages = (int)Math.Ceiling((double)movieService.GetMoviesCount() / 21);
+            ViewBag.FetchedStatus = await movieService.GetAPIFetchedStatusAsync();
             return this.View(movies);
         }
         [HttpGet]
 
         public async Task<IActionResult> FetchMovie()
         {
-            await this.movieService.FetchMovies();
+            await this.movieService.FetchMoviesAsync();
             return RedirectToAction("Index");
 
         }
         public async Task<IActionResult> ClearData()
         {
-            await this.movieService.ClearData();
+            await this.movieService.ClearDataAsync();
             return RedirectToAction("Index");
 
         }
@@ -78,7 +78,7 @@ namespace MovieProject.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create()
         {
-            IEnumerable<Director> existingDirectors = await movieService.GetExistingDirectors();
+            IEnumerable<Director> existingDirectors = await movieService.GetExistingDirectorsAsync();
             ViewBag.Directors = existingDirectors;
             return this.View();
         }
@@ -136,9 +136,9 @@ namespace MovieProject.Controllers
             {
                 return RedirectToAction("Index");
             }
-            List<MovieViewModel> searchResults = await movieService.SearchByTitle(title);
+            List<MovieViewModel> searchResults = await movieService.SearchByTitleAsync(title);
             ViewBag.SearchTitle = title;
-            ViewBag.FetchedStatus = await movieService.GetAPIFetchedStatus();
+            ViewBag.FetchedStatus = await movieService.GetAPIFetchedStatusAsync();
             return this.View(searchResults);
         }
 

@@ -22,11 +22,6 @@ namespace MovieProject.Services
         }
         public async Task CreateActorAsync(ActorViewModel actorVM)
         {
-            if (actorVM == null)
-            {
-                throw new ArgumentNullException("The ActorViewModel parameter cannot be null.", nameof(actorVM));
-            }
-
             Actor actor = this.mapper.Map<Actor>(actorVM);
             actor.ActorId = Configuration.GenerateId();
             await this.movieDbContext.Actors.AddAsync(actor);
@@ -35,7 +30,11 @@ namespace MovieProject.Services
 
         public async Task<List<ActorViewModel>> GetAllActorsAsync()
         {
-            List<Actor> actors = await this.movieDbContext.Actors.Include(a => a.MoviesActors).ToListAsync();
+            List<Actor> actors = await this.movieDbContext
+                .Actors
+                .Include(a => a.MoviesActors)
+                .ToListAsync();
+
             List<ActorViewModel> actorsViewModels = this.mapper.Map<List<ActorViewModel>>(actors);
             return actorsViewModels;
         }
@@ -46,7 +45,12 @@ namespace MovieProject.Services
                 throw new ArgumentException("The id parameter cannot be null or empty.", nameof(id));
             }
 
-            Actor? actor = await this.movieDbContext.Actors.Include(a=>a.MoviesActors).ThenInclude(a=> a.Movie).FirstOrDefaultAsync(a=>a.ActorId == id);
+            Actor? actor = await this.movieDbContext
+                .Actors
+                .Include(a=>a.MoviesActors)
+                .ThenInclude(a=> a.Movie)
+                .FirstOrDefaultAsync(a=>a.ActorId == id);
+
             if (actor == null)
             {
                 throw new ArgumentException("No Actor was found with the given id.", nameof(id));
@@ -57,10 +61,6 @@ namespace MovieProject.Services
         }
         public async Task UpdateActorAsync(ActorViewModel actorVM)
         {
-            if (actorVM == null)
-            {
-                throw new ArgumentNullException("The ActorViewModel parameter cannot be null.", nameof(actorVM));
-            }
             Actor actor = this.mapper.Map<Actor>(actorVM);
             this.movieDbContext.Actors.Update(actor);
             await this.movieDbContext.SaveChangesAsync();
@@ -81,7 +81,7 @@ namespace MovieProject.Services
             this.movieDbContext.Actors.Remove(actor);
             await this.movieDbContext.SaveChangesAsync();
         }
-        public async Task RemoveActorFromMovie(string movieId, string actorId)
+        public async Task RemoveActorFromMovieAsync(string movieId, string actorId)
         {
             Movie? movie = await this.movieDbContext.Movies.FindAsync(movieId);
             Actor? actor = await this.movieDbContext.Actors.FindAsync(actorId);
@@ -98,10 +98,15 @@ namespace MovieProject.Services
         }
         public async Task<IEnumerable<Movie>> GetMoviesAsync(string actorId)
         {
-            IEnumerable<Movie> movies = await this.movieDbContext.Movies.Where(m => !m.MoviesActors.Any(ma => ma.ActorId == actorId)).ToListAsync();
+            IEnumerable<Movie> movies = await this.movieDbContext
+                .Movies
+                .Where(m => !m.MoviesActors
+                    .Any(ma => ma.ActorId == actorId))
+                .ToListAsync();
+
             return movies;
         }
-        public async Task<bool> CreateNewRole(MovieActorViewModel movieActorViewModel)
+        public async Task<bool> CreateNewRoleAsync(MovieActorViewModel movieActorViewModel)
         {
             string movieTitle = movieActorViewModel.Movie.Title;
             string actorId = movieActorViewModel.ActorId;
@@ -133,9 +138,15 @@ namespace MovieProject.Services
             return true;
         }
 
-        public async Task<List<ActorViewModel>> SearchByName(string name)
+        public async Task<List<ActorViewModel>> SearchByNameAsync(string name)
         {
-            List<Actor> actors = await this.movieDbContext.Actors.OrderByDescending(a => a.MoviesActors.Count()).Where(x => (x.FirstName.ToLower().TrimStart() + " " + x.LastName.ToLower().TrimEnd()).Contains(name.ToLower().Trim())).Include(a => a.MoviesActors).ToListAsync();
+            List<Actor> actors = await this.movieDbContext
+                .Actors
+                .OrderByDescending(a => a.MoviesActors.Count())
+                .Where(x => (x.FirstName.ToLower().TrimStart() + " " + x.LastName.ToLower().TrimEnd())
+                .Contains(name.ToLower().Trim()))
+                .Include(a => a.MoviesActors)
+                .ToListAsync();
 
             List<ActorViewModel> actorViewModels = this.mapper.Map<List<ActorViewModel>>(actors);
             return actorViewModels;
@@ -147,11 +158,18 @@ namespace MovieProject.Services
             int actorsPerPage = 21;
             int startIndex = (int)((page - 1) * actorsPerPage);
 
-            List<Actor> actors = await this.movieDbContext.Actors.OrderByDescending(a => a.MoviesActors.Count()).Skip(startIndex).Take(actorsPerPage).Include(a => a.MoviesActors).ToListAsync();
+            List<Actor> actors = await this.movieDbContext
+                .Actors
+                .OrderByDescending(a => a.MoviesActors.Count())
+                .Skip(startIndex)
+                .Take(actorsPerPage)
+                .Include(a => a.MoviesActors)
+                .ToListAsync();
+
             List<ActorViewModel> actorViewModels = this.mapper.Map<List<ActorViewModel>>(actors);
             return actorViewModels;
         }
-        public int ActorsCount()
+        public int GetActorsCount()
         {
             int count = this.movieDbContext.Actors.Count();
             return count;

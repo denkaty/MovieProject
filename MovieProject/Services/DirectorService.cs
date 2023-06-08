@@ -22,11 +22,6 @@ namespace MovieProject.Services
 
         public async Task CreateDirectorAsync(DirectorViewModel directorVM)
         {
-            if (directorVM == null)
-            {
-                throw new ArgumentNullException("The DirectorViewModel parameter cannot be null.", nameof(directorVM));
-            }
-
             Director director = this.mapper.Map<Director>(directorVM);
             director.DirectorId = Configuration.GenerateId();
             await this.movieDbContext.Directors.AddAsync(director);
@@ -35,7 +30,11 @@ namespace MovieProject.Services
 
         public async Task<List<DirectorViewModel>> GetAllDirectorsAsync()
         {
-            List<Director> directors = await this.movieDbContext.Directors.Include(d => d.Movies).ToListAsync();
+            List<Director> directors = await this.movieDbContext
+                .Directors
+                .Include(d => d.Movies)
+                .ToListAsync();
+
             List<DirectorViewModel> directorViewModels = this.mapper.Map<List<DirectorViewModel>>(directors);
             return directorViewModels;
         }
@@ -47,7 +46,11 @@ namespace MovieProject.Services
                 throw new ArgumentException("The id parameter cannot be null or empty.", nameof(id));
             }
            
-            Director? director = await this.movieDbContext.Directors.Include(d => d.Movies).FirstOrDefaultAsync(d => d.DirectorId ==id);
+            Director? director = await this.movieDbContext
+                .Directors
+                .Include(d => d.Movies)
+                .FirstOrDefaultAsync(d => d.DirectorId ==id);
+
             if (director == null)
             {
                 throw new ArgumentException("No Director was found with the given id.", nameof(id));
@@ -59,11 +62,6 @@ namespace MovieProject.Services
 
         public async Task UpdateDirectorAsync(DirectorViewModel directorVM)
         {
-            if (directorVM == null)
-            {
-                throw new ArgumentNullException("The DirectorViewModel parameter cannot be null.", nameof(directorVM));
-            }
-
             Director director = this.mapper.Map<Director>(directorVM);
             this.movieDbContext.Directors.Update(director);
             await this.movieDbContext.SaveChangesAsync();
@@ -84,7 +82,7 @@ namespace MovieProject.Services
             await this.movieDbContext.SaveChangesAsync();
         }
 
-        public async Task RemoveDirectorFromMovie(string movieId)
+        public async Task RemoveDirectorFromMovieAsync(string movieId)
         {
             Movie? movie = await this.movieDbContext.Movies.FindAsync(movieId);
 
@@ -94,9 +92,15 @@ namespace MovieProject.Services
             await this.movieDbContext.SaveChangesAsync();
         }
 
-        public async Task<List<DirectorViewModel>> SearchByName(string name)
+        public async Task<List<DirectorViewModel>> SearchByNameAsync(string name)
         {
-            List<Director> directors = await this.movieDbContext.Directors.OrderByDescending(d => d.Movies.Count()).Where(x => (x.FirstName.ToLower().TrimStart() + " " + x.LastName.ToLower().TrimEnd()).Contains(name.ToLower().Trim())).Include(d=>d.Movies).ToListAsync();
+            List<Director> directors = await this.movieDbContext
+                .Directors
+                .OrderByDescending(d => d.Movies.Count())
+                .Where(x => (x.FirstName.ToLower().TrimStart() + " " + x.LastName.ToLower().TrimEnd())
+                    .Contains(name.ToLower().Trim()))
+                .Include(d=>d.Movies)
+                .ToListAsync();
 
             List<DirectorViewModel> directorViewModels = this.mapper.Map<List<DirectorViewModel>>(directors);
             return directorViewModels;
@@ -107,11 +111,18 @@ namespace MovieProject.Services
             int directorsPerPage = 21;
             int startIndex = (int)((page - 1) * directorsPerPage);
 
-            List<Director> directors = await this.movieDbContext.Directors.OrderByDescending(d => d.Movies.Count()).Skip(startIndex).Include(d => d.Movies).Take(directorsPerPage).ToListAsync();
+            List<Director> directors = await this.movieDbContext
+                .Directors
+                .OrderByDescending(d => d.Movies.Count())
+                .Skip(startIndex)
+                .Include(d => d.Movies)
+                .Take(directorsPerPage)
+                .ToListAsync();
+
             List<DirectorViewModel> directorViewModels = this.mapper.Map<List<DirectorViewModel>>(directors);
             return directorViewModels;
         }
-        public int DirectorsCount()
+        public int GetDirectorsCount()
         {
             int count = this.movieDbContext.Directors.Count();
             return count;

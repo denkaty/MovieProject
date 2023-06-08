@@ -25,27 +25,19 @@ namespace MovieProject.Services
             this.movieApiClient = new MovieApiClient();
         }
 
-        //public async Task CreateMovieAsync(MovieViewModel movieVM)
-        //{
-        //    if (movieVM == null)
-        //    {
-        //        throw new ArgumentNullException("The MovieViewModel parameter cannot be null.", nameof(movieVM));
-        //    }
-
-        //    Movie movie = this.mapper.Map<Movie>(movieVM);
-        //    movie.MovieId = Configuration.GenerateId();
-        //    await SetDirector(movieVM, movie);
-        //    await SetGenres(movieVM, movie);
-        //    await this.movieDbContext.Movies.AddAsync(movie);
-        //    await this.movieDbContext.SaveChangesAsync();
-        //}
         public async Task CreateMovieAsync(MovieViewModel movieVM)
         {
             Movie movie = new Movie();
             this.mapper.Map(movieVM, movie);
+
             movie.MovieId = Configuration.GenerateId();
-            string[] directorNames = movieVM.DirectorFullName.Split(" ").ToArray();
-            Director? director = await this.movieDbContext.Directors.Include(d => d.Movies)
+
+            string[] directorNames = movieVM.DirectorFullName
+                .Split(" ")
+                .ToArray();
+
+            Director? director = await this.movieDbContext.Directors
+                .Include(d => d.Movies)
                 .FirstOrDefaultAsync(d => d.FirstName == directorNames[0] && d.LastName == directorNames[1]);
 
             if (director == null)
@@ -66,7 +58,10 @@ namespace MovieProject.Services
 
             foreach (var currentGenreName in genreNamesFromInput)
             {
-                Genre? genreFromDb = await this.movieDbContext.Genres.SingleOrDefaultAsync(g => g.Name == currentGenreName);
+                Genre? genreFromDb = await this.movieDbContext
+                    .Genres
+                    .SingleOrDefaultAsync(g => g.Name == currentGenreName);
+
                 if (genreFromDb == null)
                 {
                     genreFromDb = new Genre
@@ -74,6 +69,7 @@ namespace MovieProject.Services
                         GenreId = Configuration.GenerateId(),
                         Name = currentGenreName
                     };
+
                     this.movieDbContext.Genres.Add(genreFromDb);
                 }
 
@@ -92,12 +88,19 @@ namespace MovieProject.Services
 
         public async Task UpdateMovieAsync(MovieViewModel movieVM)
         {
-            Movie existingMovie = await this.movieDbContext.Movies.FindAsync(movieVM.MovieId);
+            Movie? existingMovie = await this.movieDbContext
+                .Movies
+                .FindAsync(movieVM.MovieId);
 
             this.mapper.Map(movieVM, existingMovie);
 
-            string[] directorNames = movieVM.DirectorFullName.Split(" ").ToArray();
-            Director? director = await this.movieDbContext.Directors.Include(d => d.Movies)
+            string[] directorNames = movieVM.DirectorFullName
+                .Split(" ")
+                .ToArray();
+
+            Director? director = await this.movieDbContext
+                .Directors
+                .Include(d => d.Movies)
                 .FirstOrDefaultAsync(d => d.FirstName == directorNames[0] && d.LastName == directorNames[1]);
 
             if (director == null)
@@ -120,7 +123,9 @@ namespace MovieProject.Services
 
             foreach (var currentGenreName in genreNamesFromInput)
             {
-                Genre? genreFromDb = await this.movieDbContext.Genres.SingleOrDefaultAsync(g => g.Name == currentGenreName);
+                Genre? genreFromDb = await this.movieDbContext
+                    .Genres
+                    .SingleOrDefaultAsync(g => g.Name == currentGenreName);
                 if (genreFromDb == null)
                 {
                     genreFromDb = new Genre
@@ -140,19 +145,29 @@ namespace MovieProject.Services
             }
 
             await this.movieDbContext.SaveChangesAsync();
-
         }
 
         public async Task<List<MovieViewModel>> GetAllMoviesAsync()
         {
-            List<Movie> movies = await this.movieDbContext.Movies.OrderByDescending(m => m.Released).ToListAsync();
+            List<Movie> movies = await this.movieDbContext
+                .Movies
+                .OrderByDescending(m => m.Released)
+                .ToListAsync();
+
             List<MovieViewModel> movieViewModels = this.mapper.Map<List<MovieViewModel>>(movies);
             return movieViewModels;
         }
 
-        public async Task<List<MovieViewModel>> SearchByTitle(string title)
+        public async Task<List<MovieViewModel>> SearchByTitleAsync(string title)
         {
-            List<Movie> movies = await this.movieDbContext.Movies.OrderByDescending(m => m.Released).Where(x => x.Title.ToLower().Trim().Contains(title.ToLower().Trim())).ToListAsync();
+            List<Movie> movies = await this.movieDbContext
+                .Movies
+                .OrderByDescending(m => m.Released)
+                .Where(x => x.Title
+                    .ToLower()
+                    .Trim()
+                    .Contains(title.ToLower().Trim()))
+                .ToListAsync();
 
             List<MovieViewModel> movieViewModels = this.mapper.Map<List<MovieViewModel>>(movies);
             return movieViewModels;
@@ -166,7 +181,13 @@ namespace MovieProject.Services
                 throw new ArgumentException("The id parameter cannot be null or empty.", nameof(id));
             }
 
-            Movie? movie = await this.movieDbContext.Movies.Include(m => m.Director).Include(m => m.MoviesGenres).ThenInclude(mg => mg.Genre).FirstOrDefaultAsync(m => m.MovieId == id);
+            Movie? movie = await this.movieDbContext
+                .Movies
+                .Include(m => m.Director)
+                .Include(m => m.MoviesGenres)
+                .ThenInclude(mg => mg.Genre)
+                .FirstOrDefaultAsync(m => m.MovieId == id);
+
             if (movie == null)
             {
                 throw new ArgumentException("No Movie was found with the given id.", nameof(id));
@@ -193,14 +214,14 @@ namespace MovieProject.Services
             this.movieDbContext.Movies.Remove(movie);
             await movieDbContext.SaveChangesAsync();
         }
-        public async Task<IEnumerable<Director>> GetExistingDirectors()
+        public async Task<IEnumerable<Director>> GetExistingDirectorsAsync()
         {
             IEnumerable<Director> directors = await movieDbContext.Directors.ToListAsync();
             return directors;
         }
 
 
-        public async Task FetchMovies()
+        public async Task FetchMoviesAsync()
         {
             List<GenreImportDto> fetchedGenres = await this.movieApiClient.FetchGenresAsync();
             await AddGenresToDb(fetchedGenres);
@@ -211,21 +232,21 @@ namespace MovieProject.Services
             Dictionary<string, List<MovieStaffImportDto>> fetchedMovieStaffs = await this.movieApiClient.FetchMoviesStaffs(fetchedMovies);
             await AddMovieStaffsToDb(fetchedMovieStaffs);
 
-            APIStatus status = await this.movieDbContext.APIStatus.FindAsync("1");
+            APIStatus? status = await this.movieDbContext.APIStatus.FindAsync("1");
             status.Fetched = true;
             this.movieDbContext.APIStatus.Update(status);
             await this.movieDbContext.SaveChangesAsync();
 
         }
 
-        public async Task<bool> GetAPIFetchedStatus()
+        public async Task<bool> GetAPIFetchedStatusAsync()
         {
             APIStatus? apiStatus = await this.movieDbContext.APIStatus.FirstOrDefaultAsync(a => a.Id == "1");
             bool fetchedStatus = apiStatus.Fetched;
 
             return fetchedStatus;
         }
-        public async Task ClearData()
+        public async Task ClearDataAsync()
         {
             this.movieDbContext.MovieActors.RemoveRange(await this.movieDbContext.MovieActors.ToListAsync());
             this.movieDbContext.MovieGenres.RemoveRange(await this.movieDbContext.MovieGenres.ToListAsync());
@@ -234,7 +255,7 @@ namespace MovieProject.Services
             this.movieDbContext.Genres.RemoveRange(await this.movieDbContext.Genres.ToListAsync());
             this.movieDbContext.Directors.RemoveRange(await this.movieDbContext.Directors.ToListAsync());
 
-            APIStatus status = await this.movieDbContext.APIStatus.FindAsync("1");
+            APIStatus? status = await this.movieDbContext.APIStatus.FindAsync("1");
             status.Fetched = false;
             this.movieDbContext.APIStatus.Update(status);
 
@@ -247,17 +268,21 @@ namespace MovieProject.Services
             int moviesPerPage = 21;
             int startIndex = (int)((page - 1) * moviesPerPage);
 
-            List<Movie> movies = await this.movieDbContext.Movies.OrderByDescending(m => m.Released).Skip(startIndex).Take(moviesPerPage).ToListAsync();
+            List<Movie> movies = await this.movieDbContext
+                .Movies
+                .OrderByDescending(m => m.Released)
+                .Skip(startIndex)
+                .Take(moviesPerPage)
+                .ToListAsync();
+
             List<MovieViewModel> movieViewModels = this.mapper.Map<List<MovieViewModel>>(movies);
             return movieViewModels;
         }
-        public int MoviesCount()
+        public int GetMoviesCount()
         {
             int count = this.movieDbContext.Movies.Count();
             return count;
         }
-
-
 
         private async Task AddGenresToDb(List<GenreImportDto> fetchedGenres)
         {
@@ -321,7 +346,6 @@ namespace MovieProject.Services
                             Director director = mapper.Map<Director>(staff);
                             bool isDirectorExisting = await this.movieDbContext.Directors.AnyAsync(d => d.DirectorId == director.DirectorId);
 
-
                             if (!isDirectorExisting)
                             {
                                 this.movieDbContext.Directors.Add(director);
@@ -369,68 +393,14 @@ namespace MovieProject.Services
                 }
             }
         }
-
-        private async Task SetDirector(MovieViewModel movieVM, Movie movie)
-        {
-            string[] directorNames = movieVM.DirectorFullName.Split(" ").ToArray();
-            Director? director = await this.movieDbContext.Directors.Include(d => d.Movies).FirstOrDefaultAsync(d => d.FirstName == directorNames[0] && d.LastName == directorNames[1]);
-            if (director == null)
-            {
-                director = new Director
-                {
-                    DirectorId = Configuration.GenerateId(),
-                    FirstName = directorNames[0],
-                    LastName = directorNames[1]
-                };
-                await this.movieDbContext.Directors.AddAsync(director);
-                await this.movieDbContext.SaveChangesAsync();
-            }
-
-            movie.Director = director;
-            movie.DirectorId = director.DirectorId;
-
-        }
-
-        private async Task SetGenres(MovieViewModel movieVM, Movie movie)
-        {
-            this.movieDbContext.Entry(movie).State = EntityState.Detached;
-
-            await ClearMovieGenres(movie);
-
-            string[] genreNamesFromInput = movieVM.Genres.Split(", ", StringSplitOptions.RemoveEmptyEntries).ToArray();
-
-            foreach (var currentGenreName in genreNamesFromInput)
-            {
-                Genre? genreFromDb = await this.movieDbContext.Genres.SingleOrDefaultAsync(g => g.Name == currentGenreName);
-                if (genreFromDb == null)
-                {
-                    genreFromDb = new Genre
-                    {
-                        GenreId = Configuration.GenerateId(),
-                        Name = currentGenreName
-                    };
-                    this.movieDbContext.Genres.Add(genreFromDb);
-                    await this.movieDbContext.SaveChangesAsync();
-                }
-
-                MovieGenre movieGenre = new MovieGenre
-                {
-                    MovieId = movie.MovieId,
-                    GenreId = genreFromDb.GenreId,
-                };
-                this.movieDbContext.MovieGenres.Add(movieGenre);
-
-            }
-        }
-
         private async Task ClearMovieGenres(Movie movie)
         {
             List<MovieGenre>? movieGenres = this.movieDbContext
-                                .MovieGenres
-                                .Include(mg => mg.Movie)
-                                .Include(mg => mg.Genre)
-                                .Where(mg => mg.Movie.MovieId == movie.MovieId)
-                                .ToList();
+                .MovieGenres
+                .Include(mg => mg.Movie)
+                .Include(mg => mg.Genre)
+                .Where(mg => mg.Movie.MovieId == movie.MovieId)
+                .ToList();
 
             if (movieGenres != null && movieGenres.Count() > 0)
             {

@@ -24,7 +24,7 @@ namespace MovieProject.Controllers
         {
             List<ActorViewModel> actors = await actorService.GetActorsToShowAsync(1);
             ViewBag.CurrentPage = 1;
-            ViewBag.TotalPages = (int)Math.Ceiling((double)actorService.ActorsCount() / 21);
+            ViewBag.TotalPages = (int)Math.Ceiling((double)actorService.GetActorsCount() / 21);
             return this.View(actors);
         }
         [HttpGet]
@@ -36,7 +36,7 @@ namespace MovieProject.Controllers
             }
             List<ActorViewModel> movies = await actorService.GetActorsToShowAsync(page);
             ViewBag.CurrentPage = page;
-            ViewBag.TotalPages = (int)Math.Ceiling((double)actorService.ActorsCount() / 21);
+            ViewBag.TotalPages = (int)Math.Ceiling((double)actorService.GetActorsCount() / 21);
             return this.View(movies);
         }
         public async Task<IActionResult> Details(string id)
@@ -105,7 +105,7 @@ namespace MovieProject.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> RemoveActorFromMovie(string movieId, string actorId)
         {
-            await this.actorService.RemoveActorFromMovie(movieId, actorId);
+            await this.actorService.RemoveActorFromMovieAsync(movieId, actorId);
             TempData["success"] = "Role was removed successfully!";
             return RedirectToAction("Details", "Actor", new { id = actorId });
         }
@@ -128,7 +128,7 @@ namespace MovieProject.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> CreateNewRole(MovieActorViewModel movieActorViewModel)
         {
-            if (!await actorService.CreateNewRole(movieActorViewModel))
+            if (!await actorService.CreateNewRoleAsync(movieActorViewModel))
             {
                 TempData["error"] = "Role was not created successfully!";
                 return RedirectToAction("CreateNewRole", new { actorId = movieActorViewModel.ActorId });
@@ -146,7 +146,7 @@ namespace MovieProject.Controllers
             {
                 return RedirectToAction("Index");
             }
-            List<ActorViewModel> searchResults = await actorService.SearchByName(name);
+            List<ActorViewModel> searchResults = await actorService.SearchByNameAsync(name);
             return this.View(searchResults);
         }
 

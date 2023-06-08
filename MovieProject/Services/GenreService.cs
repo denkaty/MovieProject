@@ -21,11 +21,6 @@ namespace MovieProject.Services
         }
         public async Task CreateGenreAsync(GenreViewModel genreVM)
         {
-            if (genreVM == null)
-            {
-                throw new ArgumentNullException("The GenreViewModel parameter cannot be null.", nameof(genreVM));
-            }
-
             Genre genre = this.mapper.Map<Genre>(genreVM);
             genre.GenreId = Configuration.GenerateId();
             await this.movieDbContext.Genres.AddAsync(genre);
@@ -34,7 +29,12 @@ namespace MovieProject.Services
 
         public async Task<List<GenreViewModel>> GetAllGenresAsync()
         {
-            List<Genre> genres = await this.movieDbContext.Genres.Include(g => g.MoviesGenres).ThenInclude(mg => mg.Movie).ToListAsync();
+            List<Genre> genres = await this.movieDbContext
+                .Genres
+                .Include(g => g.MoviesGenres)
+                .ThenInclude(mg => mg.Movie)
+                .ToListAsync();
+
             List<GenreViewModel> genresViewModels = this.mapper.Map<List<GenreViewModel>>(genres);
             return genresViewModels;
         }
@@ -46,7 +46,12 @@ namespace MovieProject.Services
                 throw new ArgumentException("The id parameter cannot be null or empty.", nameof(id));
             }
 
-            Genre? genre = await this.movieDbContext.Genres.Include(a => a.MoviesGenres).ThenInclude(a => a.Movie).FirstOrDefaultAsync(a => a.GenreId == id);
+            Genre? genre = await this.movieDbContext
+                .Genres
+                .Include(a => a.MoviesGenres)
+                .ThenInclude(a => a.Movie)
+                .FirstOrDefaultAsync(a => a.GenreId == id);
+
             if (genre == null)
             {
                 throw new ArgumentException("No Genre was found with the given id.", nameof(id));
@@ -57,10 +62,6 @@ namespace MovieProject.Services
         }
         public async Task UpdateGenreAsync(GenreViewModel genreVM)
         {
-            if (genreVM == null)
-            {
-                throw new ArgumentNullException("The GenreViewModel parameter cannot be null.", nameof(genreVM));
-            }
             Genre genre = this.mapper.Map<Genre>(genreVM);
             this.movieDbContext.Genres.Update(genre);
             await this.movieDbContext.SaveChangesAsync();
@@ -87,16 +88,23 @@ namespace MovieProject.Services
             int genresPerPage = 21;
             int startIndex = (int)((page - 1) * genresPerPage);
 
-            List<Genre> genres = await this.movieDbContext.Genres.OrderByDescending(m => m.MoviesGenres.Count()).Skip(startIndex).Take(genresPerPage).Include(g => g.MoviesGenres).ToListAsync();
+            List<Genre> genres = await this.movieDbContext
+                .Genres
+                .OrderByDescending(m => m.MoviesGenres.Count())
+                .Skip(startIndex)
+                .Take(genresPerPage)
+                .Include(g => g.MoviesGenres)
+                .ToListAsync();
+
             List<GenreViewModel> genreViewModels = this.mapper.Map<List<GenreViewModel>>(genres);
             return genreViewModels;
         }
-        public int GenresCount()
+        public int GetGenresCount()
         {
             int count = this.movieDbContext.Genres.Count();
             return count;
         }
-        public async Task RemoveGenreFromMovie(string movieId, string genreId)
+        public async Task RemoveGenreFromMovieAsync(string movieId, string genreId)
         {
             Movie? movie = await this.movieDbContext.Movies.FindAsync(movieId);
             Genre? genre = await this.movieDbContext.Genres.FindAsync(genreId);
@@ -112,13 +120,13 @@ namespace MovieProject.Services
             await this.movieDbContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Movie>> GetMoviesAsync()
+        public async Task<IEnumerable<Movie>> GetAllMoviesAsync()
         {
             IEnumerable<Movie> movies = await this.movieDbContext.Movies.ToListAsync();
             return movies;
         }
 
-        public async Task<bool> ManageNewMovieGenre(MovieGenreViewModel movieGenreViewModel)
+        public async Task<bool> ManageNewMovieGenreAsync(MovieGenreViewModel movieGenreViewModel)
         {
             string movieTitle = movieGenreViewModel.Movie.Title;
             string genreId = movieGenreViewModel.GenreId;
@@ -150,9 +158,17 @@ namespace MovieProject.Services
             return true;
         }
 
-        public async Task<List<GenreViewModel>> SearchByName(string genre)
+        public async Task<List<GenreViewModel>> SearchByNameAsync(string genre)
         {
-            List<Genre> genres = await this.movieDbContext.Genres.Where(x => x.Name.ToLower().Trim().Contains(genre.ToLower().Trim())).Include(g => g.MoviesGenres).ToListAsync();
+            List<Genre> genres = await this.movieDbContext
+                .Genres
+                .Where(x => x.Name
+                    .ToLower()
+                    .Trim()
+                    .Contains(genre.ToLower()
+                    .Trim()))
+                .Include(g => g.MoviesGenres)
+                .ToListAsync();
 
             List<GenreViewModel> genreViewModels = this.mapper.Map<List<GenreViewModel>>(genres);
             return genreViewModels;

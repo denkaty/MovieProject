@@ -23,7 +23,7 @@ namespace MovieProject.Controllers
         {
             List<DirectorViewModel> directors = await directorService.GetDirectorsToShowAsync(1);
             ViewBag.CurrentPage = 1;
-            ViewBag.TotalPages = (int)Math.Ceiling((double)directorService.DirectorsCount() / 21);
+            ViewBag.TotalPages = (int)Math.Ceiling((double)directorService.GetDirectorsCount() / 21);
 
             return this.View(directors);
         }
@@ -36,7 +36,7 @@ namespace MovieProject.Controllers
             }
             List<DirectorViewModel> directors = await directorService.GetDirectorsToShowAsync(page);
             ViewBag.CurrentPage = page;
-            ViewBag.TotalPages = (int)Math.Ceiling((double)directorService.DirectorsCount() / 21);
+            ViewBag.TotalPages = (int)Math.Ceiling((double)directorService.GetDirectorsCount() / 21);
             return this.View(directors);
         }
 
@@ -115,7 +115,7 @@ namespace MovieProject.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> RemoveDirectorFromMovie(string movieId, string directorId)
         {
-            await this.directorService.RemoveDirectorFromMovie(movieId);
+            await this.directorService.RemoveDirectorFromMovieAsync(movieId);
             TempData["success"] = "Director was removed successfully!";
             return RedirectToAction("Details", "Director", new { id = directorId });
         }
@@ -128,7 +128,7 @@ namespace MovieProject.Controllers
             {
                 return RedirectToAction("Index");
             }
-            List<DirectorViewModel> searchResults = await directorService.SearchByName(name);
+            List<DirectorViewModel> searchResults = await directorService.SearchByNameAsync(name);
             return this.View(searchResults);
         }
     }
