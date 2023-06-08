@@ -12,9 +12,7 @@
 @{
 	ViewData["Title"] = "Directors";
 }
-@{
-	int counter = 1;
-}
+
 @{
 	int previousPage = ViewBag.CurrentPage - 1;
 	if (previousPage <= 0)
@@ -69,7 +67,6 @@
 		<table class="table table-bordered table-striped">
 			<thead>
 				<tr>
-					<th>#</th>
 					<th>Director Name</th>
 					<th>Directed Movies</th>
 					<th>Action</th>
@@ -79,7 +76,6 @@
 				@foreach (var director in Model.OrderByDescending(d => d.Movies.Count()))
 				{
 					<tr>
-						<td>@counter</td>
 						<td>@director.FirstName @director.LastName</td>
 						<td>@director.Movies.Count()</td>
 						<td>
@@ -99,7 +95,6 @@
 							</div>
 						</td>
 					</tr>
-					counter++;
 				}
 			</tbody>
 		</table>

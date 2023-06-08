@@ -8,9 +8,7 @@
 @inject UserManager<IdentityUser> UserManager
 
 @model List<ActorViewModel>
-@{
-	int counter = 1;
-}
+
 @{
 	int previousPage = ViewBag.CurrentPage - 1;
 	if (previousPage <= 0)
@@ -65,7 +63,6 @@
 		<table class="table table-bordered table-striped">
 			<thead>
 				<tr>
-					<th scope="col">#</th>
 					<th scope="col">Actor</th>
 					<th scope="col">Roles</th>
 					<th scope="col">Action</th>
@@ -75,7 +72,6 @@
 				@foreach (var actor in Model.OrderByDescending(d => d.MoviesActors.Count()))
 				{
 					<tr>
-						<td>@counter</td>
 						<td>@actor.FirstName @actor.LastName</td>
 						<td>@actor.MoviesActors.Count()</td>
 						<td>
@@ -95,7 +91,6 @@
 							</div>
 						</td>
 					</tr>
-					counter++;
 				}
 			</tbody>
 		</table>

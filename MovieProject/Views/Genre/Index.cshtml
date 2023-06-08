@@ -8,9 +8,7 @@
 @inject UserManager<IdentityUser> UserManager
 
 @model List<GenreViewModel>
-@{
-	int counter = 1;
-}
+
 
 @{
 	int previousPage = ViewBag.CurrentPage - 1;
@@ -66,7 +64,6 @@
 		<table class="table table-bordered table-striped">
 			<thead>
 				<tr>
-					<th>#</th>
 					<th>Genre</th>
 					<th>Movies</th>
 					<th>Action</th>
@@ -76,7 +73,6 @@
 				@foreach (var genre in Model.OrderByDescending(g=>g.MoviesGenres.Count()))
 				{
 					<tr>
-						<td>@counter</td>
 						<td>@genre.Name</td>
 						<td>@genre.MoviesGenres.Count()</td>
 						<td>
@@ -98,7 +94,6 @@
 							</div>
 						</td>
 					</tr>
-					counter++;
 				}
 			</tbody>
 		</table>
