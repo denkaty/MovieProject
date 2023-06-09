@@ -24,7 +24,7 @@ namespace MovieProject.Services
             this.mapper = mapper;
             this.movieApiClient = new MovieApiClient();
         }
-        public async Task CreateMovieAsync(MovieViewModel movieVM)
+        public async Task CreateMovieAsync(CreateMovieViewModel movieVM)
         {
             Movie movie = new Movie();
             this.mapper.Map(movieVM, movie);
@@ -36,7 +36,7 @@ namespace MovieProject.Services
             await this.movieDbContext.Movies.AddAsync(movie);
             await this.movieDbContext.SaveChangesAsync();
         }
-        public async Task UpdateMovieAsync(MovieViewModel movieVM)
+        public async Task UpdateMovieAsync(UpdateMovieViewModel movieVM)
         {
             Movie? existingMovie = await this.movieDbContext
                 .Movies
@@ -156,7 +156,7 @@ namespace MovieProject.Services
             int count = this.movieDbContext.Movies.Count();
             return count;
         }
-        private async Task SetDirector(MovieViewModel movieVM, Movie movie)
+        private async Task SetDirector(CreateMovieViewModel movieVM, Movie movie)
         {
             string[] directorNames = movieVM.DirectorFullName
                             .Split(" ")
@@ -180,7 +180,7 @@ namespace MovieProject.Services
             movie.Director = director;
             movie.DirectorId = director.DirectorId;
         }
-        private async Task SetGenres(MovieViewModel movieVM, Movie movie)
+        private async Task SetGenres(CreateMovieViewModel movieVM, Movie movie)
         {
             string[] genreNamesFromInput = movieVM.Genres.Split(", ", StringSplitOptions.RemoveEmptyEntries).ToArray();
 
@@ -209,7 +209,7 @@ namespace MovieProject.Services
                 this.movieDbContext.MovieGenres.Add(movieGenre);
             }
         }
-        private async Task UpdateDirector(MovieViewModel movieVM, Movie? existingMovie)
+        private async Task UpdateDirector(UpdateMovieViewModel movieVM, Movie? existingMovie)
         {
             string[] directorNames = movieVM.DirectorFullName
                             .Split(" ")
@@ -234,7 +234,7 @@ namespace MovieProject.Services
             existingMovie.Director = director;
             existingMovie.DirectorId = director.DirectorId;
         }
-        private async Task UpdateGenres(MovieViewModel movieVM, Movie? existingMovie)
+        private async Task UpdateGenres(UpdateMovieViewModel movieVM, Movie? existingMovie)
         {
             await ClearMovieGenres(existingMovie);
 

@@ -10,6 +10,16 @@ namespace MovieProject.MappingConfiguration
     {
         public MovieProfile()
         {
+            CreateMap<CreateMovieViewModel, Movie>()
+                .ForMember(dest => dest.DirectorFullName, opt => opt.MapFrom(src => src.DirectorFullName))
+                .ForMember(dest => dest.Genres, opt => opt.MapFrom(src => src.Genres))
+                .ReverseMap();
+
+            CreateMap<UpdateMovieViewModel, Movie>()
+               .ForMember(dest => dest.DirectorFullName, opt => opt.MapFrom(src => src.DirectorFullName))
+               .ForMember(dest => dest.Genres, opt => opt.MapFrom(src => src.Genres))
+               .ReverseMap();
+
             CreateMap<Movie, MovieViewModel>()
                 .ForMember(dest => dest.DirectorFullName, opt => opt.MapFrom(src => src.Director.FirstName + " " + src.Director.LastName))
                 .ForMember(dest => dest.Genres, opt => opt.MapFrom(src => string.Join(", ", src.MoviesGenres.Select(mg => mg.Genre.Name))))
@@ -27,7 +37,6 @@ namespace MovieProject.MappingConfiguration
 
             CreateMap<Movie, Movie>();
 
-
             CreateMap<MovieImportDto, Movie>()
                 .ForMember(dest => dest.MovieId, opt => opt.MapFrom(src => src.MovieId))
                 .ForMember(dest => dest.Year, opt => opt.MapFrom(src => DateTime.Parse(src.Released).Year))
@@ -35,7 +44,6 @@ namespace MovieProject.MappingConfiguration
 
             CreateMap<GenreImportDto, Genre>()
                 .ForMember(dest => dest.GenreId, opt => opt.MapFrom(src => src.GenreId));
-
 
             CreateMap<MovieStaffImportDto, Actor>()
                 .ForMember(dest => dest.ActorId, opt => opt.MapFrom(src => src.Id))
