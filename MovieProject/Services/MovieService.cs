@@ -182,7 +182,7 @@ namespace MovieProject.Services
         }
         private async Task SetGenres(CreateMovieViewModel movieVM, Movie movie)
         {
-            string[] genreNamesFromInput = movieVM.Genres.Split(", ", StringSplitOptions.RemoveEmptyEntries).ToArray();
+            string[] genreNamesFromInput = movieVM.Genres.Split(", ", StringSplitOptions.RemoveEmptyEntries).Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
 
             foreach (var currentGenreName in genreNamesFromInput)
             {
@@ -238,7 +238,7 @@ namespace MovieProject.Services
         {
             await ClearMovieGenres(existingMovie);
 
-            string[] genreNamesFromInput = movieVM.Genres.Split(", ", StringSplitOptions.RemoveEmptyEntries).ToArray();
+            string[] genreNamesFromInput = movieVM.Genres.Split(", ", StringSplitOptions.RemoveEmptyEntries).Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
 
             foreach (var currentGenreName in genreNamesFromInput)
             {

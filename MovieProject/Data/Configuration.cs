@@ -34,5 +34,14 @@ namespace MovieProject.Data
 
             return Regex.IsMatch(genres, pattern);
         }
+        public static bool IsYearMatchingRelease(string year, string release)
+        {
+            bool condition = false;
+            if (DateTime.TryParse(release, out DateTime releaseDate))
+            {
+                condition = year == releaseDate.Year.ToString();
+            }
+            return condition;
+        }
     }
 }

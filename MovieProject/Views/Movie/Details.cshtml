@@ -20,6 +20,15 @@
     }
     string movieGenres = currentMovieGenresSB.ToString().TrimEnd();
 
+    string directorFullName = null;
+    if (Model.Director?.FirstName == null){
+        directorFullName = "unknown";
+    }
+    else
+    {
+        directorFullName = Model.Director.FirstName + " " + Model.Director.LastName;
+    }
+
 }
 
 <!DOCTYPE html>
@@ -80,7 +89,7 @@
 
                 <div class="headline">
                     <h3>Director:</h3>
-                    <p>@Model.Director.FirstName @Model.Director.LastName</p>
+                    <p>@directorFullName</p>
                 </div>
 
                 <div class="headline">

@@ -170,6 +170,10 @@ namespace MovieProject.Controllers
             {
                 ModelState.AddModelError("Genres", "Invalid input. Please enter the genres separated by commas (e.g., Adventure, Animation, Science Fiction).");
             }
+            if (!Configuration.IsYearMatchingRelease(movieVM.Year.ToString(), movieVM.Released))
+            {
+                ModelState.AddModelError("Year", "Invalid year. Please enter a year that matches the release year");
+            }
         }
         private void CheckFormFieldsFormat(UpdateMovieViewModel movieVM)
         {
@@ -188,6 +192,10 @@ namespace MovieProject.Controllers
             if (!Configuration.IsValidGenresFormat(movieVM.Genres))
             {
                 ModelState.AddModelError("Genres", "Invalid input. Please enter the genres separated by commas (e.g., Adventure, Animation, Science Fiction).");
+            }
+            if (!Configuration.IsYearMatchingRelease(movieVM.Year.ToString(), movieVM.Released))
+            {
+                ModelState.AddModelError("Year", "Invalid year. Please enter a year that matches the release year");
             }
         }
 
